@@ -6,7 +6,7 @@ import utils
 class CheZod:
     def __init__(self, path_chezod_1325_raw, path_chezod_117_raw):
         self.path_chezod_1325_raw = str(path_chezod_1325_raw)
-        self.path_chezod_117_raw = str(path_chezod_117_raw),
+        self.path_chezod_117_raw = str(path_chezod_117_raw)
 
     def get_chezod_raw(self):
         df_ch = pd.read_json(self.path_chezod_1325_raw)

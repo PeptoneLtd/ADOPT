@@ -214,7 +214,7 @@ def main(argv):
             test_sequences = arg
         elif opt in ("-r", "--train_repr_dir"):
             train_repr_dir = arg
-        elif opt in ("-r", "--test_repr_dir"):
+        elif opt in ("-s", "--test_repr_dir"):
             test_repr_dir = arg
 
         disorder_pred = DisorderPred(train_sequences, 
