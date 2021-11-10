@@ -53,7 +53,7 @@ class CheZod:
             print('input shape: ', ex_test[model_type].shape, 'output shape: ', zed_test[model_type].shape)
             print()
 
-        if ex_train[constants.model_types[0]].shape[0]==ex_train[constants.model_types[1]].shape[0]==ex_train[constants.model_types[2]].shape[0]:
+        if ex_train[constants.model_types[0]].shape[0]==ex_train[constants.model_types[1]].shape[0]:#==ex_train[constants.model_types[2]].shape[0]:
             print('The number of inputs is the same for each model type')
         
         return ex_train, zed_train, ex_test, zed_test
