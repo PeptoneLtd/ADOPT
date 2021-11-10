@@ -200,17 +200,17 @@ class DisorderPred:
 
 def main(argv):
     try:
-        opts, args = getopt.getopt(argv, "ht:e:r:s:", ["train_fasta_file=", "test_fasta_file=", "train_repr_dir=", "test_repr_dir="]) 
+        opts, args = getopt.getopt(argv, "ht:e:r:s:", ["train_json_file=", "test_json_file=", "train_repr_dir=", "test_repr_dir="]) 
     except getopt.GetoptError:
-        print('usage: training.py -t <train_fasta_file_path=> -e <test_fasta_file_path=> -r <train_residue_level_representation_dir> -s <test_residue_level_representation_dir>')
+        print('usage: training.py -t <train_json_file_path=> -e <test_json_file_path=> -r <train_residue_level_representation_dir> -s <test_residue_level_representation_dir>')
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print('usage: training.py -t <train_fasta_file_path=> -e <test_fasta_file_path=> -r <train_residue_level_representation_dir> -s <test_residue_level_representation_dir>')
+            print('usage: training.py -t <train_json_file_path=> -e <test_json_file_path=> -r <train_residue_level_representation_dir> -s <test_residue_level_representation_dir>')
             sys.exit()
-        elif opt in ("-t", "--train_fasta_file"):
+        elif opt in ("-t", "--train_json_file"):
             train_sequences = arg
-        elif opt in ("-e", "--test_fasta_file"):
+        elif opt in ("-e", "--test_json_file"):
             test_sequences = arg
         elif opt in ("-r", "--train_repr_dir"):
             train_repr_dir = arg
@@ -225,5 +225,4 @@ def main(argv):
 
 if __name__ == "__main__":
     main(sys.argv[1:])
-
 
