@@ -39,6 +39,6 @@ def representation_path(path_chezod_1325_repr,
                         path_chezod_117_repr):
     repr_path = {}
     for model_type in constants.model_types:
-        repr_path[model_type] = {'1325': str(path_chezod_1325_repr)+"/"+model_type,
-                                 '117': str(path_chezod_117_repr)+"/"+model_type}
+        repr_path[model_type] = {'1325': str(path_chezod_1325_repr)+"/"+model_type+"/",
+                                 '117': str(path_chezod_117_repr)+"/"+model_type+"/"}
     return repr_path
