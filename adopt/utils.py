@@ -42,3 +42,10 @@ def representation_path(path_chezod_1325_repr,
         repr_path[model_type] = {'1325': str(path_chezod_1325_repr)+"/"+model_type+"/",
                                  '117': str(path_chezod_117_repr)+"/"+model_type+"/"}
     return repr_path
+
+
+def df_to_fasta(df, fasta_out_path):
+    ofile = open(fasta_out_path, "w")
+    for index, row in df.iterrows():
+        ofile.write(">" + row['brmid'] + "\n" + row['sequence'] + "\n")
+    ofile.close()

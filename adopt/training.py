@@ -82,6 +82,7 @@ class DisorderPred:
                                                            # and the splits are based on indices, it's okay to select indices based only 
                                                            # on one of the model types
         corrs = {model_type: [] for model_type in constants.model_types}
+        regressors = {model_type: [] for model_type in constants.model_types}
         rounds = 1
 
         for train_index, test_index in kf.split(ex_1325[constants.model_types[0]]):
@@ -98,17 +99,21 @@ class DisorderPred:
 
                 reg_ = linear_model.Lasso(alpha=0.0001, max_iter=10000)
                 reg_.fit(ex_rounds_train, zed_rounds_train)
-                dump(reg_, '../models/lasso_'+model_type+'_residue_cv.joblib') 
             
                 corrs[model_type].append(scipy.stats.spearmanr(zed_rounds_test, reg_.predict(ex_rounds_test)).correlation)
+                regressors[model_type].append(reg_)
             
                 print('Correlation between the predicted and the ground trouth on the test set: ', 
                     scipy.stats.spearmanr(zed_rounds_test, reg_.predict(ex_rounds_test)).correlation)
-            
                 print()
             rounds+=1
 
         for model_type in constants.model_types:
+            # save best regressor for inference
+            index_min_corr = min(range(len(corrs[model_type])), key=corrs[model_type].__getitem__)    
+            best_reg = regressors[model_type][index_min_corr]
+            dump(best_reg, '../models/lasso_'+model_type+'_residue_cv.joblib') 
+
             print(model_type)
             print('10-fold CV - average correlation between the predicted and the ground trouth on the test set: ', np.mean(corrs[model_type]))
             print()
@@ -120,6 +125,7 @@ class DisorderPred:
         kf.get_n_splits(self.ex_train[constants.model_types[0]])
 
         corrs_cleared = {model_type: [] for model_type in constants.model_types}
+        regressors = {model_type: [] for model_type in constants.model_types}
         rounds = 1
 
         for train_index, test_index in kf.split(self.ex_train[constants.model_types[0]]):
@@ -134,10 +140,10 @@ class DisorderPred:
                 zed_rounds_test = np.take(self.zed_train[model_type], test_index, axis=0)
 
                 reg_ = linear_model.Lasso(alpha=0.0001, max_iter=10000)
-                reg_.fit(ex_rounds_train, zed_rounds_train)
-                dump(reg_, '../models/lasso_'+model_type+'_cleared_residue_cv.joblib') 
+                reg_.fit(ex_rounds_train, zed_rounds_train) 
             
                 corrs_cleared[model_type].append(scipy.stats.spearmanr(zed_rounds_test, reg_.predict(ex_rounds_test)).correlation)
+                regressors[model_type].append(reg_)
             
                 print('Correlation between the predicted and the ground trouth on the test set: ', 
                     scipy.stats.spearmanr(zed_rounds_test, reg_.predict(ex_rounds_test)).correlation)
@@ -146,6 +152,11 @@ class DisorderPred:
             rounds+=1
 
         for model_type in constants.model_types:
+            # save best regressor for inference
+            index_min_corr = min(range(len(corrs_cleared[model_type])), key=corrs_cleared[model_type].__getitem__)    
+            best_reg = regressors[model_type][index_min_corr]
+            dump(best_reg, '../models/lasso_'+model_type+'_cleared_residue_cv.joblib') 
+
             print(model_type)
             print('10-fold CV (on the reduced 1325, i.e. overlap removed) - ')
             print('average correlation between the predicted and the ground trouth on the test set: ', np.mean(corrs_cleared[model_type]))
@@ -160,6 +171,7 @@ class DisorderPred:
         kf.get_n_splits(seq_ids)
 
         corrs_seq = {model_type: [] for model_type in constants.model_types}
+        regressors = {model_type: [] for model_type in constants.model_types}
         rounds_seq = 1
 
         for train_index, test_index in kf.split(seq_ids):
@@ -182,9 +194,9 @@ class DisorderPred:
 
                 reg_ = linear_model.Lasso(alpha=0.0001, max_iter=10000)
                 reg_.fit(ex_train_seq, zed_train_seq)
-                dump(reg_, '../models/lasso_'+model_type+'_cleared_sequence_cv.joblib') 
             
                 corrs_seq[model_type].append(scipy.stats.spearmanr(zed_test_seq, reg_.predict(ex_test_seq)).correlation)
+                regressors[model_type].append(reg_)
             
                 print('Correlation between the predicted and the ground trouth on the test set: ', 
                     scipy.stats.spearmanr(zed_test_seq, reg_.predict(ex_test_seq)).correlation)
@@ -193,6 +205,11 @@ class DisorderPred:
             rounds_seq+=1
 
         for model_type in constants.model_types:
+            # save best regressor for inference
+            index_min_corr = min(range(len(corrs_seq[model_type])), key=corrs_seq[model_type].__getitem__)    
+            best_reg = regressors[model_type][index_min_corr]
+            dump(best_reg, '../models/lasso_'+model_type+'_cleared_sequence_cvjoblib') 
+
             print(model_type)
             print('10-fold CV - Folds split on sequence level')
             print('average correlation between the predicted and the ground trouth on the test set: ', np.mean(corrs_seq[model_type]))
@@ -200,28 +217,42 @@ class DisorderPred:
 
 def main(argv):
     try:
-        opts, args = getopt.getopt(argv, "ht:e:r:s:", ["train_json_file=", "test_json_file=", "train_repr_dir=", "test_repr_dir="]) 
+        opts, args = getopt.getopt(argv, "hs:t:e:r:p:", ["train_strategy=", "train_json_file=", "test_json_file=", "train_repr_dir=", "test_repr_dir="]) 
     except getopt.GetoptError:
-        print('usage: training.py -t <train_json_file_path=> -e <test_json_file_path=> -r <train_residue_level_representation_dir> -s <test_residue_level_representation_dir>')
+        print('usage: training.py s- <training_strategy> -t <train_json_file_path=> -e <test_json_file_path=> -r <train_residue_level_representation_dir> -p <test_residue_level_representation_dir>')
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print('usage: training.py -t <train_json_file_path=> -e <test_json_file_path=> -r <train_residue_level_representation_dir> -s <test_residue_level_representation_dir>')
+            print('usage: training.py -t <train_json_file_path=> -e <test_json_file_path=> -r <train_residue_level_representation_dir> -p <test_residue_level_representation_dir>')
             sys.exit()
+        elif opt in ("-s", "--train_strategy"):
+            train_strategy = arg
+            if train_strategy not in constants.train_strategies:
+                print("The training strategies are:")
+                print(*constants.train_strategies, sep="\n")
+                sys.exit(2)
         elif opt in ("-t", "--train_json_file"):
             train_sequences = arg
         elif opt in ("-e", "--test_json_file"):
             test_sequences = arg
         elif opt in ("-r", "--train_repr_dir"):
             train_repr_dir = arg
-        elif opt in ("-s", "--test_repr_dir"):
+        elif opt in ("-p", "--test_repr_dir"):
             test_repr_dir = arg
 
         disorder_pred = DisorderPred(train_sequences, 
                                      test_sequences,
                                      train_repr_dir,
                                      test_repr_dir)
-        disorder_pred.cleared_sequence_cv()
+
+        if train_strategy == "train_on_cleared_1325_test_on_117_residue_split":
+            disorder_pred.cleared_residue()
+        elif train_strategy == "train_on_1325_cv_residue_split":
+            disorder_pred.residue_cv()
+        elif train_strategy == "train_on_cleared_1325_cv_residue_split":
+            disorder_pred.cleared_residue_cv()
+        else:
+            disorder_pred.cleared_sequence_cv()
 
 if __name__ == "__main__":
     main(sys.argv[1:])
