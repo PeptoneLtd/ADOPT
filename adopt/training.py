@@ -8,7 +8,7 @@ import sys
 import getopt
 import utils
 import constants
-from adopt import CheZod, DisorderPred
+from adopt import CheZod
 
 # disorder predictor training
 
