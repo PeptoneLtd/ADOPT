@@ -63,7 +63,12 @@ def main(argv):
                 sys.exit(2)
         elif opt in ("-m", "--model_type"):
             model_type = arg
-            if model_type != "train_on_cleared_1325_test_on_117_residue_split":
+            if model_type not in constants.model_types:
+                print("The pre-trained models are:")
+                print(*constants.model_types, sep="\n")
+                print("combined")
+                sys.exit(2)
+            if (train_strategy != "train_on_cleared_1325_test_on_117_residue_split") and (model_type=='combined'):
                 print("Only the train_on_cleared_1325_test_on_117_residue_split strategy is allowed with the <combined> model")
                 sys.exit()
         elif opt in ("-f", "--infer_fasta_file"):
