@@ -1,6 +1,8 @@
 import torch
 import numpy as np
 import constants
+from Bio import SeqIO
+import pandas as pd
 
 # throw away the missing values, if the drop_missing flag is set to True, i.e. where z-scores are  999
 def pedestrian_input(indexes, df, path, z_col='z-score', msa=False, drop_missing=True):
@@ -49,3 +51,15 @@ def df_to_fasta(df, fasta_out_path):
     for index, row in df.iterrows():
         ofile.write(">" + row['brmid'] + "\n" + row['sequence'] + "\n")
     ofile.close()
+
+def fasta_to_df(fasta_input):
+    with open(fasta_input) as fasta_file:  
+        identifiers = []
+        sequences = []
+        for seq_record in SeqIO.parse(fasta_file, 'fasta'):  # (generator)
+            identifiers.append(seq_record.id)
+            sequences.append(''.join(seq_record.seq))
+
+    df = pd.DataFrame({'brmid': identifiers,
+                       'sequence': sequences})
+    return df

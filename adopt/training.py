@@ -208,7 +208,7 @@ class DisorderPred:
             # save best regressor for inference
             index_min_corr = min(range(len(corrs_seq[model_type])), key=corrs_seq[model_type].__getitem__)    
             best_reg = regressors[model_type][index_min_corr]
-            dump(best_reg, '../models/lasso_'+model_type+'_cleared_sequence_cvjoblib') 
+            dump(best_reg, '../models/lasso_'+model_type+'_cleared_sequence_cv.joblib') 
 
             print(model_type)
             print('10-fold CV - Folds split on sequence level')

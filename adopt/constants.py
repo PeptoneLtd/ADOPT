@@ -12,3 +12,8 @@ train_strategies = ["train_on_cleared_1325_test_on_117_residue_split",
                     "train_on_1325_cv_residue_split",
                     "train_on_cleared_1325_cv_residue_split",
                     "train_on_cleared_1325_cv_sequence_split"]
+
+strategies_dict = {"train_on_cleared_1325_test_on_117_residue_split":"cleared_residue",
+                   "train_on_1325_cv_residue_split":"residue_cv",
+                   "train_on_cleared_1325_cv_residue_split":"cleared_residue_cv",
+                   "train_on_cleared_1325_cv_sequence_split":"cleared_sequence_cv"}
