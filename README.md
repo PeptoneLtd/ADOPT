@@ -79,7 +79,7 @@ Where:
 * `-r` defines the path where you've already saved the residue level representations
 * `-p` defines the path where you want the Z scores to be saved
 
-The output is a `.json`file contains the Z scores related to each residue of each protein in the FASTA file where you put the proteins you are intereseted in.
+The output is a `.json` file contains the Z scores related to each residue of each protein in the FASTA file where you put the proteins you are intereseted in.
 
 | Training strategy | Pre-trained models |
 |-------------------|-------------------|
