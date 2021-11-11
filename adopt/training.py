@@ -219,7 +219,7 @@ def main(argv):
     try:
         opts, args = getopt.getopt(argv, "hs:t:e:r:p:", ["train_strategy=", "train_json_file=", "test_json_file=", "train_repr_dir=", "test_repr_dir="]) 
     except getopt.GetoptError:
-        print('usage: training.py s- <training_strategy> -t <train_json_file_path=> -e <test_json_file_path=> -r <train_residue_level_representation_dir> -p <test_residue_level_representation_dir>')
+        print('usage: training.py s- <training_strategy> -t <train_json_file_path> -e <test_json_file_path=> -r <train_residue_level_representation_dir> -p <test_residue_level_representation_dir>')
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
