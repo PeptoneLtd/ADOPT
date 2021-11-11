@@ -68,17 +68,18 @@ $ inference.py s- <training_strategy> -m <model_type=> -f <inference_fasta_file=
 Where:
 * `-s` defines the **training strategies** defined belowe
 * `-f` defines the FASTA file containing the proteins for which you want to compute the intrinsic disorder
+* `-m` defines the residue level representation of the pre-trained models we want to use. We suggest you use the `combined` model because we proved it has the best performance.
 * `-r` defines the path where you've already saved the residue level representations
 * `-p` defines the path where you want the Z scores to be saved
 
 The output is a `.csv`file contains the Z scores related to each residue of each protein in the FASTA file where you put the proteins you are intereseted in.
 
-| Training strategy | CV |
-|-------------------|----|
-| `train_on_cleared_1325_test_on_117_residue_split` | :x: |
-| `train_on_1325_cv_residue_split`| :white_check_mark: |
-| `train_on_cleared_1325_cv_residue_split`| :white_check_mark: |
-| `train_on_cleared_1325_cv_sequence_split`| :white_check_mark: |
+| Training strategy | Pre-trained models |
+|-------------------|-------------------|
+| `train_on_cleared_1325_test_on_117_residue_split` | `esm-1b`, `esm-1v` and `combined` |
+| `train_on_1325_cv_residue_split`| `esm-1b` and `esm-1v` |
+| `train_on_cleared_1325_cv_residue_split`| `esm-1b` and `esm-1v` |
+| `train_on_cleared_1325_cv_sequence_split`| `esm-1b` and `esm-1v` |
 
 
 ### Train ADOPT disorder predictor
