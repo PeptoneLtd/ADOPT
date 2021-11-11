@@ -8,6 +8,8 @@ Our disorder predictor is made up of two main blocks, namely: a **self-supervise
 
 The ESM library exploits a set of deep Transformer encoder models, which processes character sequences of amino acids as inputs.
 
+![Attention weights visualisation](https://github.com/PeptoneInc/ADOPT/blob/main/media/adopt_attention.gif)
+
 ADOPT makes use of two datasets: the [CheZoD  “1325” and the CheZoD “117”](https://github.com/protein-nmr/CheZOD) databases containing 1325 and 117 sequences, respectively, together with their  residue level **Z-scores**.
 
 ## Intrinsic disorder trained models
