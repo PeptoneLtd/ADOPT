@@ -65,17 +65,17 @@ $ python training.py s- <training_strategy> -t <train_json_file_path=> -e <test_
 ```
 
 Where:
-* `s` defines the **training strategies** defined below
-* `t` defines the JSON containing the proteins we want to use as *training set*
-* `e` defines the JSON containing the proteins we want to use as *test set*
-* `r` defines the path where we saved the residue level representations of the proteins in the *training set*
-* `p` defines the path where we saved the residue level representations of the proteins in the *test set*
+* `-s` defines the **training strategies** defined below
+* `-t` defines the JSON containing the proteins we want to use as *training set*
+* `-e` defines the JSON containing the proteins we want to use as *test set*
+* `-r` defines the path where we saved the residue level representations of the proteins in the *training set*
+* `-p` defines the path where we saved the residue level representations of the proteins in the *test set*
 
-| Training strategy |
-|-------------------|
-| `train_on_cleared_1325_test_on_117_residue_split` |
-| `train_on_1325_cv_residue_split`|
-| `train_on_cleared_1325_cv_residue_split`|
-| `train_on_cleared_1325_cv_sequence_split`|
+| Training strategy | CV |
+|-------------------|----|
+| `train_on_cleared_1325_test_on_117_residue_split` | :x: |
+| `train_on_1325_cv_residue_split`| :white_check_mark: |
+| `train_on_cleared_1325_cv_residue_split`| :white_check_mark: |
+| `train_on_cleared_1325_cv_sequence_split`| :white_check_mark: |
 
 A subdirectory containing the residue level representation extracted from each pre-trained model will be created under both the `train_residue_level_representation_dir` and the `test_residue_level_representation_dir`
