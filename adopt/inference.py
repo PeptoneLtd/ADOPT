@@ -47,7 +47,7 @@ def get_z_score(strategy,
         predicted_z_scores.append(z_scores)
         
     df_fasta['z_scores'] = predicted_z_scores
-    df_fasta.to_csv(predicted_z_scores_path)
+    df_fasta.to_json(predicted_z_scores_path, orient="records")
 
 
 def main(argv):
