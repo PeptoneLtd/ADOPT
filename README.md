@@ -2,7 +2,7 @@
 
 This repository containes the code and the trained models for **intrinsic protein disorder prediction through deep bidirectional transformers** from Peptone Ltd.
 
-Adopt has been introduced in our paper [link](ADOPT: intrinsic protein disorder prediction throughdeep bidirectional transformers).
+Adopt has been introduced in our paper [ADOPT: intrinsic protein disorder prediction throughdeep bidirectional transformers](link).
 
 Our disorder predictor is made up of two main blocks, namely: a **self-supervised encoder* and a **supervised disorder predictor**. We use [Facebook’s Evolutionary Scale Modeling (ESM)](https://github.com/facebookresearch/esm) library to extract dense residue evel representations, which feed the  supervised machine learning based predictor. 
 
