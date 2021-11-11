@@ -13,7 +13,7 @@ ADOPT makes use of two datasets: the [CheZoD  “1325” and the CheZoD “117�
 ## Intrinsic disorder trained models
 
 | Model | Pre-trained model | Datasets | Split level | CV |
-|-------|-------------------|----------[-------------|----[
+|-------|-------------------|----------[-------------|----|
 | `lasso_esm-1b_cleared_residue` | ESM-1b | **Chezod 1325 cleared** and **Chezod 117** | residue | :x: |
 | `lasso_esm-1v_cleared_residue` | ESM-1v | **Chezod 1325 cleared** and **Chezod 117** | residue | :x: |
 | `lasso_combined_cleared_residue` | Combined | **Chezod 1325 cleared** and **Chezod 117** | residue | :x: |
