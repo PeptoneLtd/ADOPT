@@ -19,7 +19,7 @@ def get_z_score(strategy,
                 predicted_z_scores_path):
     df_fasta = utils.fasta_to_df(inference_fasta_path)
 
-    if model_type is "combined":
+    if model_type == "combined":
         repr_path = inference_repr_path+"/"+'esm-1v'
     else:
         repr_path = inference_repr_path+"/"+model_type
@@ -34,9 +34,9 @@ def get_z_score(strategy,
     predicted_z_scores = []
 
     for ix in indexes:
-        if model_type is "esm-msa":
+        if model_type == "esm-msa":
             repr_esm = torch.load(str(repr_path)+"/"+ix+".pt")['representations'][12].clone().cpu().detach()
-        elif model_type is "combined":
+        elif model_type == "combined":
             esm1b_repr_path = inference_repr_path+"/"+'esm-1b'
             repr_esm1v = torch.load(str(repr_path)+"/"+ix+".pt")['representations'][33].clone().cpu().detach()
             repr_esm1b = torch.load(str(esm1b_repr_path)+"/"+ix+".pt")['representations'][33].clone().cpu().detach()
@@ -68,7 +68,7 @@ def main(argv):
                 sys.exit(2)
         elif opt in ("-m", "--model_type"):
             model_type = arg
-            if model_type not in constants.model_types:
+            if (model_type not in constants.model_types) and (model_type != "combined"):
                 print("The pre-trained models are:")
                 print(*constants.model_types, sep="\n")
                 print("combined")
