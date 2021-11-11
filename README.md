@@ -67,7 +67,7 @@ In the ADOPT directory run:
 ```bash
 $ python inference.py -s <training_strategy> 
                       -m <model_type=> 
-                      -f <inference_fasta_file=> 
+                      -f <inference_fasta_file> 
                       -r <inference_repr_dir> 
                       -p <predicted_z_scores_file>
 ```
