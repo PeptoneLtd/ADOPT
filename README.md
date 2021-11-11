@@ -21,8 +21,8 @@ ADOPT makes use of two datasets: the [CheZoD  “1325” and the CheZoD “117�
 | `lasso_esm-1v_residue_cv` | ESM-1v | **Chezod 1325** | residue | :white_check_mark: |
 | `lasso_esm-1b_cleared_residue_cv` | ESM-1b | **Chezod 1325 cleared** | residue | :white_check_mark: |
 | `lasso_esm-1v_cleared_residue_cv` | ESM-1v | **Chezod 1325 cleared** | residue | :white_check_mark: |
-| `lasso_esm-1b_cleared_sequence_cv_cv` | ESM-1b | **Chezod 1325 cleared** | residue | :white_check_mark: |
-| `lasso_esm-1v_cleared_sequence_cv_cv` | ESM-1v | **Chezod 1325 cleared** | sequence | :white_check_mark: |
+| `lasso_esm-1b_cleared_sequence_cv` | ESM-1b | **Chezod 1325 cleared** | residue | :white_check_mark: |
+| `lasso_esm-1v_cleared_sequence_cv` | ESM-1v | **Chezod 1325 cleared** | sequence | :white_check_mark: |
 
 ## Usage
 
@@ -51,3 +51,31 @@ $ python embedding.py -f <fasta_file_path> -r <residue_level_representation_dir>
 Where:
 * `-f` defines the FASTA containing the proteins for which you want to compute the intrinsic disorder
 * `-r` defines the path where you want to save the residue level representations
+
+### Train ADOPT disorder predictor
+
+Once we have extracted the residue level representations of the protein for which we want to predict the intrinsic disorder (Z score), we can train the predictor.
+
+**NOTE**: This step is not mandatory because we've already trained such models. You can find them in the *models* directory.
+
+In the ADOPT directory run:
+
+```bash
+$ python training.py s- <training_strategy> -t <train_json_file_path=> -e <test_json_file_path=> -r <train_residue_level_representation_dir> -p <test_residue_level_representation_dir>'
+```
+
+Where:
+* `s` defines the **training strategies** defined below
+* `t` defines the JSON containing the proteins we want to use as *training set*
+* `e` defines the JSON containing the proteins we want to use as *test set*
+* `r` defines the path where we saved the residue level representations of the proteins in the *training set*
+* `p` defines the path where we saved the residue level representations of the proteins in the *test set*
+
+| Training strategy |
+|-------------------|
+| `train_on_cleared_1325_test_on_117_residue_split` |
+| `train_on_1325_cv_residue_split`|
+| `train_on_cleared_1325_cv_residue_split`|
+| `train_on_cleared_1325_cv_sequence_split`|
+
+A subdirectory containing the residue level representation extracted from each pre-trained model will be created under both the `train_residue_level_representation_dir` and the `test_residue_level_representation_dir`
