@@ -1,3 +1,4 @@
 fair-esm~=0.4
 scikit-learn~=1.0
 bertviz~=1.2
+biopython~=1.79
