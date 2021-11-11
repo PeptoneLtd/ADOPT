@@ -6,7 +6,7 @@ Adopt has been introduced in our paper [ADOPT: intrinsic protein disorder predic
 
 <img src="https://github.com/PeptoneInc/ADOPT/blob/main/media/adopt_attention.gif" width="600"/>
 
-Our disorder predictor is made up of two main blocks, namely: a *self-supervised encoder* and a **supervised disorder predictor**. We use [Facebook’s Evolutionary Scale Modeling (ESM)](https://github.com/facebookresearch/esm) library to extract dense residue evel representations, which feed the  supervised machine learning based predictor. 
+Our disorder predictor is made up of two main blocks, namely: a **self-supervised encoder** and a **supervised disorder predictor**. We use [Facebook’s Evolutionary Scale Modeling (ESM)](https://github.com/facebookresearch/esm) library to extract dense residue evel representations, which feed the  supervised machine learning based predictor. 
 
 The ESM library exploits a set of deep Transformer encoder models, which processes character sequences of amino acids as inputs.
 
