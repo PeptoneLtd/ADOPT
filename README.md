@@ -4,7 +4,7 @@ This repository containes the code and the trained models for **intrinsic protei
 
 Adopt has been introduced in our paper [link](ADOPT: intrinsic protein disorder prediction throughdeep bidirectional transformers).
 
-Our disorder predictor is made up of two main blocks, namely: a **self-supervised encoder* and a **supervised disorder predictor**. We use [https://github.com/facebookresearch/esm](Facebook’s Evolutionary  Scale Modeling (ESM)) library to extract dense residue evel representations, which feed the  supervised machine learning based predictor. 
+Our disorder predictor is made up of two main blocks, namely: a **self-supervised encoder* and a **supervised disorder predictor**. We use [https://github.com/facebookresearch/esm](Facebook’s Evolutionary Scale Modeling) library to extract dense residue evel representations, which feed the  supervised machine learning based predictor. 
 
 The ESM library exploits a set of deep Transformer encoder models, which processes character sequences of amino acids as inputs.
 
@@ -32,9 +32,22 @@ As a prerequisite, you must have fair-esm 0.4 or later installed to use this rep
 
 Install the **adopt** package:
 
+Clone the ADOPT repository, go to the ADOPT directory and run
+
 ```bash
-$ git clone https://github.com/PeptoneInc/ADOPT.git
-$ cd ADOPT
 $ python setup.py install
 ```
 
+### Compute residue level representations
+
+In order to predict the **Z score** related to each residue in a protein sequence, we have to compute the residue level representations, extracted from the pretrained model. 
+
+In the ADOPT directory run:
+
+```bash
+$ python embedding.py -f <fasta_file_path> -r <residue_level_representation_dir>
+```
+
+Where:
+* `-f` defines the FASTA containing the proteins for which you want to compute the intrinsic disorder
+* `-r` defines the path where you want to save the residue level representations
