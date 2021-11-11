@@ -23,3 +23,18 @@ ADOPT makes use of two datasets: the [CheZoD  “1325” and the CheZoD “117�
 | `lasso_esm-1v_cleared_residue_cv` | ESM-1v | **Chezod 1325 cleared** | residue | :white_check_mark: |
 | `lasso_esm-1b_cleared_sequence_cv_cv` | ESM-1b | **Chezod 1325 cleared** | residue | :white_check_mark: |
 | `lasso_esm-1v_cleared_sequence_cv_cv` | ESM-1v | **Chezod 1325 cleared** | sequence | :white_check_mark: |
+
+## Usage
+
+### Quick start
+
+As a prerequisite, you must have fair-esm 0.4 or later installed to use this repository.
+
+Install the **adopt** package:
+
+```bash
+$ git clone https://github.com/PeptoneInc/ADOPT.git
+$ cd ADOPT
+$ python setup.py install
+```
+
