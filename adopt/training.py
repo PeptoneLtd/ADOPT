@@ -223,7 +223,7 @@ def main(argv):
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print('usage: training.py -t <train_json_file_path=> -e <test_json_file_path=> -r <train_residue_level_representation_dir> -p <test_residue_level_representation_dir>')
+            print('usage: training.py s- <training_strategy> -t <train_json_file_path=> -e <test_json_file_path=> -r <train_residue_level_representation_dir> -p <test_residue_level_representation_dir>')
             sys.exit()
         elif opt in ("-s", "--train_strategy"):
             train_strategy = arg
@@ -240,19 +240,19 @@ def main(argv):
         elif opt in ("-p", "--test_repr_dir"):
             test_repr_dir = arg
 
-        disorder_pred = DisorderPred(train_sequences, 
-                                     test_sequences,
-                                     train_repr_dir,
-                                     test_repr_dir)
+    disorder_pred = DisorderPred(train_sequences, 
+                                    test_sequences,
+                                    train_repr_dir,
+                                    test_repr_dir)
 
-        if train_strategy == "train_on_cleared_1325_test_on_117_residue_split":
-            disorder_pred.cleared_residue()
-        elif train_strategy == "train_on_1325_cv_residue_split":
-            disorder_pred.residue_cv()
-        elif train_strategy == "train_on_cleared_1325_cv_residue_split":
-            disorder_pred.cleared_residue_cv()
-        else:
-            disorder_pred.cleared_sequence_cv()
+    if train_strategy == "train_on_cleared_1325_test_on_117_residue_split":
+        disorder_pred.cleared_residue()
+    elif train_strategy == "train_on_1325_cv_residue_split":
+        disorder_pred.residue_cv()
+    elif train_strategy == "train_on_cleared_1325_cv_residue_split":
+        disorder_pred.cleared_residue_cv()
+    else:
+        disorder_pred.cleared_sequence_cv()
 
 if __name__ == "__main__":
     main(sys.argv[1:])
