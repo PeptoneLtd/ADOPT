@@ -6,6 +6,7 @@
 
 **Closed issues:**
 
+- Add bash script for inference [\#8](https://github.com/PeptoneInc/ADOPT/issues/8)
 - Add bash script for training [\#7](https://github.com/PeptoneInc/ADOPT/issues/7)
 - Add CHANGELOG [\#6](https://github.com/PeptoneInc/ADOPT/issues/6)
 

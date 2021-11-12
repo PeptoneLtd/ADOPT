@@ -66,7 +66,7 @@ In the ADOPT directory run:
 
 ```bash
 $ python inference.py -s <training_strategy> 
-                      -m <model_type=> 
+                      -m <model_type> 
                       -f <inference_fasta_file> 
                       -r <inference_repr_dir> 
                       -p <predicted_z_scores_file>
@@ -99,8 +99,8 @@ In the ADOPT directory run:
 
 ```bash
 $ python training.py -s <training_strategy> 
-                     -t <train_json_file_path=> 
-                     -e <test_json_file_path=> 
+                     -t <train_json_file_path> 
+                     -e <test_json_file_path> 
                      -r <train_residue_level_representation_dir> 
                      -p <test_residue_level_representation_dir>
 ```
