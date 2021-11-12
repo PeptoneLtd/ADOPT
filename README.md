@@ -2,7 +2,7 @@
 
 This repository containes the code and the trained models for **intrinsic protein disorder prediction through deep bidirectional transformers** from Peptone Ltd.
 
-Adopt has been introduced in our paper [ADOPT: intrinsic protein disorder prediction throughdeep bidirectional transformers](link).
+ADOPT has been introduced in our paper [ADOPT: intrinsic protein disorder prediction throughdeep bidirectional transformers](link).
 
 <img src="https://github.com/PeptoneInc/ADOPT/blob/main/media/adopt_attention.gif" width="600"/>
 
