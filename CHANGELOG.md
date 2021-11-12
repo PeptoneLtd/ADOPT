@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/peptoneinc/ADOPT/tree/HEAD)
+
+[Full Changelog](https://github.com/peptoneinc/ADOPT/compare/v0.0.1...HEAD)
+
+**Closed issues:**
+
+- Add CHANGELOG [\#6](https://github.com/PeptoneInc/ADOPT/issues/6)
+
 ## [v0.0.1](https://github.com/peptoneinc/ADOPT/tree/v0.0.1) (2021-11-11)
 
 [Full Changelog](https://github.com/peptoneinc/ADOPT/compare/a1bb9c7ed570348da5f39b1fd7ed6df6608236ab...v0.0.1)
