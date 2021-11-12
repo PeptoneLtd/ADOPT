@@ -54,11 +54,11 @@ def main(argv):
     try:
         opts, args = getopt.getopt(argv, "hs:m:f:r:p:", ["train_strategy=", "model_type=", "infer_fasta_file=", "infer_repr_dir=", "pred_z_scores_file"]) 
     except getopt.GetoptError:
-        print('usage: inference.py -s <training_strategy> -m <model_type=> -f <inference_fasta_file=> -r <inference_repr_dir> -p <predicted_z_scores_file>')
+        print('usage: inference.py -s <training_strategy> -m <model_type> -f <inference_fasta_file> -r <inference_repr_dir> -p <predicted_z_scores_file>')
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print('usage: inference.py -s <training_strategy> -m <model_type=> -f <inference_fasta_file=> -r <inference_repr_dir> -p <predicted_z_scores_file>')
+            print('usage: inference.py -s <training_strategy> -m <model_type> -f <inference_fasta_file> -r <inference_repr_dir> -p <predicted_z_scores_file>')
             sys.exit()
         elif opt in ("-s", "--train_strategy"):
             train_strategy = arg
