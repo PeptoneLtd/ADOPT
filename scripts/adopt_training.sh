@@ -1,3 +1,8 @@
+# Copyright (c) 2021 Peptone.
+#
+# This source code is licensed under the MIT license found in the
+# LICENSE file in the root directory of this source tree.
+
 #!/bin/bash   
 
 TRAIN_FASTA_FILE_PATH="<train_chezod_fasta_file_path>"
