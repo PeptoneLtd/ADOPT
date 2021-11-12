@@ -112,6 +112,16 @@ Where:
 * `-r` defines the path where we saved the residue level representations of the proteins in the *training set*
 * `-p` defines the path where we saved the residue level representations of the proteins in the *test set*
 
+
+## Citations <a name="citations"></a>
+
+If you use this work in your research, please cite the the relevant paper:
+
+```bibtex
+@article{redl2021adopt}
+```
+
+
 ## Licence
 
 This source code is licensed under the MIT license found in the `LICENSE` file in the root directory of this source tree.
