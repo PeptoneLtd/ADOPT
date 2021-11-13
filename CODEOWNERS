@@ -12,3 +12,4 @@
 # modifies JS files, only the user below and not the global
 # owner(s) will be requested for a review.
 *.js    carlo@peptone.io
+*.yml   carlo@peptone.io 
