@@ -1,4 +1,4 @@
-# Attention DisOrder  PredicTor
+# Attention DisOrder PredicTor
 
 This repository containes the code and the trained models for **intrinsic protein disorder prediction through deep bidirectional transformers** from Peptone Ltd.
 
@@ -13,6 +13,19 @@ Our disorder predictor is made up of two main blocks, namely: a **self-supervise
 The ESM library exploits a set of deep Transformer encoder models, which processes character sequences of amino acids as inputs.
 
 ADOPT makes use of two datasets: the [CheZoD  “1325” and the CheZoD “117”](https://github.com/protein-nmr/CheZOD) databases containing 1325 and 117 sequences, respectively, together with their  residue level **Z-scores**.
+
+## Table of Contents
+
+- [Attention DisOrder PredicTor](#attention-disorder-predictor)
+  - [Table of Contents](#table-of-contents)
+  - [Intrinsic disorder trained models](#intrinsic-disorder-trained-models)
+  - [Usage](#usage)
+    - [Quick start](#quick-start)
+    - [Compute residue level representations](#compute-residue-level-representations)
+    - [Predict intrinsic disorder with ADOPT](#predict-intrinsic-disorder-with-adopt)
+    - [Train ADOPT disorder predictor](#train-adopt-disorder-predictor)
+  - [Citations](#citations)
+  - [Licence](#licence)
 
 ## Intrinsic disorder trained models
 
