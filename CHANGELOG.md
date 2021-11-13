@@ -1,14 +1,18 @@
 # Changelog
 
-## [Unreleased](https://github.com/peptoneinc/ADOPT/tree/HEAD)
+## [v0.1.0](https://github.com/peptoneinc/ADOPT/tree/v0.1.0) (2021-11-13)
 
-[Full Changelog](https://github.com/peptoneinc/ADOPT/compare/v0.0.1...HEAD)
+[Full Changelog](https://github.com/peptoneinc/ADOPT/compare/v0.0.1...v0.1.0)
 
 **Closed issues:**
 
 - Add bash script for inference [\#8](https://github.com/PeptoneInc/ADOPT/issues/8)
 - Add bash script for training [\#7](https://github.com/PeptoneInc/ADOPT/issues/7)
 - Add CHANGELOG [\#6](https://github.com/PeptoneInc/ADOPT/issues/6)
+
+**Merged pull requests:**
+
+- Super linter integration [\#11](https://github.com/PeptoneInc/ADOPT/pull/11) ([CFisicaro](https://github.com/CFisicaro))
 
 ## [v0.0.1](https://github.com/peptoneinc/ADOPT/tree/v0.0.1) (2021-11-11)
 
