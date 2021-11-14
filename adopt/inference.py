@@ -10,6 +10,7 @@ import getopt
 import sys
 from adopt import constants, utils
 import pandas as pd
+import numpy as np
 
 def get_z_score(strategy,
                 model_type,
@@ -43,7 +44,7 @@ def get_z_score(strategy,
         else:
             repr_esm = torch.load(str(repr_path)+"/"+ix+".pt")['representations'][33].clone().cpu().detach()
         z_scores = utils.get_onnx_model_preds(onnx_model, repr_esm.numpy())
-        predicted_z_scores.append(z_scores)
+        predicted_z_scores.append(np.concatenate(z_scores))
         
     df_z = pd.DataFrame({'brmid': indexes, 'z_scores': predicted_z_scores})    
     df_results = df_fasta.join(df_z.set_index('brmid'), on='brmid')
