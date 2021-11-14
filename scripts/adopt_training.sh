@@ -16,7 +16,7 @@ TRAIN_FASTA_FILE_PATH="../datasets/chezod_1325_all.fasta"
 TEST_FASTA_FILE_PATH="../datasets/chezod_117_all.fasta"
 TRAIN_RES_REPR_DIR_PATH="../representations/chezod_1325"
 TEST_RES_REPR_DIR_PATH="../representations/chezod_117"
-TRAIN_STRATEGY="train_on_cleared_1325_test_on_117_residue_split"
+TRAIN_STRATEGY="<training_strategy>" # choose a training strategy
 TRAIN_JSON_FILE_PATH="../datasets/1325_dataset_raw.json"
 TEST_JSON_FILE_PATH="../datasets/117_dataset_raw.json" 
 
