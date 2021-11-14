@@ -8,7 +8,6 @@ from sklearn.model_selection import KFold
 from sklearn import linear_model
 import scipy 
 import numpy as np
-from joblib import dump
 import sys
 import getopt
 import utils
@@ -48,7 +47,9 @@ class DisorderPred:
             
             LinearRegressions[model_type] = reg_
             CorrelationsLR[model_type] = scipy.stats.spearmanr(self.zed_test[model_type], reg_.predict(self.ex_test[model_type])).correlation
-            dump(reg_, '../models/lasso_'+model_type+'_cleared_residue.joblib') 
+            utils.save_onnx_model(self.ex_test[model_type].shape[1],
+                                  reg_,
+                                  '../models/lasso_'+model_type+'_cleared_residue.onnx')
         
         # ESM-1v and ESM-1b Combined 
         # --------------------------
@@ -63,7 +64,9 @@ class DisorderPred:
 
         # save the combined regression
         LinearRegressions['combined'] = reg
-        dump(reg, '../models/lasso_combined_cleared_residue.joblib') 
+        utils.save_onnx_model(ex_test_combined.shape[1],
+                              reg,
+                              '../models/lasso_combined_cleared_residue.onnx')
 
 
     def residue_cv(self):
@@ -117,7 +120,9 @@ class DisorderPred:
             # save best regressor for inference
             index_min_corr = min(range(len(corrs[model_type])), key=corrs[model_type].__getitem__)    
             best_reg = regressors[model_type][index_min_corr]
-            dump(best_reg, '../models/lasso_'+model_type+'_residue_cv.joblib') 
+            utils.save_onnx_model(ex_rounds_test.shape[1],
+                                  best_reg,
+                                  '../models/lasso_'+model_type+'_residue_cv.onnx')
 
             print(model_type)
             print('10-fold CV - average correlation between the predicted and the ground trouth on the test set: ', np.mean(corrs[model_type]))
@@ -160,7 +165,9 @@ class DisorderPred:
             # save best regressor for inference
             index_min_corr = min(range(len(corrs_cleared[model_type])), key=corrs_cleared[model_type].__getitem__)    
             best_reg = regressors[model_type][index_min_corr]
-            dump(best_reg, '../models/lasso_'+model_type+'_cleared_residue_cv.joblib') 
+            utils.save_onnx_model(ex_rounds_test.shape[1],
+                                  best_reg,
+                                  '../models/lasso_'+model_type+'_cleared_residue_cv.onnx')
 
             print(model_type)
             print('10-fold CV (on the reduced 1325, i.e. overlap removed) - ')
@@ -213,7 +220,9 @@ class DisorderPred:
             # save best regressor for inference
             index_min_corr = min(range(len(corrs_seq[model_type])), key=corrs_seq[model_type].__getitem__)    
             best_reg = regressors[model_type][index_min_corr]
-            dump(best_reg, '../models/lasso_'+model_type+'_cleared_sequence_cv.joblib') 
+            utils.save_onnx_model(ex_test_seq.shape[1],
+                                  best_reg,
+                                  '../models/lasso_'+model_type+'_cleared_sequence_cv.onnx')
 
             print(model_type)
             print('10-fold CV - Folds split on sequence level')

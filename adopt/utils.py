@@ -8,6 +8,9 @@ import numpy as np
 import constants
 from Bio import SeqIO
 import pandas as pd
+from skl2onnx import convert_sklearn
+from skl2onnx.common.data_types import FloatTensorType
+import onnxruntime as rt
 
 # throw away the missing values, if the drop_missing flag is set to True, i.e. where z-scores are  999
 def pedestrian_input(indexes, df, path, z_col='z-score', msa=False, drop_missing=True):
@@ -68,3 +71,16 @@ def fasta_to_df(fasta_input):
     df = pd.DataFrame({'brmid': identifiers,
                        'sequence': sequences})
     return df
+
+def save_onnx_model(columns_shape, reg, model_name):
+    initial_type = [('float_input', FloatTensorType([None, columns_shape]))]
+    onx = convert_sklearn(reg, initial_types=initial_type)
+    with open(model_name, "wb") as f:
+        f.write(onx.SerializeToString())
+
+def get_onnx_model_preds(model_name, input_data):
+    sess = rt.InferenceSession(model_name)
+    input_name = sess.get_inputs()[0].name
+    label_name = sess.get_outputs()[0].name
+    pred_onx = sess.run([label_name], {input_name: input_data})[0]
+    return pred_onx

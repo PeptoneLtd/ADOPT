@@ -4,7 +4,6 @@
 # LICENSE file in the root directory of this source tree.
 
 from adopt import utils
-from joblib import load
 import torch
 import os
 import re
@@ -30,7 +29,7 @@ def get_z_score(strategy,
     for file in repr_files:
         indexes.append(file.split('.')[0])
 
-    reg = load('../models/lasso_'+model_type+'_'+constants.strategies_dict[strategy]+'.joblib')
+    onnx_model = '../models/lasso_'+model_type+'_'+constants.strategies_dict[strategy]+'.onnx'
     predicted_z_scores = []
 
     for ix in indexes:
@@ -43,7 +42,7 @@ def get_z_score(strategy,
             repr_esm = torch.cat([repr_esm1v,repr_esm1b], 1)
         else:
             repr_esm = torch.load(str(repr_path)+"/"+ix+".pt")['representations'][33].clone().cpu().detach()
-        z_scores = reg.predict(repr_esm)
+        z_scores = utils.get_onnx_model_preds(onnx_model, repr_esm)
         predicted_z_scores.append(z_scores)
         
     df_fasta['z_scores'] = predicted_z_scores
