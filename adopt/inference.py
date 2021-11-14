@@ -41,7 +41,7 @@ def get_z_score(strategy,
             repr_esm = torch.cat([repr_esm1v,repr_esm1b], 1)
         else:
             repr_esm = torch.load(str(repr_path)+"/"+ix+".pt")['representations'][33].clone().cpu().detach()
-        z_scores = utils.get_onnx_model_preds(onnx_model, repr_esm)
+        z_scores = utils.get_onnx_model_preds(onnx_model, repr_esm.numpy())
         predicted_z_scores.append(z_scores)
         
     df_fasta['z_scores'] = predicted_z_scores
