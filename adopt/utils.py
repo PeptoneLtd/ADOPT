@@ -5,7 +5,7 @@
 
 import torch
 import numpy as np
-import constants
+from adopt import constants
 from Bio import SeqIO
 import pandas as pd
 from skl2onnx import convert_sklearn

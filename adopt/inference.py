@@ -3,13 +3,12 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-from adopt import utils
 import torch
 import os
 import re
 import getopt
 import sys
-import constants
+from adopt import constants, utils
 
 def get_z_score(strategy,
                 model_type,

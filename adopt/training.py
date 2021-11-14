@@ -10,9 +10,7 @@ import scipy
 import numpy as np
 import sys
 import getopt
-import utils
-import constants
-from adopt import CheZod
+from adopt import CheZod, constants, utils
 
 # disorder predictor training
 

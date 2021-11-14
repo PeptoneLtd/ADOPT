@@ -7,7 +7,7 @@ import subprocess
 import sys
 import getopt
 from pathlib import Path
-import constants
+from adopt import constants
 
 # extract residue level representations of each protein sequence in the fasta file
 def get_representations(fasta_file, repr_dir):

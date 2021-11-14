@@ -4,8 +4,7 @@
 # LICENSE file in the root directory of this source tree.
 
 import pandas as pd
-import constants
-import utils
+from adopt import utils, constants
 
 
 class CheZod:
