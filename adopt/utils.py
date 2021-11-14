@@ -5,12 +5,12 @@
 
 import torch
 import numpy as np
-from adopt import constants
 from Bio import SeqIO
 import pandas as pd
 from skl2onnx import convert_sklearn
 from skl2onnx.common.data_types import FloatTensorType
 import onnxruntime as rt
+from adopt import constants
 
 # throw away the missing values, if the drop_missing flag is set to True, i.e. where z-scores are  999
 def pedestrian_input(indexes, df, path, z_col='z-score', msa=False, drop_missing=True):

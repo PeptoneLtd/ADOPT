@@ -142,7 +142,7 @@ class DisorderPred:
                 
             for model_type in constants.model_types:
                 ex_rounds_train = np.take(self.ex_train[model_type], train_index, axis=0)
-                ex_rounds_test = np.take(self.ex_train[model_type], test_index, axis=0)
+                ex_clear_rounds_test = np.take(self.ex_train[model_type], test_index, axis=0)
             
                 zed_rounds_train = np.take(self.zed_train[model_type], train_index, axis=0)
                 zed_rounds_test = np.take(self.zed_train[model_type], test_index, axis=0)
@@ -150,11 +150,11 @@ class DisorderPred:
                 reg_ = linear_model.Lasso(alpha=0.0001, max_iter=10000)
                 reg_.fit(ex_rounds_train, zed_rounds_train) 
             
-                corrs_cleared[model_type].append(scipy.stats.spearmanr(zed_rounds_test, reg_.predict(ex_rounds_test)).correlation)
+                corrs_cleared[model_type].append(scipy.stats.spearmanr(zed_rounds_test, reg_.predict(ex_clear_rounds_test)).correlation)
                 regressors[model_type].append(reg_)
             
                 print('Correlation between the predicted and the ground trouth on the test set: ', 
-                    scipy.stats.spearmanr(zed_rounds_test, reg_.predict(ex_rounds_test)).correlation)
+                    scipy.stats.spearmanr(zed_rounds_test, reg_.predict(ex_clear_rounds_test)).correlation)
             
                 print()
             rounds+=1
@@ -163,7 +163,7 @@ class DisorderPred:
             # save best regressor for inference
             index_min_corr = min(range(len(corrs_cleared[model_type])), key=corrs_cleared[model_type].__getitem__)    
             best_reg = regressors[model_type][index_min_corr]
-            utils.save_onnx_model(ex_rounds_test.shape[1],
+            utils.save_onnx_model(ex_clear_rounds_test.shape[1],
                                   best_reg,
                                   '../models/lasso_'+model_type+'_cleared_residue_cv.onnx')
 

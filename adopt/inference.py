@@ -5,12 +5,11 @@
 
 import torch
 import os
-import re
 import getopt
 import sys
-from adopt import constants, utils
 import pandas as pd
 import numpy as np
+from adopt import constants, utils
 
 def get_z_score(strategy,
                 model_type,
