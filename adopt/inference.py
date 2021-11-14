@@ -9,6 +9,7 @@ import re
 import getopt
 import sys
 from adopt import constants, utils
+import pandas as pd
 
 def get_z_score(strategy,
                 model_type,
@@ -38,14 +39,15 @@ def get_z_score(strategy,
             esm1b_repr_path = inference_repr_path+"/"+'esm-1b'
             repr_esm1v = torch.load(str(repr_path)+"/"+ix+".pt")['representations'][33].clone().cpu().detach()
             repr_esm1b = torch.load(str(esm1b_repr_path)+"/"+ix+".pt")['representations'][33].clone().cpu().detach()
-            repr_esm = torch.cat([repr_esm1v,repr_esm1b], 1)
+            repr_esm = torch.cat([repr_esm1v, repr_esm1b], 1)
         else:
             repr_esm = torch.load(str(repr_path)+"/"+ix+".pt")['representations'][33].clone().cpu().detach()
         z_scores = utils.get_onnx_model_preds(onnx_model, repr_esm.numpy())
         predicted_z_scores.append(z_scores)
         
-    df_fasta['z_scores'] = predicted_z_scores
-    df_fasta.to_json(predicted_z_scores_path, orient="records")
+    df_z = pd.DataFrame({'brmid': indexes, 'z_scores': predicted_z_scores})    
+    df_results = df_fasta.join(df_z.set_index('brmid'), on='brmid')
+    df_results.to_json(predicted_z_scores_path, orient="records")
 
 
 def main(argv):
