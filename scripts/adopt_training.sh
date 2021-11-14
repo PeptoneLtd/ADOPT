@@ -13,16 +13,16 @@ TRAIN_STRATEGY="<training_strategy>"
 TRAIN_JSON_FILE_PATH="<train_chezod_json_file_path>"
 TEST_JSON_FILE_PATH="<test_chezod_json_file_path>" 
 
-printf "Extracting the residue level representation of $TRAIN_FASTA_FILE_PATH and $TEST_FASTA_FILE_PATH"
+printf "Extracting residue level representation of $TRAIN_FASTA_FILE_PATH and $TEST_FASTA_FILE_PATH \n"
 
-python embedding.py -f $TRAIN_FASTA_FILE_PATH 
-                    -r $TRAIN_RES_REPR_DIR_PATH
+python ../adopt/embedding.py -f $TRAIN_FASTA_FILE_PATH \
+                             -r $TRAIN_RES_REPR_DIR_PATH
 
-printf "Training ADOPT on $TRAIN_FASTA_FILE_PATH"
+printf "Training ADOPT on $TRAIN_FASTA_FILE_PATH \n"
 
-python training.py -s $TRAIN_STRATEGY
-                   -t $TRAIN_JSON_FILE_PATH 
-                   -e $TEST_JSON_FILE_PATH 
-                   -r $TRAIN_RES_REPR_DIR_PATH 
-                   -p $TEST_RES_REPR_DIR_PATH
+python ../adopt/training.py -s $TRAIN_STRATEGY \
+                            -t $TRAIN_JSON_FILE_PATH \
+                            -e $TEST_JSON_FILE_PATH \
+                            -r $TRAIN_RES_REPR_DIR_PATH \
+                            -p $TEST_RES_REPR_DIR_PATH 
 

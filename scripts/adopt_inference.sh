@@ -11,15 +11,15 @@ TRAIN_STRATEGY="<training_strategy>"
 MODEL_TYPE="<model_type>"
 PRED_Z_FILE_PATH="<predicted_z_scores_file>"
 
-printf "Extracting the residue level representation of $NEW_PROT_FASTA_FILE_PATH"
+printf "Extracting residue level representation of $NEW_PROT_FASTA_FILE_PATH \n"
 
-python embedding.py -f $NEW_PROT_FASTA_FILE_PATH 
-                    -r $NEW_PROT_RES_REPR_DIR_PATH
+python ../adopt/embedding.py -f $NEW_PROT_FASTA_FILE_PATH \
+                             -r $NEW_PROT_RES_REPR_DIR_PATH
 
-printf "Computing Z scores of $NEW_PROT_FASTA_FILE_PATH"
+printf "Computing Z scores of $NEW_PROT_FASTA_FILE_PATH \n"
 
-python inference.py -s $TRAIN_STRATEGY 
-                    -m $MODEL_TYPE 
-                    -f $NEW_PROT_FASTA_FILE_PATH 
-                    -r $NEW_PROT_RES_REPR_DIR_PATH 
-                    -p $PRED_Z_FILE_PATH
+python ../adopt/inference.py -s $TRAIN_STRATEGY \
+                             -m $MODEL_TYPE \
+                             -f $NEW_PROT_FASTA_FILE_PATH \
+                             -r $NEW_PROT_RES_REPR_DIR_PATH \
+                             -p $PRED_Z_FILE_PATH
