@@ -84,3 +84,4 @@ def get_onnx_model_preds(model_name, input_data):
     label_name = sess.get_outputs()[0].name
     pred_onx = sess.run([label_name], {input_name: input_data})[0]
     return pred_onx
+

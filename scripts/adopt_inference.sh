@@ -23,3 +23,5 @@ python ../adopt/inference.py -s $TRAIN_STRATEGY \
                              -f $NEW_PROT_FASTA_FILE_PATH \
                              -r $NEW_PROT_RES_REPR_DIR_PATH \
                              -p $PRED_Z_FILE_PATH
+
+

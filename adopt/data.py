@@ -61,3 +61,4 @@ class CheZod:
             print('The number of inputs is the same for each model type')
         
         return ex_train, zed_train, ex_test, zed_test
+
