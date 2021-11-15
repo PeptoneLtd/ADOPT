@@ -1,4 +1,9 @@
-import esm
+# Copyright (c) 2021 Peptone.
+#
+# This source code is licensed under the MIT license found in the
+# LICENSE file in the root directory of this source tree.
+
+from esm import pretrained
 import torch
 
 from adopt import constants, utils
@@ -7,14 +12,14 @@ from adopt import constants, utils
 def get_multi_attention(model_type, sequence, brmid):
     # Load ESM model
     if model_type == "esm-1b":
-        model, alphabet = esm.pretrained.esm1b_t33_650M_UR50S()
+        model, alphabet = pretrained.esm1b_t33_650M_UR50S()
         results = utils.get_esm_attention(model, alphabet, sequence, brmid)
     elif model_type == "esm-1v":
-        model, alphabet = esm.pretrained.esm1v_t33_650M_UR90S_1()
+        model, alphabet = pretrained.esm1v_t33_650M_UR90S_1()
         results = utils.get_esm_attention(model, alphabet, sequence, brmid)
     elif model_type == 'combined':
-        model_esm1b, alphabet_esm1b = esm.pretrained.esm1b_t33_650M_UR50S()
-        model_esm1v, alphabet_esm1v = esm.pretrained.esm1v_t33_650M_UR90S_1()
+        model_esm1b, alphabet_esm1b = pretrained.esm1b_t33_650M_UR50S()
+        model_esm1v, alphabet_esm1v = pretrained.esm1v_t33_650M_UR90S_1()
         results_esm1b = utils.get_esm_attention(model_esm1b, alphabet_esm1b, sequence, brmid)
         results_esm1v = utils.get_esm_attention(model_esm1v, alphabet_esm1v, sequence, brmid)
         results = torch.cat((results_esm1b, results_esm1v), 0)
