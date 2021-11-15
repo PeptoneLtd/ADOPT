@@ -8,5 +8,5 @@
 from . import constants, utils
 from .data import CheZod
 from .training import DisorderPred
-from .viz import viz_attention
+from .viz import get_multi_attention
 from .version import version as __version__
