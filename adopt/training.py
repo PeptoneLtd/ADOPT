@@ -5,13 +5,11 @@
 
 import getopt
 import sys
-
 import numpy as np
 import pandas as pd
 import scipy
 from sklearn import linear_model
 from sklearn.model_selection import KFold
-
 from adopt import CheZod, constants, utils
 
 # disorder predictor training
@@ -347,13 +345,23 @@ def main(argv):
         )
     except getopt.GetoptError:
         print(
-            "usage: training.py -s <training_strategy> -t <train_json_file_path> -e <test_json_file_path> -r <train_residue_level_representation_dir> -p <test_residue_level_representation_dir>"
+            "usage: training.py" \
+                "-s <training_strategy>" \
+                "-t <train_json_file_path>" \
+                "-e <test_json_file_path>" \
+                "-r <train_residue_level_representation_dir>" \
+                "-p <test_residue_level_representation_dir>"
         )
         sys.exit(2)
     for opt, arg in opts:
         if opt == "-h":
             print(
-                "usage: training.py -s <training_strategy> -t <train_json_file_path> -e <test_json_file_path> -r <train_residue_level_representation_dir> -p <test_residue_level_representation_dir>"
+                "usage: training.py" \
+                    "-s <training_strategy>" \
+                    "-t <train_json_file_path>" \
+                    "-e <test_json_file_path>" \
+                    "-r <train_residue_level_representation_dir>" \
+                    "-p <test_residue_level_representation_dir>"
             )
             sys.exit()
         elif opt in ("-s", "--train_strategy"):

@@ -4,7 +4,6 @@
 # LICENSE file in the root directory of this source tree.
 
 import pandas as pd
-
 from adopt import constants, utils
 
 

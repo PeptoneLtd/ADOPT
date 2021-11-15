@@ -5,7 +5,6 @@
 
 import setuptools
 from setuptools import setup
-
 from adopt import __version__
 
 with open("README.md") as f:
