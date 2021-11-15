@@ -16,7 +16,7 @@ ADOPT makes use of two datasets: the [CheZoD  “1325” and the CheZoD “117�
 
 ## Table of Contents
 
-- [Attention DisOrder PredicTor](#attention-disorder-predictor)
+- [Attention based DisOrder PredicTor](#attention-based-disorder-predictor)
   - [Table of Contents](#table-of-contents)
   - [Intrinsic disorder trained models](#intrinsic-disorder-trained-models)
   - [Usage](#usage)
