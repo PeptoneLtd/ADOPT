@@ -3,11 +3,13 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
+import getopt
 import subprocess
 import sys
-import getopt
 from pathlib import Path
+
 from adopt import constants
+
 
 # extract residue level representations of each protein sequence in the fasta file
 def get_representations(fasta_file, repr_dir):

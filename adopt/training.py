@@ -3,13 +3,15 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-import pandas as pd
-from sklearn.model_selection import KFold
-from sklearn import linear_model
-import scipy
-import numpy as np
-import sys
 import getopt
+import sys
+
+import numpy as np
+import pandas as pd
+import scipy
+from sklearn import linear_model
+from sklearn.model_selection import KFold
+
 from adopt import CheZod, constants, utils
 
 # disorder predictor training

@@ -3,14 +3,16 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-import torch
 import numpy as np
-from Bio import SeqIO
+import onnxruntime as rt
 import pandas as pd
+import torch
+from Bio import SeqIO
 from skl2onnx import convert_sklearn
 from skl2onnx.common.data_types import FloatTensorType
-import onnxruntime as rt
+
 from adopt import constants
+
 
 # throw away the missing values, if the drop_missing flag is set to True, i.e. where z-scores are  999
 def pedestrian_input(indexes, df, path, z_col="z-score", msa=False, drop_missing=True):
