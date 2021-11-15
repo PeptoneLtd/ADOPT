@@ -6,15 +6,14 @@
 import setuptools
 from setuptools import setup
 
-with open("adopt/version.py") as infile:
-    exec(infile.read())
+from adopt import __version__
 
 with open("README.md") as f:
     readme = f.read()
 
 setup(
     name="adopt",
-    version=version,
+    version=__version__,
     packages=setuptools.find_packages(),
     long_description=readme,
     long_description_content_type="text/markdown",
