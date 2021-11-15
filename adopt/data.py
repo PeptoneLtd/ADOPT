@@ -16,7 +16,7 @@ class CheZod:
         df_ch = pd.read_json(self.path_chezod_1325_raw)
         df_117 = pd.read_json(self.path_chezod_117_raw)
 
-        # since there are some proteins in the 1325 set, 
+        # since there are some proteins in the 1325 set,
         # we will remove these and create a reduced dataframe for later use
         # check the overlap, if any exists, in the 117 and 1325 sets
         overlaps = list(set(list(df_ch["brmid"])) & set(list(df_117["brmid"])))
