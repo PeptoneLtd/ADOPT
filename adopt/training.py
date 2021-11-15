@@ -5,11 +5,12 @@
 
 import getopt
 import sys
+
 import numpy as np
-import pandas as pd
 import scipy
 from sklearn import linear_model
 from sklearn.model_selection import KFold
+
 from adopt import CheZod, constants, utils
 
 # disorder predictor training
