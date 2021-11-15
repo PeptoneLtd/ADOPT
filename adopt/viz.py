@@ -9,6 +9,7 @@ import torch
 from adopt import constants, utils
 
 
+"@generated"
 def get_multi_attention(model_type, sequence, brmid):
     # Load ESM model
     if model_type == "esm-1b":
