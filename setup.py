@@ -21,7 +21,8 @@ setup(
     license="MIT",
     author="Peptone Ltd.",
     author_email="kamil@peptone.io",
-    description=" Attention DisOrder PredicTor (adopt): intrinsic protein disorder prediction throughdeep bidirectional transformers",
+    description=" Attention DisOrder PredicTor (adopt): intrinsic protein disorder prediction through"
+    "deep bidirectional transformers",
     data_files=[(".", ["LICENSE", "README.md", "CHANGELOG.md", "CITATION.cff"])],
     zip_safe=True,
 )

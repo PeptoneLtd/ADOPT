@@ -19,41 +19,30 @@ def pedestrian_input(indexes, df, path, z_col="z-score", msa=False, drop_missing
     zeds = []
     exes = []
 
-    if msa == False:
-        for k in range(len(indexes)):
+    for k in range(len(indexes)):
+        if not msa:
             repr_esm = (
                 torch.load(f"{path}{indexes[k]}.pt")["representations"][33]
                 .clone()
                 .cpu()
                 .detach()
             )
-            z_s = np.array(df[df["brmid"] == indexes[k]][z_col].to_numpy()[0])
-            if drop_missing == True:
-                idxs = np.where(z_s != 999)[0]
-            else:
-                idxs = np.arange(len(z_s))
-
-            for i in idxs:
-                zeds.append(z_s[i])
-                exes.append(repr_esm[i].numpy())
-    else:
-        for k in range(len(indexes)):
+        else:
             repr_esm = (
                 torch.load(f"{path}{indexes[k]}.pt")["representations"]
                 .clone()
                 .cpu()
                 .detach()
             )
-            z_s = np.array(df[df["brmid"] == indexes[k]][z_col].to_numpy()[0])
-            if drop_missing == True:
-                idxs = np.where(z_s != 999)[0]
-            else:
-                idxs = np.arange(len(z_s))
+        z_s = np.array(df[df["brmid"] == indexes[k]][z_col].to_numpy()[0])
+        if drop_missing:
+            idxs = np.where(z_s != 999)[0]
+        else:
+            idxs = np.arange(len(z_s))
 
-            for i in idxs:
-                zeds.append(z_s[i])
-                exes.append(repr_esm[i].numpy())
-
+        for i in idxs:
+            zeds.append(z_s[i])
+            exes.append(repr_esm[i].numpy())
     return np.array(exes), np.array(zeds)
 
 
