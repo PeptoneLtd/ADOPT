@@ -9,7 +9,6 @@ import sys
 import numpy as np
 import pandas as pd
 import torch
-
 from adopt import constants, utils
 
 
@@ -97,23 +96,23 @@ def main(argv):
         )
     except getopt.GetoptError:
         print(
-            "usage: inference.py" \
-                "-s <training_strategy>" \
-                "-m <model_type>" \
-                "-f <inference_fasta_file>" \
-                "-r <inference_repr_dir>" \
-                "-p <predicted_z_scores_file>"
+            "usage: inference.py"
+            "-s <training_strategy>"
+            "-m <model_type>"
+            "-f <inference_fasta_file>"
+            "-r <inference_repr_dir>"
+            "-p <predicted_z_scores_file>"
         )
         sys.exit(2)
     for opt, arg in opts:
         if opt == "-h":
             print(
-                "usage: inference.py" \
-                    "-s <training_strategy>" \
-                    "-m <model_type>" \
-                    "-f <inference_fasta_file>" \
-                    "-r <inference_repr_dir>" \
-                    "-p <predicted_z_scores_file>"
+                "usage: inference.py"
+                "-s <training_strategy>"
+                "-m <model_type>"
+                "-f <inference_fasta_file>"
+                "-r <inference_repr_dir>"
+                "-p <predicted_z_scores_file>"
             )
             sys.exit()
         elif opt in ("-s", "--train_strategy"):
@@ -133,8 +132,8 @@ def main(argv):
                 train_strategy != "train_on_cleared_1325_test_on_117_residue_split"
             ) and (model_type == "combined"):
                 print(
-                    "Only the train_on_cleared_1325_test_on_117_residue_split strategy" \
-                        "is allowed with the <combined> model"
+                    "Only the train_on_cleared_1325_test_on_117_residue_split strategy"
+                    "is allowed with the <combined> model"
                 )
                 sys.exit()
         elif opt in ("-f", "--infer_fasta_file"):

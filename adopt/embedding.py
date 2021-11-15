@@ -44,17 +44,17 @@ def main(argv):
         opts, args = getopt.getopt(argv, "hf:r:", ["fasta_file=", "repr_dir="])
     except getopt.GetoptError:
         print(
-            "usage: embedding.py" \
-                "-f <fasta_file_path=>" \
-                "-r <residue_level_representation_dir>"
+            "usage: embedding.py"
+            "-f <fasta_file_path>"
+            "-r <residue_level_representation_dir>"
         )
         sys.exit(2)
     for opt, arg in opts:
         if opt == "-h":
             print(
-                "usage: embedding.py" \
-                    "-f <fasta_file_path=>" \
-                    "-r <residue_level_representation_dir>"
+                "usage: embedding.py"
+                "-f <fasta_file_path>"
+                "-r <residue_level_representation_dir>"
             )
             sys.exit()
         elif opt in ("-f", "--fasta_dir"):
