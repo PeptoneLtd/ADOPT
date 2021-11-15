@@ -4,13 +4,6 @@
 #
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
-
-#!/bin/bash   
-
-# Copyright (c) 2021 Peptone.
-#
-# This source code is licensed under the MIT license found in the
-# LICENSE file in the root directory of this source tree.
  
 
 TRAIN_FASTA_FILE_PATH="../datasets/chezod_1325_all.fasta"
