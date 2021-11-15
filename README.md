@@ -1,4 +1,4 @@
-# Attention DisOrder PredicTor
+# Attention based DisOrder PredicTor
 
 This repository containes the code and the trained models for **intrinsic protein disorder prediction through deep bidirectional transformers** from Peptone Ltd.
 
