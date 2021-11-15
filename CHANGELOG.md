@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.2.0](https://github.com/peptoneinc/ADOPT/tree/v0.2.0) (2021-11-15)
+
+[Full Changelog](https://github.com/peptoneinc/ADOPT/compare/v0.1.1...v0.2.0)
+
+**Merged pull requests:**
+
+- Attention viz [\#17](https://github.com/PeptoneInc/ADOPT/pull/17) ([CFisicaro](https://github.com/CFisicaro))
+
 ## [v0.1.1](https://github.com/peptoneinc/ADOPT/tree/v0.1.1) (2021-11-15)
 
 [Full Changelog](https://github.com/peptoneinc/ADOPT/compare/v0.1.0...v0.1.1)
