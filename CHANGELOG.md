@@ -1,5 +1,17 @@
 # Changelog
 
+## [v0.1.1](https://github.com/peptoneinc/ADOPT/tree/v0.1.1) (2021-11-15)
+
+[Full Changelog](https://github.com/peptoneinc/ADOPT/compare/v0.1.0...v0.1.1)
+
+**Implemented enhancements:**
+
+- Onnx runtime [\#15](https://github.com/PeptoneInc/ADOPT/pull/15) ([CFisicaro](https://github.com/CFisicaro))
+
+**Fixed bugs:**
+
+- Bad inference results [\#12](https://github.com/PeptoneInc/ADOPT/issues/12)
+
 ## [v0.1.0](https://github.com/peptoneinc/ADOPT/tree/v0.1.0) (2021-11-13)
 
 [Full Changelog](https://github.com/peptoneinc/ADOPT/compare/v0.0.1...v0.1.0)
