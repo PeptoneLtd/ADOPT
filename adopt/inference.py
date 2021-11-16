@@ -13,73 +13,81 @@ import torch
 from adopt import constants, utils
 
 
-def get_z_score(
-    strategy,
-    model_type,
-    inference_fasta_path,
-    inference_repr_path,
-    predicted_z_scores_path,
-):
-    df_fasta = utils.fasta_to_df(inference_fasta_path)
+class ZScorePred:
+    def __init__(self, strategy, model_type):
+        self.strategy = strategy
+        self.model_type = model_type
+        self.onnx_model = (
+            "../models/lasso_"
+            + self.model_type
+            + "_"
+            + constants.strategies_dict[self.strategy]
+            + ".onnx"
+        )
 
-    if model_type == "combined":
-        repr_path = inference_repr_path + "/" + "esm-1v"
-    else:
-        repr_path = inference_repr_path + "/" + model_type
+    def get_z_score(self, representation):
+        predicted_z_scores = utils.get_onnx_model_preds(self.onnx_model, representation.squeeze().numpy())
+        return np.concatenate(predicted_z_scores)        
 
-    repr_files = os.listdir(repr_path)
-    indexes = []
+    def get_z_score_from_fasta(
+        self,
+        inference_fasta_path,
+        inference_repr_path,
+        predicted_z_scores_path,
+    ):
+        df_fasta = utils.fasta_to_df(inference_fasta_path)
 
-    for file in repr_files:
-        indexes.append(file.split(".")[0])
-
-    onnx_model = (
-        "../models/lasso_"
-        + model_type
-        + "_"
-        + constants.strategies_dict[strategy]
-        + ".onnx"
-    )
-    predicted_z_scores = []
-
-    for ix in indexes:
-        if model_type == "esm-msa":
-            repr_esm = (
-                torch.load(str(repr_path) + "/" + ix + ".pt")["representations"][12]
-                .clone()
-                .cpu()
-                .detach()
-            )
-        elif model_type == "combined":
-            esm1b_repr_path = inference_repr_path + "/" + "esm-1b"
-            repr_esm1v = (
-                torch.load(str(repr_path) + "/" + ix + ".pt")["representations"][33]
-                .clone()
-                .cpu()
-                .detach()
-            )
-            repr_esm1b = (
-                torch.load(str(esm1b_repr_path) + "/" + ix + ".pt")["representations"][
-                    33
-                ]
-                .clone()
-                .cpu()
-                .detach()
-            )
-            repr_esm = torch.cat([repr_esm1v, repr_esm1b], 1)
+        if self.model_type == "combined":
+            repr_path = inference_repr_path + "/" + "esm-1v"
         else:
-            repr_esm = (
-                torch.load(str(repr_path) + "/" + ix + ".pt")["representations"][33]
-                .clone()
-                .cpu()
-                .detach()
-            )
-        z_scores = utils.get_onnx_model_preds(onnx_model, repr_esm.numpy())
-        predicted_z_scores.append(np.concatenate(z_scores))
+            repr_path = inference_repr_path + "/" + self.model_type
 
-    df_z = pd.DataFrame({"brmid": indexes, "z_scores": predicted_z_scores})
-    df_results = df_fasta.join(df_z.set_index("brmid"), on="brmid")
-    df_results.to_json(predicted_z_scores_path, orient="records")
+        repr_files = os.listdir(repr_path)
+        indexes = []
+
+        for file in repr_files:
+            indexes.append(file.split(".")[0])
+
+        predicted_z_scores = []
+
+        for ix in indexes:
+            if self.model_type == "esm-msa":
+                repr_esm = (
+                    torch.load(str(repr_path) + "/" + ix + ".pt")["representations"][12]
+                    .clone()
+                    .cpu()
+                    .detach()
+                )
+            elif self.model_type == "combined":
+                esm1b_repr_path = inference_repr_path + "/" + "esm-1b"
+                repr_esm1v = (
+                    torch.load(str(repr_path) + "/" + ix + ".pt")["representations"][33]
+                    .clone()
+                    .cpu()
+                    .detach()
+                )
+                repr_esm1b = (
+                    torch.load(str(esm1b_repr_path) + "/" + ix + ".pt")["representations"][
+                        33
+                    ]
+                    .clone()
+                    .cpu()
+                    .detach()
+                )
+                repr_esm = torch.cat([repr_esm1v, repr_esm1b], 1)
+            else:
+                repr_esm = (
+                    torch.load(str(repr_path) + "/" + ix + ".pt")["representations"][33]
+                    .clone()
+                    .cpu()
+                    .detach()
+                )
+            z_scores = utils.get_onnx_model_preds(self.onnx_model, repr_esm.numpy())
+            predicted_z_scores.append(np.concatenate(z_scores))
+
+        df_z = pd.DataFrame({"brmid": indexes, "z_scores": predicted_z_scores})
+        df_results = df_fasta.join(df_z.set_index("brmid"), on="brmid")
+        df_results.to_json(predicted_z_scores_path, orient="records")
 
 
 def main(argv):
@@ -144,8 +152,9 @@ def main(argv):
         elif opt in ("-p", "--pred_z_scores_file"):
             pred_z_scores_file = arg
 
-    get_z_score(
-        train_strategy, model_type, infer_fasta_file, infer_repr_dir, pred_z_scores_file
+    z_score_pred = ZScorePred(train_strategy, model_type)
+    z_score_pred.get_z_score_from_fasta(
+        infer_fasta_file, infer_repr_dir, pred_z_scores_file
     )
 
 
