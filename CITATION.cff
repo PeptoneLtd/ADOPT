@@ -1,4 +1,4 @@
-cff-version: 0.2.0
+cff-version: 0.2.1
 message: "If you use this software, please cite it as below."
 authors:
   - given-names: "Kamil Tamiola"
@@ -7,7 +7,7 @@ authors:
     affiliation: "Peptone Ltd."
     orcid: ""
 title: "Attention based DisOrder PredicTor"
-version: 0.2.0
+version: 0.2.1
 doi: 
 date-released: 
 url: "https://github.com/PeptoneInc/ADOPT"
