@@ -3,24 +3,29 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-import sys
-import subprocess
-import tempfile
-import requests
 import shutil
+import subprocess
+import sys
+import tempfile
 from pathlib import Path
+
+import requests
 import torch
+
 import esm
 
 
 def test_readme_1():
     import torch
 
-    model, alphabet = torch.hub.load("facebookresearch/esm:main", "esm1b_t33_650M_UR50S")
+    model, alphabet = torch.hub.load(
+        "facebookresearch/esm:main", "esm1b_t33_650M_UR50S"
+    )
 
 
 def test_readme_2():
     import torch
+
     import esm
 
     # Load ESM-1b model
@@ -29,16 +34,19 @@ def test_readme_2():
 
     # Prepare data (first 2 sequences from ESMStructuralSplitDataset superfamily / 4)
     data = [
-        ("protein1", "MKTVRQERLKSIVRILERSKEPVSGAQLAEELSVSRQVIVQDIAYLRSLGYNIVATPRGYVLAGG"),
-        ("protein2", "KALTARQQEVFDLIRDHISQTGMPPTRAEIAQRLGFRSPNAAEEHLKALARKGVIEIVSGASRGIRLLQEE"),
+        (
+            "protein1",
+            "MKTVRQERLKSIVRILERSKEPVSGAQLAEELSVSRQVIVQDIAYLRSLGYNIVATPRGYVLAGG",
+        ),
+        (
+            "protein2",
+            "KALTARQQEVFDLIRDHISQTGMPPTRAEIAQRLGFRSPNAAEEHLKALARKGVIEIVSGASRGIRLLQEE",
+        ),
         (
             "protein2 with mask",
-            "KALTARQQEVFDLIRD<mask>ISQTGMPPTRAEIAQRLGFRSPNAAEEHLKALARKGVIEIVSGASRGIRLLQEE"
+            "KALTARQQEVFDLIRD<mask>ISQTGMPPTRAEIAQRLGFRSPNAAEEHLKALARKGVIEIVSGASRGIRLLQEE",
         ),
-        (
-            "protein3",
-            "K A <mask> I S Q"
-        ),
+        ("protein3", "K A <mask> I S Q"),
     ]
     batch_labels, batch_strs, batch_tokens = batch_converter(data)
 
@@ -51,7 +59,9 @@ def test_readme_2():
     # NOTE: token 0 is always a beginning-of-sequence token, so the first residue is token 1.
     sequence_representations = []
     for i, (_, seq) in enumerate(data):
-        sequence_representations.append(token_representations[i, 1 : len(seq) + 1].mean(0))
+        sequence_representations.append(
+            token_representations[i, 1 : len(seq) + 1].mean(0)
+        )
 
     # Look at the unsupervised self-attention map contact predictions
     import matplotlib.pyplot as plt
@@ -90,7 +100,9 @@ def assert_pt_file_equal(f, fref):
     which_layers = a["representations"].keys() & b["representations"].keys()
     assert which_layers, "Expected at least one layer appearing in both dumps"
     for layer in which_layers:
-        assert torch.allclose(a["representations"][layer], b["representations"][layer], atol=1e-3)
+        assert torch.allclose(
+            a["representations"][layer], b["representations"][layer], atol=1e-3
+        )
 
 
 def confirm_all_tensors_equal(local_dir: str, ref_dir: str) -> None:
@@ -113,9 +125,18 @@ def _test_msa_transformer(model, alphabet):
     batch_converter = alphabet.get_batch_converter()
     # Make an "MSA" of size 3
     data = [
-        ("protein1", "MKTVRQERLKSIVRILERSKEPVSGAQLAEELSVSRQVIVQDIAYLRSLGYNIVATPRGYVLAGG"),
-        ("protein2", "MHTVRQSRLKSIVRILEMSKEPVSGAQLAEELSVSRQVIVQDIAYLRSLGYNIVATPRGYVLAGG"),
-        ("protein3", "MHTVRQSRLKSIVRILEMSKEPVSGAQL---LSVSRQVIVQDIAYLRSLGYNIVAT----VLAGG"),
+        (
+            "protein1",
+            "MKTVRQERLKSIVRILERSKEPVSGAQLAEELSVSRQVIVQDIAYLRSLGYNIVATPRGYVLAGG",
+        ),
+        (
+            "protein2",
+            "MHTVRQSRLKSIVRILEMSKEPVSGAQLAEELSVSRQVIVQDIAYLRSLGYNIVATPRGYVLAGG",
+        ),
+        (
+            "protein3",
+            "MHTVRQSRLKSIVRILEMSKEPVSGAQL---LSVSRQVIVQDIAYLRSLGYNIVAT----VLAGG",
+        ),
     ]
     batch_labels, batch_strs, batch_tokens = batch_converter(data)
 

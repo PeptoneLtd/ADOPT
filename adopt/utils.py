@@ -11,9 +11,10 @@ from Bio import SeqIO
 from skl2onnx import convert_sklearn
 from skl2onnx.common.data_types import FloatTensorType
 
+import esm
 from adopt import constants
 
-
+"@generated"
 # throw away the missing values, if the drop_missing flag is set to True, i.e. where z-scores are  999
 def pedestrian_input(indexes, df, path, z_col="z-score", msa=False, drop_missing=True):
     zeds = []
@@ -91,13 +92,48 @@ def get_onnx_model_preds(model_name, input_data):
     return pred_onx
 
 
-def get_esm_attention(model, alphabet, sequence, brmid):
+def get_esm_output(model, alphabet, data):
     batch_converter = alphabet.get_batch_converter()
-
-    data = [(brmid, sequence)]
     batch_labels, batch_strs, batch_tokens = batch_converter(data)
-
     # Extract per-residue representations (on CPU)
     with torch.no_grad():
         results = model(batch_tokens, repr_layers=[33], return_contacts=True)
     return results
+
+
+def get_model_and_alphabet(model_type, data):
+    # Load ESM model
+    if model_type == "esm-1b":
+        model, alphabet = esm.pretrained.esm1b_t33_650M_UR50S()
+        results = get_esm_output(model, alphabet, data)
+    elif model_type == "esm-1v":
+        model, alphabet = esm.pretrained.esm1v_t33_650M_UR90S_1()
+        results = get_esm_output(model, alphabet, data)
+    # elif model_type == 'esm-msa':
+    #    model, alphabet = esm.pretrained.esm_msa1b_t12_100M_UR50S
+    else:
+        model_esm1b, alphabet_esm1b = esm.pretrained.esm1b_t33_650M_UR50S()
+        model_esm1v, alphabet_esm1v = esm.pretrained.esm1v_t33_650M_UR90S_1()
+        results_esm1b = get_esm_output(model_esm1b, alphabet_esm1b, data)
+        results_esm1v = get_esm_output(model_esm1v, alphabet_esm1v, data)
+        results = [results_esm1b, results_esm1v]
+    return results
+
+
+def get_residue_class(predicted_z_scores):
+    residues_state = []
+    for n, zscore in enumerate(predicted_z_scores):
+        residues_dict = {}
+        if zscore < 3:
+            residues_dict["label"] = constants.structure_dict["Fully disordered"]
+        elif 3 <= zscore < 8:
+            residues_dict["label"] = constants.structure_dict["Partially disordered"]
+        elif zscore >= 11:
+            residues_dict["label"] = constants.structure_dict["Structured"]
+        else:
+            residues_dict["label"] = constants.structure_dict["Flexible loops"]
+
+        residues_dict["start"] = n
+        residues_dict["end"] = n + 1
+        residues_state.append(residues_dict)
+    return residues_state

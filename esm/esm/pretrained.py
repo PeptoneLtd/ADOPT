@@ -3,11 +3,13 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-from argparse import Namespace
-import warnings
 import urllib
+import warnings
+from argparse import Namespace
 from pathlib import Path
+
 import torch
+
 import esm
 
 
@@ -26,7 +28,9 @@ def load_model_and_alphabet(model_name):
 
 def load_hub_workaround(url):
     try:
-        data = torch.hub.load_state_dict_from_url(url, progress=False, map_location="cpu")
+        data = torch.hub.load_state_dict_from_url(
+            url, progress=False, map_location="cpu"
+        )
     except RuntimeError:
         # Pytorch version issue - see https://github.com/pytorch/pytorch/issues/43106
         fn = Path(url).name
@@ -35,7 +39,9 @@ def load_hub_workaround(url):
             map_location="cpu",
         )
     except urllib.error.HTTPError as e:
-        raise Exception(f"Could not load {url}, check if you specified a correct model name?")
+        raise Exception(
+            f"Could not load {url}, check if you specified a correct model name?"
+        )
     return data
 
 
@@ -56,12 +62,14 @@ def load_model_and_alphabet_hub(model_name):
 
 
 def load_model_and_alphabet_local(model_location):
-    """ Load from local path. The regression weights need to be co-located """
+    """Load from local path. The regression weights need to be co-located"""
     model_location = Path(model_location)
     model_data = torch.load(str(model_location), map_location="cpu")
     model_name = model_location.stem
     if _has_regression_weights(model_name):
-        regression_location = str(model_location.with_suffix("")) + "-contact-regression.pt"
+        regression_location = (
+            str(model_location.with_suffix("")) + "-contact-regression.pt"
+        )
         regression_data = torch.load(regression_location, map_location="cpu")
     else:
         regression_data = None
@@ -69,8 +77,10 @@ def load_model_and_alphabet_local(model_location):
 
 
 def has_emb_layer_norm_before(model_state):
-    """ Determine whether layer norm needs to be applied before the encoder """
-    return any(k.startswith("emb_layer_norm_before") for k, param in model_state.items())
+    """Determine whether layer norm needs to be applied before the encoder"""
+    return any(
+        k.startswith("emb_layer_norm_before") for k, param in model_state.items()
+    )
 
 
 def load_model_and_alphabet_core(model_data, regression_data=None):
@@ -87,7 +97,9 @@ def load_model_and_alphabet_core(model_data, regression_data=None):
             s.split("sentence_encoder.")[1:] if "sentence_encoder" in s else s
         )
         model_args = {pra(arg[0]): arg[1] for arg in vars(model_data["args"]).items()}
-        model_state = {prs1(prs2(arg[0])): arg[1] for arg in model_data["model"].items()}
+        model_state = {
+            prs1(prs2(arg[0])): arg[1] for arg in model_data["model"].items()
+        }
         model_state["embed_tokens.weight"][alphabet.mask_idx].zero_()  # For token drop
         model_args["emb_layer_norm_before"] = has_emb_layer_norm_before(model_state)
         model_type = esm.ProteinBertModel
@@ -108,12 +120,20 @@ def load_model_and_alphabet_core(model_data, regression_data=None):
         prs2 = lambda s: "".join(
             s.split("sentence_encoder.")[1:] if "sentence_encoder" in s else s
         )
-        prs3 = lambda s: s.replace("row", "column") if "row" in s else s.replace("column", "row")
+        prs3 = (
+            lambda s: s.replace("row", "column")
+            if "row" in s
+            else s.replace("column", "row")
+        )
         model_args = {pra(arg[0]): arg[1] for arg in vars(model_data["args"]).items()}
-        model_state = {prs1(prs2(prs3(arg[0]))): arg[1] for arg in model_data["model"].items()}
+        model_state = {
+            prs1(prs2(prs3(arg[0]))): arg[1] for arg in model_data["model"].items()
+        }
         if model_args.get("embed_positions_msa", False):
             emb_dim = model_state["msa_position_embedding"].size(-1)
-            model_args["embed_positions_msa_dim"] = emb_dim  # initial release, bug: emb_dim==1
+            model_args[
+                "embed_positions_msa_dim"
+            ] = emb_dim  # initial release, bug: emb_dim==1
 
         model_type = esm.MSATransformer
 
@@ -129,7 +149,10 @@ def load_model_and_alphabet_core(model_data, regression_data=None):
     found_keys = set(model_state.keys())
 
     if regression_data is None:
-        expected_missing = {"contact_head.regression.weight", "contact_head.regression.bias"}
+        expected_missing = {
+            "contact_head.regression.weight",
+            "contact_head.regression.bias",
+        }
         error_msgs = []
         missing = (expected_keys - found_keys) - expected_missing
         if missing:
