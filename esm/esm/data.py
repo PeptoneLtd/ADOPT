@@ -5,12 +5,14 @@
 
 import itertools
 import os
-from typing import Sequence, Tuple, List, Union
 import pickle
 import re
 import shutil
-import torch
 from pathlib import Path
+from typing import List, Sequence, Tuple, Union
+
+import torch
+
 from .constants import proteinseq_toks
 
 RawMSA = Sequence[Tuple[str, str]]
@@ -118,7 +120,7 @@ class Alphabet(object):
         self.cls_idx = self.get_idx("<cls>")
         self.mask_idx = self.get_idx("<mask>")
         self.eos_idx = self.get_idx("<eos>")
-        self.all_special_tokens = ['<eos>', '<unk>', '<pad>', '<cls>', '<mask>']
+        self.all_special_tokens = ["<eos>", "<unk>", "<pad>", "<cls>", "<mask>"]
         self.unique_no_split_tokens = self.all_toks
 
     def __len__(self):
@@ -164,7 +166,9 @@ class Alphabet(object):
             use_msa = True
         else:
             raise ValueError("Unknown architecture selected")
-        return cls(standard_toks, prepend_toks, append_toks, prepend_bos, append_eos, use_msa)
+        return cls(
+            standard_toks, prepend_toks, append_toks, prepend_bos, append_eos, use_msa
+        )
 
     def _tokenize(self, text) -> str:
         return text.split()
@@ -260,7 +264,9 @@ class BatchConverter(object):
         tokens = torch.empty(
             (
                 batch_size,
-                max_len + int(self.alphabet.prepend_bos) + int(self.alphabet.append_eos),
+                max_len
+                + int(self.alphabet.prepend_bos)
+                + int(self.alphabet.append_eos),
             ),
             dtype=torch.int64,
         )
@@ -282,7 +288,9 @@ class BatchConverter(object):
                 + int(self.alphabet.prepend_bos),
             ] = seq
             if self.alphabet.append_eos:
-                tokens[i, len(seq_encoded) + int(self.alphabet.prepend_bos)] = self.alphabet.eos_idx
+                tokens[
+                    i, len(seq_encoded) + int(self.alphabet.prepend_bos)
+                ] = self.alphabet.eos_idx
 
         return labels, strs, tokens
 
@@ -303,7 +311,9 @@ class MSABatchConverter(BatchConverter):
             (
                 batch_size,
                 max_alignments,
-                max_seqlen + int(self.alphabet.prepend_bos) + int(self.alphabet.append_eos),
+                max_seqlen
+                + int(self.alphabet.prepend_bos)
+                + int(self.alphabet.append_eos),
             ),
             dtype=torch.int64,
         )
@@ -465,7 +475,9 @@ class ESMStructuralSplitDataset(torch.utils.data.Dataset):
 
         for url, tar_filename, filename, md5_hash in self.file_list:
             download_path = os.path.join(self.base_path, tar_filename)
-            download_url(url=url, root=self.base_path, filename=tar_filename, md5=md5_hash)
+            download_url(
+                url=url, root=self.base_path, filename=tar_filename, md5=md5_hash
+            )
             shutil.unpack_archive(download_path, self.base_path)
 
     def __getitem__(self, idx):

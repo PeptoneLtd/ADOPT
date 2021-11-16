@@ -35,6 +35,7 @@ def test_esm1v_alphabet():
 
 def test_esm1_msa1b_alphabet():
     import torch
+
     import esm
 
     # Load ESM-1b model
