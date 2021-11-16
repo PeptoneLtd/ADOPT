@@ -10,6 +10,7 @@ import torch
 from Bio import SeqIO
 from skl2onnx import convert_sklearn
 from skl2onnx.common.data_types import FloatTensorType
+import esm
 
 from adopt import constants
 
@@ -91,10 +92,29 @@ def get_onnx_model_preds(model_name, input_data):
     return pred_onx
 
 
-def get_esm_attention(model, alphabet, data):
+def get_esm_output(model, alphabet, data):
     batch_converter = alphabet.get_batch_converter()
     batch_labels, batch_strs, batch_tokens = batch_converter(data)
     # Extract per-residue representations (on CPU)
     with torch.no_grad():
         results = model(batch_tokens, repr_layers=[33], return_contacts=True)
+    return results
+
+
+def get_model_and_alphabet(model_type, data):
+    # Load ESM model
+    if model_type == "esm-1b":
+        model, alphabet = esm.pretrained.esm1b_t33_650M_UR50S()
+        results = get_esm_output(model, alphabet, data)
+    elif model_type == "esm-1v":
+        model, alphabet = esm.pretrained.esm1v_t33_650M_UR90S_1()
+        results = get_esm_output(model, alphabet, data)
+    # elif model_type == 'esm-msa':
+    #    model, alphabet = esm.pretrained.esm_msa1b_t12_100M_UR50S
+    else:
+        model_esm1b, alphabet_esm1b = esm.pretrained.esm1b_t33_650M_UR50S()
+        model_esm1v, alphabet_esm1v = esm.pretrained.esm1v_t33_650M_UR90S_1()
+        results_esm1b = get_esm_output(model_esm1b, alphabet_esm1b, data)
+        results_esm1v = get_esm_output(model_esm1v, alphabet_esm1v, data)
+        results = [results_esm1b, results_esm1v]
     return results

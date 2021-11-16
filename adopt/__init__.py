@@ -7,5 +7,5 @@
 from . import constants, utils
 from .data import CheZod
 from .training import DisorderPred
-from .viz import get_multi_attention
+from .transformer import MultiHead
 from .version import version as __version__
