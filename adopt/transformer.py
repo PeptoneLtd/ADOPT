@@ -7,7 +7,6 @@ import sys
 
 import torch
 
-import esm
 from adopt import constants, utils
 
 

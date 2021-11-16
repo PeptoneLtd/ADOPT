@@ -14,7 +14,7 @@ from skl2onnx.common.data_types import FloatTensorType
 import esm
 from adopt import constants
 
-
+"@generated"
 # throw away the missing values, if the drop_missing flag is set to True, i.e. where z-scores are  999
 def pedestrian_input(indexes, df, path, z_col="z-score", msa=False, drop_missing=True):
     zeds = []
