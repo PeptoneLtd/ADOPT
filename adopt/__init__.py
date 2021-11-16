@@ -6,7 +6,7 @@
 "@generated"
 from . import constants, utils
 from .data import CheZod
-from .training import DisorderPred
 from .inference import ZScorePred
+from .training import DisorderPred
 from .transformer import MultiHead
 from .version import version as __version__

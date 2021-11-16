@@ -5,7 +5,6 @@
 
 from setuptools import setup
 
-
 with open("esm/version.py") as infile:
     exec(infile.read())
 

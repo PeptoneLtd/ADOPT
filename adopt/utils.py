@@ -10,8 +10,8 @@ import torch
 from Bio import SeqIO
 from skl2onnx import convert_sklearn
 from skl2onnx.common.data_types import FloatTensorType
-import esm
 
+import esm
 from adopt import constants
 
 
@@ -125,14 +125,14 @@ def get_residue_class(predicted_z_scores):
     for n, zscore in enumerate(predicted_z_scores):
         residues_dict = {}
         if zscore < 3:
-            residues_dict['label'] = constants.structure_dict["Fully disordered"]
+            residues_dict["label"] = constants.structure_dict["Fully disordered"]
         elif 3 <= zscore < 8:
-            residues_dict['label'] = constants.structure_dict["Partially disordered"]
+            residues_dict["label"] = constants.structure_dict["Partially disordered"]
         elif zscore >= 11:
-            residues_dict['label'] = constants.structure_dict["Structured"]
+            residues_dict["label"] = constants.structure_dict["Structured"]
         else:
-            residues_dict['label'] = constants.structure_dict["Flexible loops"]
-            
+            residues_dict["label"] = constants.structure_dict["Flexible loops"]
+
         residues_dict["start"] = n
         residues_dict["end"] = n + 1
         residues_state.append(residues_dict)

@@ -3,10 +3,11 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-import esm
-import torch
 import sys
 
+import torch
+
+import esm
 from adopt import constants, utils
 
 
@@ -35,8 +36,10 @@ class MultiHead:
         if self.model_type in constants.model_types:
             results = utils.get_model_and_alphabet(self.model_type, self.data)
             representation = results["representations"][33]
-        elif self.model_type == 'combined':
-            results_esm1b, results_esm1v = utils.get_model_and_alphabet(self.model_type, self.data)
+        elif self.model_type == "combined":
+            results_esm1b, results_esm1v = utils.get_model_and_alphabet(
+                self.model_type, self.data
+            )
             representation_esm1b = results_esm1b["representations"][33]
             representation_esm1v = results_esm1v["representations"][33]
             representation = torch.cat((representation_esm1b, representation_esm1v), -1)

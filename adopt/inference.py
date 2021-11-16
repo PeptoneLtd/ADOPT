@@ -6,6 +6,7 @@
 import getopt
 import os
 import sys
+
 import numpy as np
 import pandas as pd
 import torch
@@ -26,8 +27,10 @@ class ZScorePred:
         )
 
     def get_z_score(self, representation):
-        predicted_z_scores = utils.get_onnx_model_preds(self.onnx_model, representation.squeeze().numpy())
-        return np.concatenate(predicted_z_scores)        
+        predicted_z_scores = utils.get_onnx_model_preds(
+            self.onnx_model, representation.squeeze().numpy()
+        )
+        return np.concatenate(predicted_z_scores)
 
     def get_z_score_from_fasta(
         self,
@@ -67,9 +70,9 @@ class ZScorePred:
                     .detach()
                 )
                 repr_esm1b = (
-                    torch.load(str(esm1b_repr_path) + "/" + ix + ".pt")["representations"][
-                        33
-                    ]
+                    torch.load(str(esm1b_repr_path) + "/" + ix + ".pt")[
+                        "representations"
+                    ][33]
                     .clone()
                     .cpu()
                     .detach()

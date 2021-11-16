@@ -25,12 +25,16 @@ strategies_dict = {
     "train_on_cleared_1325_cv_sequence_split": "cleared_sequence_cv",
 }
 
-structure_dict = {"Fully disordered": "FDIS",
-            "Partially disordered": "PDIS",
-            "Structured": "STRUCT",
-            "Flexible loops": "FLEX"}
+structure_dict = {
+    "Fully disordered": "FDIS",
+    "Partially disordered": "PDIS",
+    "Structured": "STRUCT",
+    "Flexible loops": "FLEX",
+}
 
-res_colors = {"FDIS": "#FF3349", 
-        "PDIS": "#FFD433",
-        "STRUCT": "#33C4FF",
-        "FLEX": "##fc9ce7"}
+res_colors = {
+    "FDIS": "#FF3349",
+    "PDIS": "#FFD433",
+    "STRUCT": "#33C4FF",
+    "FLEX": "##fc9ce7",
+}
