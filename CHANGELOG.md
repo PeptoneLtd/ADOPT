@@ -1,5 +1,17 @@
 # Changelog
 
+## [v0.2.1](https://github.com/peptoneinc/ADOPT/tree/v0.2.1) (2021-11-16)
+
+[Full Changelog](https://github.com/peptoneinc/ADOPT/compare/v0.2.0...v0.2.1)
+
+**Closed issues:**
+
+- Add jupyter notebooks tutorial [\#5](https://github.com/PeptoneInc/ADOPT/issues/5)
+
+**Merged pull requests:**
+
+- Interactive disorder pred [\#19](https://github.com/PeptoneInc/ADOPT/pull/19) ([CFisicaro](https://github.com/CFisicaro))
+
 ## [v0.2.0](https://github.com/peptoneinc/ADOPT/tree/v0.2.0) (2021-11-15)
 
 [Full Changelog](https://github.com/peptoneinc/ADOPT/compare/v0.1.1...v0.2.0)
