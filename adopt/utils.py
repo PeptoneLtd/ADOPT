@@ -91,12 +91,9 @@ def get_onnx_model_preds(model_name, input_data):
     return pred_onx
 
 
-def get_esm_attention(model, alphabet, sequence, brmid):
+def get_esm_attention(model, alphabet, data):
     batch_converter = alphabet.get_batch_converter()
-
-    data = [(brmid, sequence)]
     batch_labels, batch_strs, batch_tokens = batch_converter(data)
-
     # Extract per-residue representations (on CPU)
     with torch.no_grad():
         results = model(batch_tokens, repr_layers=[33], return_contacts=True)
