@@ -19,7 +19,7 @@ class MultiHead:
 
     def get_attention(self):
         if self.model_type in constants.model_types:
-            results = utils.get_model_alphabet(self.model_type, self.data)
+            results = utils.get_model_and_alphabet(self.model_type, self.data)
         else:
             print("The model types are:")
             print(*constants.model_types, sep="\n")
@@ -33,10 +33,10 @@ class MultiHead:
 
     def get_representation(self):
         if self.model_type in constants.model_types:
-            results = utils.get_model_alphabet(self.model_type, self.data)
+            results = utils.get_model_and_alphabet(self.model_type, self.data)
             representation = results["representations"][33]
         elif self.model_type == 'combined':
-            results_esm1b, results_esm1v = utils.get_model_alphabet(self.model_type, self.data)
+            results_esm1b, results_esm1v = utils.get_model_and_alphabet(self.model_type, self.data)
             representation_esm1b = results_esm1b["representations"][33]
             representation_esm1v = results_esm1v["representations"][33]
             representation = torch.cat((representation_esm1b, representation_esm1v), -1)
