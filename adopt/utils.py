@@ -118,3 +118,22 @@ def get_model_and_alphabet(model_type, data):
         results_esm1v = get_esm_output(model_esm1v, alphabet_esm1v, data)
         results = [results_esm1b, results_esm1v]
     return results
+
+
+def get_residue_class(predicted_z_scores):
+    residues_state = []
+    for n, zscore in enumerate(predicted_z_scores):
+        residues_dict = {}
+        if zscore < 3:
+            residues_dict['label'] = constants.structure_dict["Fully disordered"]
+        elif 3 <= zscore < 8:
+            residues_dict['label'] = constants.structure_dict["Partially disordered"]
+        elif zscore >= 11:
+            residues_dict['label'] = constants.structure_dict["Structured"]
+        else:
+            residues_dict['label'] = constants.structure_dict["Flexible loops"]
+            
+        residues_dict["start"] = n
+        residues_dict["end"] = n + 1
+        residues_state.append(residues_dict)
+    return residues_state
