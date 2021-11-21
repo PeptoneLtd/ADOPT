@@ -22,6 +22,7 @@ ADOPT makes use of two datasets: the [CheZoD  “1325” and the CheZoD “117�
   - [Usage](#usage)
     - [Quick start](#quick-start)
     - [Scripts](#scripts)
+    - [Notebooks](#notebooks)
     - [Compute residue level representations](#compute-residue-level-representations)
     - [Predict intrinsic disorder with ADOPT](#predict-intrinsic-disorder-with-adopt)
     - [Train ADOPT disorder predictor](#train-adopt-disorder-predictor)
@@ -55,6 +56,26 @@ Clone the ADOPT repository, go to the ADOPT directory and run
 ```bash
 $ python setup.py install
 ```
+
+Then, you can predict the intrinsic disorder of each reesidue in a protein sequence, as follows:
+
+```python
+# Prepare protein sequence and name i.e brmid 
+SEQUENCE = "SLQDGVRQSRASDKQTLLPNDQLYQPLKDREDDQYSHLQGNQLRRN"
+BRMID = "Protein 18890"
+
+# Choose model type and training strategy
+MODEL_TYPE = "esm-1b"
+STRATEGY = "train_on_cleared_1325_test_on_117_residue_split"
+
+# Extract residue level representations
+multi_head = MultiHead(MODEL_TYPE, SEQUENCE, BRMID)
+representation, tokens = multi_head.get_representation()
+
+# Predict the Z score related to each residue in the sequence specified above
+z_score_pred = ZScorePred(STRATEGY, MODEL_TYPE)
+predicted_z_scores = z_score_pred.get_z_score(representation)
+````
 
 ### Scripts
 
