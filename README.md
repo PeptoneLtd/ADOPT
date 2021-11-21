@@ -21,6 +21,7 @@ ADOPT makes use of two datasets: the [CheZoD  “1325” and the CheZoD “117�
   - [Intrinsic disorder trained models](#intrinsic-disorder-trained-models)
   - [Usage](#usage)
     - [Quick start](#quick-start)
+    - [Scripts](#scripts)
     - [Compute residue level representations](#compute-residue-level-representations)
     - [Predict intrinsic disorder with ADOPT](#predict-intrinsic-disorder-with-adopt)
     - [Train ADOPT disorder predictor](#train-adopt-disorder-predictor)
