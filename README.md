@@ -45,7 +45,7 @@ ADOPT makes use of two datasets: the [CheZoD  “1325” and the CheZoD “117�
 
 ### Quick start
 
-As a prerequisite, you must have `fair-esm 0.4` or later installed to use this repository.
+As a prerequisite, you must have [PyTorch 1.10](https://pytorch.org/) or later installed to use this repository.
 
 Install the **adopt** package:
 
