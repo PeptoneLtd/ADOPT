@@ -60,7 +60,7 @@ $ python setup.py install
 Then, you can predict the intrinsic disorder of each reesidue in a protein sequence, as follows:
 
 ```python
-from adopt import constants, MultiHead, ZScorePred
+from adopt import MultiHead, ZScorePred
 
 # Prepare protein sequence and name i.e brmid 
 SEQUENCE = "SLQDGVRQSRASDKQTLLPNDQLYQPLKDREDDQYSHLQGNQLRRN"
