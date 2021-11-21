@@ -55,6 +55,17 @@ Clone the ADOPT repository, go to the ADOPT directory and run
 $ python setup.py install
 ```
 
+
+### Scripts
+
+The [scripts](scripts) directory contains:
+* an [inference](scripts/adopt_inference.sh) script to predict, in bulk, the disorder of each residue in each protein sequence reported in a FASTA file, with ADOPT where you need to specify:
+  - `NEW_PROT_FASTA_FILE_PATH` defining your FASTA file path
+  - `NEW_PROT_RES_REPR_DIR_PATH` defining where the residue level representations will be extracted  
+* a [training](scripts/adopt_chezod_training.sh) script to train the ADOPT where you need to specify:
+  - `TRAIN_STRATEGY` defining the training strategy you want to use
+
+
 ### Compute residue level representations
 
 In order to predict the **Z score** related to each residue in a protein sequence, we have to compute the residue level representations, extracted from the pretrained model. 
