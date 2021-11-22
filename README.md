@@ -133,7 +133,7 @@ python inference.py -s <training_strategy>
 ```
 
 Where:
-* `-s` defines the **training strategies** defined belowe
+* `-s` defines the **training strategies** defined below
 * `-f` defines the FASTA file containing the proteins for which you want to compute the intrinsic disorder
 * `-m` defines the residue level representation of the pre-trained models we want to use. We suggest you use the `esm-1b` model.
 * `-r` defines the path where you've already saved the residue level representations
