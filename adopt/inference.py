@@ -27,7 +27,6 @@ def create_parser():
         required=True,
         help="Training strategies",
     )
-
     parser.add_argument(
         "-m",
         "--model_type",
@@ -36,7 +35,6 @@ def create_parser():
         required=True,
         help="pre-trained model we want to use",
     )
-
     parser.add_argument(
         "-f",
         "--fasta_path",
@@ -45,7 +43,6 @@ def create_parser():
         required=True,
         help="FASTA file containing the proteins for which you want to compute the intrinsic disorder",
     )
-
     parser.add_argument(
         "-r",
         "--repr_dir",
@@ -54,7 +51,6 @@ def create_parser():
         required=True,
         help="Residue level representation directory",
     )
-
     parser.add_argument(
         "-p",
         "--pred_z_scores_path",
@@ -63,7 +59,6 @@ def create_parser():
         required=True,
         help="Path where you want the Z scores to be saved",
     )
-
     return parser
 
 

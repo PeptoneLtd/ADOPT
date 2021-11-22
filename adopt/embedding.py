@@ -31,7 +31,6 @@ def create_parser():
         required=True,
         help="Residue level representation directory",
     )
-
     return parser
 
 

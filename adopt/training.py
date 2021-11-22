@@ -26,7 +26,6 @@ def create_parser():
         required=True,
         help="Training strategies",
     )
-
     parser.add_argument(
         "-t",
         "--train_json_file",
@@ -35,7 +34,6 @@ def create_parser():
         required=True,
         help="JSON file containing the proteins we want to use as training set",
     )
-
     parser.add_argument(
         "-e",
         "--test_json_file",
@@ -44,7 +42,6 @@ def create_parser():
         required=True,
         help="JSON file containing the proteins we want to use as test set",
     )
-
     parser.add_argument(
         "-r",
         "--train_repr_dir",
@@ -53,7 +50,6 @@ def create_parser():
         required=True,
         help="Training set residue level representation directory",
     )
-
     parser.add_argument(
         "-p",
         "--test_repr_dir",
@@ -62,7 +58,6 @@ def create_parser():
         required=True,
         help="Test set residue level representation directory",
     )
-
     return parser
 
 
@@ -393,8 +388,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
     main(args)
     disorder_pred = DisorderPred(
-        args.train_sequences,
-        args.test_sequences,
+        args.train_json_file,
+        args.test_json_file,
         args.train_repr_dir,
         args.test_repr_dir,
     )
