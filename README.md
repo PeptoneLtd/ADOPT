@@ -111,6 +111,7 @@ Where:
 
 * `-f` defines the FASTA file containing the proteins for which you want to compute the intrinsic disorder
 * `-r` defines the path where you want to save the residue level representations
+* `-h` shows help message and exit
 
 A subdirectory containing the residue level representation extracted from each pre-trained model available will be created under both the `residue_level_representation_dir`.
 
@@ -135,6 +136,7 @@ Where:
 * `-f` defines the FASTA file containing the proteins for which you want to compute the intrinsic disorder
 * `-r` defines the path where you've already saved the residue level representations
 * `-p` defines the path where you want the Z scores to be saved
+* `-h` shows help message and exit
 
 The output is a `.json` file contains the Z scores related to each residue of each protein in the FASTA file where you put the proteins you are intereseted in.
 
@@ -168,6 +170,7 @@ Where:
 * `-e` defines the JSON containing the proteins we want to use as *test set*
 * `-r` defines the path where we saved the residue level representations of the proteins in the *training set*
 * `-p` defines the path where we saved the residue level representations of the proteins in the *test set*
+* `-h` shows help message and exit
 
 ## Citations <a name="citations"></a>
 
