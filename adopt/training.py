@@ -3,7 +3,7 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-import getopt
+import argparse
 import sys
 
 import numpy as np
@@ -13,8 +13,44 @@ from sklearn.model_selection import KFold
 
 from adopt import CheZod, constants, utils
 
-# disorder predictor training
 
+# disorder predictor training
+def create_parser():
+    parser = argparse.ArgumentParser(description='Train ADOPT')
+
+    parser.add_argument('-s', 
+        '--train_strategy', 
+        type=str, 
+        metavar='', 
+        required=True, 
+        help='Training strategies')
+
+    parser.add_argument('-t', 
+        '--train_json_file', 
+        type=str, 
+        metavar='', 
+        required=True, 
+        help='JSON file containing the proteins we want to use as training set')
+
+    parser.add_argument('-e', 
+        '--test_json_file', 
+        type=str, metavar='', 
+        required=True, 
+        help='JSON file containing the proteins we want to use as test set')
+
+    parser.add_argument('-r', 
+        '--train_repr_dir', 
+        type=str, metavar='', 
+        required=True, 
+        help='Training set residue level representation directory')
+
+    parser.add_argument('-p', 
+        '--test_repr_dir', 
+        type=str, metavar='', 
+        required=True, 
+        help='Test set residue level representation directory')
+
+    return parser
 
 class DisorderPred:
     def __init__(
@@ -331,68 +367,28 @@ class DisorderPred:
             )
 
 
-def main(argv):
-    try:
-        opts, args = getopt.getopt(
-            argv,
-            "hs:t:e:r:p:",
-            [
-                "train_strategy=",
-                "train_json_file=",
-                "test_json_file=",
-                "train_repr_dir=",
-                "test_repr_dir=",
-            ],
-        )
-    except getopt.GetoptError:
-        print(
-            "usage: training.py"
-            "-s <training_strategy>"
-            "-t <train_json_file_path>"
-            "-e <test_json_file_path>"
-            "-r <train_residue_level_representation_dir>"
-            "-p <test_residue_level_representation_dir>"
-        )
+def main(args):
+    if args.train_strategy not in constants.train_strategies:
+        print("The training strategies are:")
+        print(*constants.train_strategies, sep="\n")
         sys.exit(2)
-    for opt, arg in opts:
-        if opt == "-h":
-            print(
-                "usage: training.py"
-                "-s <training_strategy>"
-                "-t <train_json_file_path>"
-                "-e <test_json_file_path>"
-                "-r <train_residue_level_representation_dir>"
-                "-p <test_residue_level_representation_dir>"
-            )
-            sys.exit()
-        elif opt in ("-s", "--train_strategy"):
-            train_strategy = arg
-            if train_strategy not in constants.train_strategies:
-                print("The training strategies are:")
-                print(*constants.train_strategies, sep="\n")
-                sys.exit(2)
-        elif opt in ("-t", "--train_json_file"):
-            train_sequences = arg
-        elif opt in ("-e", "--test_json_file"):
-            test_sequences = arg
-        elif opt in ("-r", "--train_repr_dir"):
-            train_repr_dir = arg
-        elif opt in ("-p", "--test_repr_dir"):
-            test_repr_dir = arg
 
+
+if __name__ == "__main__":
+    parser = create_parser()
+    args = parser.parse_args()
+    main(args)
     disorder_pred = DisorderPred(
-        train_sequences, test_sequences, train_repr_dir, test_repr_dir
+        args.train_sequences, args.test_sequences, args.train_repr_dir, args.test_repr_dir
     )
-
-    if train_strategy == "train_on_cleared_1325_test_on_117_residue_split":
+    if args.train_strategy == "train_on_cleared_1325_test_on_117_residue_split":
         disorder_pred.cleared_residue()
-    elif train_strategy == "train_on_1325_cv_residue_split":
+    elif args.train_strategy == "train_on_1325_cv_residue_split":
         disorder_pred.residue_cv()
-    elif train_strategy == "train_on_cleared_1325_cv_residue_split":
+    elif args.train_strategy == "train_on_cleared_1325_cv_residue_split":
         disorder_pred.cleared_residue_cv()
     else:
         disorder_pred.cleared_sequence_cv()
 
 
-if __name__ == "__main__":
-    main(sys.argv[1:])
+

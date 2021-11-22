@@ -3,12 +3,30 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-import getopt
+import argparse
 import subprocess
-import sys
 from pathlib import Path
 
 from adopt import constants
+
+
+def create_parser():
+    parser = argparse.ArgumentParser(description='Extract residue level representations')
+
+    parser.add_argument('-f', 
+        '--fasta_path', 
+        type=str, metavar='', 
+        required=True, 
+        help='FASTA file containing the proteins for which you want to compute the intrinsic disorder')
+
+    parser.add_argument('-r', 
+        '--repr_dir', 
+        type=str, 
+        metavar='', 
+        required=True, 
+        help='Residue level representation directory')
+        
+    return parser
 
 
 # extract residue level representations of each protein sequence in the fasta file
@@ -40,31 +58,7 @@ def get_representations(fasta_file, repr_dir):
         output, error = process.communicate()
 
 
-def main(argv):
-    try:
-        opts, args = getopt.getopt(argv, "hf:r:", ["fasta_file=", "repr_dir="])
-    except getopt.GetoptError:
-        print(
-            "usage: embedding.py"
-            "-f <fasta_file_path>"
-            "-r <residue_level_representation_dir>"
-        )
-        sys.exit(2)
-    for opt, arg in opts:
-        if opt == "-h":
-            print(
-                "usage: embedding.py"
-                "-f <fasta_file_path>"
-                "-r <residue_level_representation_dir>"
-            )
-            sys.exit()
-        elif opt in ("-f", "--fasta_dir"):
-            fasta_dir = arg
-        elif opt in ("-r", "--repr_dir"):
-            repr_dir = arg
-
-    get_representations(fasta_dir, repr_dir)
-
-
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    parser = create_parser()
+    args = parser.parse_args()
+    get_representations(args)
