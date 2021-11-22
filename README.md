@@ -54,7 +54,7 @@ Install the **adopt** package:
 Clone the ADOPT repository, go to the ADOPT directory and run
 
 ```bash
-$ python setup.py install
+python setup.py install
 ```
 
 Then, you can predict the intrinsic disorder of each reesidue in a protein sequence, as follows:
@@ -101,8 +101,8 @@ In order to predict the **Z score** related to each residue in a protein sequenc
 In the ADOPT directory run:
 
 ```bash
-$ python embedding.py -f <fasta_file_path> 
-                      -r <residue_level_representation_dir>
+python embedding.py -f <fasta_file_path> 
+                    -r <residue_level_representation_dir>
 ```
 
 Where:
@@ -119,11 +119,11 @@ Once we have extracted the residue level representations we can predict the intr
 In the ADOPT directory run:
 
 ```bash
-$ python inference.py -s <training_strategy> 
-                      -m <model_type> 
-                      -f <inference_fasta_file> 
-                      -r <inference_repr_dir> 
-                      -p <predicted_z_scores_file>
+python inference.py -s <training_strategy> 
+                    -m <model_type> 
+                    -f <inference_fasta_file> 
+                    -r <inference_repr_dir> 
+                    -p <predicted_z_scores_file>
 ```
 
 Where:
@@ -152,11 +152,11 @@ Once we have extracted the residue level representations of the protein for whic
 In the ADOPT directory run:
 
 ```bash
-$ python training.py -s <training_strategy> 
-                     -t <train_json_file_path> 
-                     -e <test_json_file_path> 
-                     -r <train_residue_level_representation_dir> 
-                     -p <test_residue_level_representation_dir>
+python training.py -s <training_strategy> 
+                   -t <train_json_file_path> 
+                   -e <test_json_file_path> 
+                   -r <train_residue_level_representation_dir> 
+                   -p <test_residue_level_representation_dir>
 ```
 
 Where:
