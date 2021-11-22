@@ -30,6 +30,7 @@ ADOPT makes use of two datasets: the [CheZoD  “1325” and the CheZoD “117�
   - [Citations](#citations)
   - [Licence](#licence)
 
+
 ## Intrinsic disorder trained models
 
 | Model | Pre-trained model | Datasets | Split level | CV |
@@ -184,4 +185,3 @@ If you use this work in your research, please cite the the relevant paper:
 ## Licence
 
 This source code is licensed under the MIT license found in the `LICENSE` file in the root directory of this source tree.
-
