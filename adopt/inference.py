@@ -3,7 +3,7 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-import getopt
+import argparse
 import os
 import sys
 
@@ -12,6 +12,54 @@ import pandas as pd
 import torch
 
 from adopt import constants, utils
+
+
+def create_parser():
+    parser = argparse.ArgumentParser(
+        description="Predict the intrinsic disorder (Z score)"
+    )
+
+    parser.add_argument(
+        "-s",
+        "--train_strategy",
+        type=str,
+        metavar="",
+        required=True,
+        help="Training strategies",
+    )
+    parser.add_argument(
+        "-m",
+        "--model_type",
+        type=str,
+        metavar="",
+        required=True,
+        help="pre-trained model we want to use",
+    )
+    parser.add_argument(
+        "-f",
+        "--fasta_path",
+        type=str,
+        metavar="",
+        required=True,
+        help="FASTA file containing the proteins for which you want to compute the intrinsic disorder",
+    )
+    parser.add_argument(
+        "-r",
+        "--repr_dir",
+        type=str,
+        metavar="",
+        required=True,
+        help="Residue level representation directory",
+    )
+    parser.add_argument(
+        "-p",
+        "--pred_z_scores_path",
+        type=str,
+        metavar="",
+        required=True,
+        help="Path where you want the Z scores to be saved",
+    )
+    return parser
 
 
 class ZScorePred:
@@ -93,73 +141,35 @@ class ZScorePred:
         df_results.to_json(predicted_z_scores_path, orient="records")
 
 
-def main(argv):
-    try:
-        opts, args = getopt.getopt(
-            argv,
-            "hs:m:f:r:p:",
-            [
-                "train_strategy=",
-                "model_type=",
-                "infer_fasta_file=",
-                "infer_repr_dir=",
-                "pred_z_scores_file",
-            ],
-        )
-    except getopt.GetoptError:
+def main(args):
+    if args.train_strategy not in constants.train_strategies:
+        print("The training strategies are:")
+        print(*constants.train_strategies, sep="\n")
+        sys.exit(2)
+
+    if (args.model_type not in constants.model_types) and (
+        args.model_type != "combined"
+    ):
+        print("The pre-trained models are:")
+        print(*constants.model_types, sep="\n")
+        print("combined")
+        sys.exit(2)
+
+    if (args.train_strategy != "train_on_cleared_1325_test_on_117_residue_split") and (
+        args.model_type == "combined"
+    ):
         print(
-            "usage: inference.py"
-            "-s <training_strategy>"
-            "-m <model_type>"
-            "-f <inference_fasta_file>"
-            "-r <inference_repr_dir>"
-            "-p <predicted_z_scores_file>"
+            "Only the train_on_cleared_1325_test_on_117_residue_split strategy"
+            "is allowed with the <combined> model"
         )
         sys.exit(2)
-    for opt, arg in opts:
-        if opt == "-h":
-            print(
-                "usage: inference.py"
-                "-s <training_strategy>"
-                "-m <model_type>"
-                "-f <inference_fasta_file>"
-                "-r <inference_repr_dir>"
-                "-p <predicted_z_scores_file>"
-            )
-            sys.exit()
-        elif opt in ("-s", "--train_strategy"):
-            train_strategy = arg
-            if train_strategy not in constants.train_strategies:
-                print("The training strategies are:")
-                print(*constants.train_strategies, sep="\n")
-                sys.exit(2)
-        elif opt in ("-m", "--model_type"):
-            model_type = arg
-            if (model_type not in constants.model_types) and (model_type != "combined"):
-                print("The pre-trained models are:")
-                print(*constants.model_types, sep="\n")
-                print("combined")
-                sys.exit(2)
-            if (
-                train_strategy != "train_on_cleared_1325_test_on_117_residue_split"
-            ) and (model_type == "combined"):
-                print(
-                    "Only the train_on_cleared_1325_test_on_117_residue_split strategy"
-                    "is allowed with the <combined> model"
-                )
-                sys.exit()
-        elif opt in ("-f", "--infer_fasta_file"):
-            infer_fasta_file = arg
-        elif opt in ("-r", "--infer_repr_dir"):
-            infer_repr_dir = arg
-        elif opt in ("-p", "--pred_z_scores_file"):
-            pred_z_scores_file = arg
-
-    z_score_pred = ZScorePred(train_strategy, model_type)
-    z_score_pred.get_z_score_from_fasta(
-        infer_fasta_file, infer_repr_dir, pred_z_scores_file
-    )
 
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    parser = create_parser()
+    args = parser.parse_args()
+    main(args)
+    z_score_pred = ZScorePred(args.train_strategy, args.model_type)
+    z_score_pred.get_z_score_from_fasta(
+        args.fasta_path, args.repr_dir, args.pred_z_scores_path
+    )
