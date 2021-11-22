@@ -83,18 +83,18 @@ predicted_z_scores = z_score_pred.get_z_score(representation)
 
 The [scripts](scripts) directory contains:
 
-* [inference](scripts/adopt_inference.sh) script to predict, in bulk, the disorder of each residue in each protein sequence reported in a FASTA file, with ADOPT where you need to specify:
+- [inference](scripts/adopt_inference.sh) script to predict, in bulk, the disorder of each residue in each protein sequence reported in a FASTA file, with ADOPT where you need to specify:
   - `NEW_PROT_FASTA_FILE_PATH` defining your FASTA file path
   - `NEW_PROT_RES_REPR_DIR_PATH` defining where the residue level representations will be extracted  
-* [training](scripts/adopt_chezod_training.sh) script to train the ADOPT where you need to specify:
+- [training](scripts/adopt_chezod_training.sh) script to train the ADOPT where you need to specify:
   - `TRAIN_STRATEGY` defining the training strategy you want to use
 
 ### Notebooks
 
 The [notebooks](notebooks) directory contains:
 
-* [disorder prediction](notebooks/adopt_disorder_prediction.ipynb) notebook
-* [multi-head attention weights visualisation](notebooks/adopt_attention_viz.ipynb) notebook
+- [disorder prediction](notebooks/adopt_disorder_prediction.ipynb) notebook
+- [multi-head attention weights visualisation](notebooks/adopt_attention_viz.ipynb) notebook
 
 ### Compute residue level representations
 
@@ -109,9 +109,9 @@ python embedding.py -f <fasta_file_path> \
 
 Where:
 
-* `-f` defines the FASTA file containing the proteins for which you want to compute the intrinsic disorder
-* `-r` defines the path where you want to save the residue level representations
-* `-h` shows help message and exit
+- `-f` defines the FASTA file containing the proteins for which you want to compute the intrinsic disorder
+- `-r` defines the path where you want to save the residue level representations
+- `-h` shows help message and exit
 
 A subdirectory containing the residue level representation extracted from each pre-trained model available will be created under both the `residue_level_representation_dir`.
 
@@ -131,12 +131,12 @@ python inference.py -s <training_strategy> \
 
 Where:
 
-* `-s` defines the **training strategies** defined below
-* `-m` defines the pre-trained model we want to use. We suggest you use the `esm-1b` model.
-* `-f` defines the FASTA file containing the proteins for which you want to compute the intrinsic disorder
-* `-r` defines the path where you've already saved the residue level representations
-* `-p` defines the path where you want the Z scores to be saved
-* `-h` shows help message and exit
+- `-s` defines the **training strategies** defined below
+- `-m` defines the pre-trained model we want to use. We suggest you use the `esm-1b` model.
+- `-f` defines the FASTA file containing the proteins for which you want to compute the intrinsic disorder
+- `-r` defines the path where you've already saved the residue level representations
+- `-p` defines the path where you want the Z scores to be saved
+- `-h` shows help message and exit
 
 The output is a `.json` file contains the Z scores related to each residue of each protein in the FASTA file where you put the proteins you are intereseted in.
 
@@ -165,12 +165,12 @@ python training.py -s <training_strategy> \
 
 Where:
 
-* `-s` defines the **training strategies** defined above
-* `-t` defines the JSON containing the proteins we want to use as *training set*
-* `-e` defines the JSON containing the proteins we want to use as *test set*
-* `-r` defines the path where we saved the residue level representations of the proteins in the *training set*
-* `-p` defines the path where we saved the residue level representations of the proteins in the *test set*
-* `-h` shows help message and exit
+- `-s` defines the **training strategies** defined above
+- `-t` defines the JSON containing the proteins we want to use as *training set*
+- `-e` defines the JSON containing the proteins we want to use as *test set*
+- `-r` defines the path where we saved the residue level representations of the proteins in the *training set*
+- `-p` defines the path where we saved the residue level representations of the proteins in the *test set*
+- `-h` shows help message and exit
 
 ## Citations <a name="citations"></a>
 
