@@ -89,7 +89,6 @@ The [scripts](scripts) directory contains:
 * [training](scripts/adopt_chezod_training.sh) script to train the ADOPT where you need to specify:
   - `TRAIN_STRATEGY` defining the training strategy you want to use
 
-
 ### Notebooks
 
 The [notebooks](notebooks) directory contains:
