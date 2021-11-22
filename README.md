@@ -93,12 +93,12 @@ The [scripts](scripts) directory contains:
 
 The [notebooks](notebooks) directory contains:
 
-* [disorder prediction](notebooks/adopt_disorder_prediction.ipynb) notebook 
+* [disorder prediction](notebooks/adopt_disorder_prediction.ipynb) notebook
 * [multi-head attention weights visualisation](notebooks/adopt_attention_viz.ipynb) notebook
 
 ### Compute residue level representations
 
-In order to predict the **Z score** related to each residue in a protein sequence, we have to compute the residue level representations, extracted from the pretrained model. 
+In order to predict the **Z score** related to each residue in a protein sequence, we have to compute the residue level representations, extracted from the pretrained model.
 
 In the ADOPT directory run:
 

@@ -171,5 +171,5 @@ if __name__ == "__main__":
     main(args)
     z_score_pred = ZScorePred(args.train_strategy, args.model_type)
     z_score_pred.get_z_score_from_fasta(
-        args.fasta_file, args.repr_dir, args.pred_z_scores_file
+        args.fasta_path, args.repr_dir, args.pred_z_scores_file
     )
