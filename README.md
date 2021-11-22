@@ -14,7 +14,6 @@ The ESM library exploits a set of deep Transformer encoder models, which process
 
 ADOPT makes use of two datasets: the [CheZoD  “1325” and the CheZoD “117”](https://github.com/protein-nmr/CheZOD) databases containing 1325 and 117 sequences, respectively, together with their  residue level **Z-scores**.
 
-
 ## Table of Contents
 
 - [Attention based DisOrder PredicTor](#attention-based-disorder-predictor)
@@ -30,7 +29,6 @@ ADOPT makes use of two datasets: the [CheZoD  “1325” and the CheZoD “117�
   - [Citations](#citations)
   - [Licence](#licence)
 
-
 ## Intrinsic disorder trained models
 
 | Model | Pre-trained model | Datasets | Split level | CV |
@@ -44,7 +42,6 @@ ADOPT makes use of two datasets: the [CheZoD  “1325” and the CheZoD “117�
 | `lasso_esm-1v_cleared_residue_cv` | ESM-1v | **Chezod 1325 cleared** | residue | :white_check_mark: |
 | `lasso_esm-1b_cleared_sequence_cv` | ESM-1b | **Chezod 1325 cleared** | residue | :white_check_mark: |
 | `lasso_esm-1v_cleared_sequence_cv` | ESM-1v | **Chezod 1325 cleared** | sequence | :white_check_mark: |
-
 
 ## Usage
 
@@ -82,10 +79,10 @@ z_score_pred = ZScorePred(STRATEGY, MODEL_TYPE)
 predicted_z_scores = z_score_pred.get_z_score(representation)
 ````
 
-
 ### Scripts
 
 The [scripts](scripts) directory contains:
+
 * [inference](scripts/adopt_inference.sh) script to predict, in bulk, the disorder of each residue in each protein sequence reported in a FASTA file, with ADOPT where you need to specify:
   - `NEW_PROT_FASTA_FILE_PATH` defining your FASTA file path
   - `NEW_PROT_RES_REPR_DIR_PATH` defining where the residue level representations will be extracted  
@@ -96,9 +93,9 @@ The [scripts](scripts) directory contains:
 ### Notebooks
 
 The [notebooks](notebooks) directory contains:
+
 * [disorder prediction](notebooks/adopt_disorder_prediction.ipynb) notebook 
 * [multi-head attention weights visualisation](notebooks/adopt_attention_viz.ipynb) notebook
-
 
 ### Compute residue level representations
 
@@ -112,11 +109,11 @@ python embedding.py -f <fasta_file_path>
 ```
 
 Where:
+
 * `-f` defines the FASTA file containing the proteins for which you want to compute the intrinsic disorder
 * `-r` defines the path where you want to save the residue level representations
 
 A subdirectory containing the residue level representation extracted from each pre-trained model available will be created under both the `residue_level_representation_dir`.
-
 
 ### Predict intrinsic disorder with ADOPT
 
@@ -133,6 +130,7 @@ python inference.py -s <training_strategy>
 ```
 
 Where:
+
 * `-s` defines the **training strategies** defined below
 * `-m` defines the pre-trained model we want to use. We suggest you use the `esm-1b` model.
 * `-f` defines the FASTA file containing the proteins for which you want to compute the intrinsic disorder
@@ -147,7 +145,6 @@ The output is a `.json` file contains the Z scores related to each residue of ea
 | `train_on_1325_cv_residue_split`| `esm-1b` and `esm-1v` |
 | `train_on_cleared_1325_cv_residue_split`| `esm-1b` and `esm-1v` |
 | `train_on_cleared_1325_cv_sequence_split`| `esm-1b` and `esm-1v` |
-
 
 ### Train ADOPT disorder predictor
 
@@ -166,12 +163,12 @@ python training.py -s <training_strategy>
 ```
 
 Where:
+
 * `-s` defines the **training strategies** defined above
 * `-t` defines the JSON containing the proteins we want to use as *training set*
 * `-e` defines the JSON containing the proteins we want to use as *test set*
 * `-r` defines the path where we saved the residue level representations of the proteins in the *training set*
 * `-p` defines the path where we saved the residue level representations of the proteins in the *test set*
-
 
 ## Citations <a name="citations"></a>
 
@@ -180,7 +177,6 @@ If you use this work in your research, please cite the the relevant paper:
 ```bibtex
 @article{redl2021adopt}
 ```
-
 
 ## Licence
 

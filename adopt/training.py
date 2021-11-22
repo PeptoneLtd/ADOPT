@@ -16,41 +16,55 @@ from adopt import CheZod, constants, utils
 
 # disorder predictor training
 def create_parser():
-    parser = argparse.ArgumentParser(description='Train ADOPT')
+    parser = argparse.ArgumentParser(description="Train ADOPT")
 
-    parser.add_argument('-s', 
-        '--train_strategy', 
-        type=str, 
-        metavar='', 
-        required=True, 
-        help='Training strategies')
+    parser.add_argument(
+        "-s",
+        "--train_strategy",
+        type=str,
+        metavar="",
+        required=True,
+        help="Training strategies",
+    )
 
-    parser.add_argument('-t', 
-        '--train_json_file', 
-        type=str, 
-        metavar='', 
-        required=True, 
-        help='JSON file containing the proteins we want to use as training set')
+    parser.add_argument(
+        "-t",
+        "--train_json_file",
+        type=str,
+        metavar="",
+        required=True,
+        help="JSON file containing the proteins we want to use as training set",
+    )
 
-    parser.add_argument('-e', 
-        '--test_json_file', 
-        type=str, metavar='', 
-        required=True, 
-        help='JSON file containing the proteins we want to use as test set')
+    parser.add_argument(
+        "-e",
+        "--test_json_file",
+        type=str,
+        metavar="",
+        required=True,
+        help="JSON file containing the proteins we want to use as test set",
+    )
 
-    parser.add_argument('-r', 
-        '--train_repr_dir', 
-        type=str, metavar='', 
-        required=True, 
-        help='Training set residue level representation directory')
+    parser.add_argument(
+        "-r",
+        "--train_repr_dir",
+        type=str,
+        metavar="",
+        required=True,
+        help="Training set residue level representation directory",
+    )
 
-    parser.add_argument('-p', 
-        '--test_repr_dir', 
-        type=str, metavar='', 
-        required=True, 
-        help='Test set residue level representation directory')
+    parser.add_argument(
+        "-p",
+        "--test_repr_dir",
+        type=str,
+        metavar="",
+        required=True,
+        help="Test set residue level representation directory",
+    )
 
     return parser
+
 
 class DisorderPred:
     def __init__(
@@ -379,7 +393,10 @@ if __name__ == "__main__":
     args = parser.parse_args()
     main(args)
     disorder_pred = DisorderPred(
-        args.train_sequences, args.test_sequences, args.train_repr_dir, args.test_repr_dir
+        args.train_sequences,
+        args.test_sequences,
+        args.train_repr_dir,
+        args.test_repr_dir,
     )
     if args.train_strategy == "train_on_cleared_1325_test_on_117_residue_split":
         disorder_pred.cleared_residue()
@@ -389,6 +406,3 @@ if __name__ == "__main__":
         disorder_pred.cleared_residue_cv()
     else:
         disorder_pred.cleared_sequence_cv()
-
-
-

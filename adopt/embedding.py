@@ -11,21 +11,28 @@ from adopt import constants
 
 
 def create_parser():
-    parser = argparse.ArgumentParser(description='Extract residue level representations')
+    parser = argparse.ArgumentParser(
+        description="Extract residue level representations"
+    )
 
-    parser.add_argument('-f', 
-        '--fasta_path', 
-        type=str, metavar='', 
-        required=True, 
-        help='FASTA file containing the proteins for which you want to compute the intrinsic disorder')
+    parser.add_argument(
+        "-f",
+        "--fasta_path",
+        type=str,
+        metavar="",
+        required=True,
+        help="FASTA file containing the proteins for which you want to compute the intrinsic disorder",
+    )
 
-    parser.add_argument('-r', 
-        '--repr_dir', 
-        type=str, 
-        metavar='', 
-        required=True, 
-        help='Residue level representation directory')
-        
+    parser.add_argument(
+        "-r",
+        "--repr_dir",
+        type=str,
+        metavar="",
+        required=True,
+        help="Residue level representation directory",
+    )
+
     return parser
 
 

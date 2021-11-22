@@ -15,41 +15,57 @@ from adopt import constants, utils
 
 
 def create_parser():
-    parser = argparse.ArgumentParser(description='Predict the intrinsic disorder (Z score)')
+    parser = argparse.ArgumentParser(
+        description="Predict the intrinsic disorder (Z score)"
+    )
 
-    parser.add_argument('-s', 
-        '--train_strategy', 
-        type=str, 
-        metavar='', 
-        required=True, 
-        help='Training strategies')
+    parser.add_argument(
+        "-s",
+        "--train_strategy",
+        type=str,
+        metavar="",
+        required=True,
+        help="Training strategies",
+    )
 
-    parser.add_argument('-m', 
-        '--model_type', 
-        type=str, 
-        metavar='', 
-        required=True, 
-        help='pre-trained model we want to use')
+    parser.add_argument(
+        "-m",
+        "--model_type",
+        type=str,
+        metavar="",
+        required=True,
+        help="pre-trained model we want to use",
+    )
 
-    parser.add_argument('-f', 
-        '--fasta_path', 
-        type=str, metavar='', 
-        required=True, 
-        help='FASTA file containing the proteins for which you want to compute the intrinsic disorder')
+    parser.add_argument(
+        "-f",
+        "--fasta_path",
+        type=str,
+        metavar="",
+        required=True,
+        help="FASTA file containing the proteins for which you want to compute the intrinsic disorder",
+    )
 
-    parser.add_argument('-r', 
-        '--repr_dir', 
-        type=str, metavar='', 
-        required=True, 
-        help='Residue level representation directory')
+    parser.add_argument(
+        "-r",
+        "--repr_dir",
+        type=str,
+        metavar="",
+        required=True,
+        help="Residue level representation directory",
+    )
 
-    parser.add_argument('-p', 
-        '--pred_z_scores_path', 
-        type=str, metavar='', 
-        required=True, 
-        help='Path where you want the Z scores to be saved')
+    parser.add_argument(
+        "-p",
+        "--pred_z_scores_path",
+        type=str,
+        metavar="",
+        required=True,
+        help="Path where you want the Z scores to be saved",
+    )
 
     return parser
+
 
 class ZScorePred:
     def __init__(self, strategy, model_type):
@@ -136,13 +152,17 @@ def main(args):
         print(*constants.train_strategies, sep="\n")
         sys.exit(2)
 
-    if (args.model_type not in constants.model_types) and (args.model_type != "combined"):
+    if (args.model_type not in constants.model_types) and (
+        args.model_type != "combined"
+    ):
         print("The pre-trained models are:")
         print(*constants.model_types, sep="\n")
         print("combined")
         sys.exit(2)
 
-    if (args.train_strategy != "train_on_cleared_1325_test_on_117_residue_split") and (args.model_type == "combined"):
+    if (args.train_strategy != "train_on_cleared_1325_test_on_117_residue_split") and (
+        args.model_type == "combined"
+    ):
         print(
             "Only the train_on_cleared_1325_test_on_117_residue_split strategy"
             "is allowed with the <combined> model"
@@ -158,4 +178,3 @@ if __name__ == "__main__":
     z_score_pred.get_z_score_from_fasta(
         args.fasta_file, args.repr_dir, args.pred_z_scores_file
     )
-
