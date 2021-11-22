@@ -14,6 +14,7 @@ The ESM library exploits a set of deep Transformer encoder models, which process
 
 ADOPT makes use of two datasets: the [CheZoD  “1325” and the CheZoD “117”](https://github.com/protein-nmr/CheZOD) databases containing 1325 and 117 sequences, respectively, together with their  residue level **Z-scores**.
 
+
 ## Table of Contents
 
 - [Attention based DisOrder PredicTor](#attention-based-disorder-predictor)
@@ -29,6 +30,7 @@ ADOPT makes use of two datasets: the [CheZoD  “1325” and the CheZoD “117�
   - [Citations](#citations)
   - [Licence](#licence)
 
+
 ## Intrinsic disorder trained models
 
 | Model | Pre-trained model | Datasets | Split level | CV |
@@ -42,6 +44,7 @@ ADOPT makes use of two datasets: the [CheZoD  “1325” and the CheZoD “117�
 | `lasso_esm-1v_cleared_residue_cv` | ESM-1v | **Chezod 1325 cleared** | residue | :white_check_mark: |
 | `lasso_esm-1b_cleared_sequence_cv` | ESM-1b | **Chezod 1325 cleared** | residue | :white_check_mark: |
 | `lasso_esm-1v_cleared_sequence_cv` | ESM-1v | **Chezod 1325 cleared** | sequence | :white_check_mark: |
+
 
 ## Usage
 
@@ -79,6 +82,7 @@ z_score_pred = ZScorePred(STRATEGY, MODEL_TYPE)
 predicted_z_scores = z_score_pred.get_z_score(representation)
 ````
 
+
 ### Scripts
 
 The [scripts](scripts) directory contains:
@@ -88,11 +92,13 @@ The [scripts](scripts) directory contains:
 * [training](scripts/adopt_chezod_training.sh) script to train the ADOPT where you need to specify:
   - `TRAIN_STRATEGY` defining the training strategy you want to use
 
+
 ### Notebooks
 
 The [notebooks](notebooks) directory contains:
 * [disorder prediction](notebooks/adopt_disorder_prediction.ipynb) notebook 
 * [multi-head attention weights visualisation](notebooks/adopt_attention_viz.ipynb) notebook
+
 
 ### Compute residue level representations
 
@@ -127,9 +133,9 @@ python inference.py -s <training_strategy>
 ```
 
 Where:
-* `-s` defines the **training strategies** defined belowe
+* `-s` defines the **training strategies** defined below
+* `-m` defines the pre-trained model we want to use. We suggest you use the `esm-1b` model.
 * `-f` defines the FASTA file containing the proteins for which you want to compute the intrinsic disorder
-* `-m` defines the residue level representation of the pre-trained models we want to use. We suggest you use the `esm-1b` model.
 * `-r` defines the path where you've already saved the residue level representations
 * `-p` defines the path where you want the Z scores to be saved
 
@@ -179,4 +185,3 @@ If you use this work in your research, please cite the the relevant paper:
 ## Licence
 
 This source code is licensed under the MIT license found in the `LICENSE` file in the root directory of this source tree.
-
