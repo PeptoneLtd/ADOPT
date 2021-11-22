@@ -14,6 +14,7 @@ The ESM library exploits a set of deep Transformer encoder models, which process
 
 ADOPT makes use of two datasets: the [CheZoD  “1325” and the CheZoD “117”](https://github.com/protein-nmr/CheZOD) databases containing 1325 and 117 sequences, respectively, together with their  residue level **Z-scores**.
 
+
 ## Table of Contents
 
 - [Attention based DisOrder PredicTor](#attention-based-disorder-predictor)
@@ -42,6 +43,7 @@ ADOPT makes use of two datasets: the [CheZoD  “1325” and the CheZoD “117�
 | `lasso_esm-1v_cleared_residue_cv` | ESM-1v | **Chezod 1325 cleared** | residue | :white_check_mark: |
 | `lasso_esm-1b_cleared_sequence_cv` | ESM-1b | **Chezod 1325 cleared** | residue | :white_check_mark: |
 | `lasso_esm-1v_cleared_sequence_cv` | ESM-1v | **Chezod 1325 cleared** | sequence | :white_check_mark: |
+
 
 ## Usage
 
@@ -79,6 +81,7 @@ z_score_pred = ZScorePred(STRATEGY, MODEL_TYPE)
 predicted_z_scores = z_score_pred.get_z_score(representation)
 ````
 
+
 ### Scripts
 
 The [scripts](scripts) directory contains:
@@ -88,11 +91,13 @@ The [scripts](scripts) directory contains:
 * [training](scripts/adopt_chezod_training.sh) script to train the ADOPT where you need to specify:
   - `TRAIN_STRATEGY` defining the training strategy you want to use
 
+
 ### Notebooks
 
 The [notebooks](notebooks) directory contains:
 * [disorder prediction](notebooks/adopt_disorder_prediction.ipynb) notebook 
 * [multi-head attention weights visualisation](notebooks/adopt_attention_viz.ipynb) notebook
+
 
 ### Compute residue level representations
 
