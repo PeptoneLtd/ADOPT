@@ -1,5 +1,19 @@
 # Changelog
 
+## [v0.3.0](https://github.com/peptoneinc/ADOPT/tree/v0.3.0) (2021-11-22)
+
+[Full Changelog](https://github.com/peptoneinc/ADOPT/compare/v0.2.1...v0.3.0)
+
+**Closed issues:**
+
+- Add notebooks description in README [\#18](https://github.com/PeptoneInc/ADOPT/issues/18)
+- Add scripts usage in README [\#16](https://github.com/PeptoneInc/ADOPT/issues/16)
+- Use argparse library in place of getopt library [\#9](https://github.com/PeptoneInc/ADOPT/issues/9)
+
+**Merged pull requests:**
+
+- Develop [\#20](https://github.com/PeptoneInc/ADOPT/pull/20) ([CFisicaro](https://github.com/CFisicaro))
+
 ## [v0.2.1](https://github.com/peptoneinc/ADOPT/tree/v0.2.1) (2021-11-16)
 
 [Full Changelog](https://github.com/peptoneinc/ADOPT/compare/v0.2.0...v0.2.1)
