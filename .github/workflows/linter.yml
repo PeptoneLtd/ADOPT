@@ -56,5 +56,5 @@ jobs:
           IGNORE_GENERATED_FILES: true
           VALIDATE_PYTHON_BLACK: false
           VALIDATE_PYTHON_ISORT: false
-          FILTER_REGEX_EXCLUDE: /esm, *.md
+          FILTER_REGEX_EXCLUDE: /esm
 

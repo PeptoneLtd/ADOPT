@@ -23,7 +23,6 @@ def create_parser():
         required=True,
         help="FASTA file containing the proteins for which you want to compute the intrinsic disorder",
     )
-
     parser.add_argument(
         "-r",
         "--repr_dir",
@@ -68,4 +67,4 @@ def get_representations(fasta_file, repr_dir):
 if __name__ == "__main__":
     parser = create_parser()
     args = parser.parse_args()
-    get_representations(args)
+    get_representations(args.fasta_path, args.repr_dir)
