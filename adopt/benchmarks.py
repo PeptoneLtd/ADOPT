@@ -94,9 +94,7 @@ def get_z_score_per_residue(
     }
 
     for file_name in f_names_op_117:
-        brmid_dummy = file_name.split(".")[0][
-            len("DisorderPredictions") :
-        ]  # extract numbers in a better way
+        brmid_dummy = file_name.split(".")[0][len("DisorderPredictions"):]  # extract numbers in a better way
 
         # read the ODinPred txt file
         df_odin = pd.read_csv(
@@ -255,10 +253,10 @@ def plot_corr_per_residue(corr_per_res, model_picked):
     )
     pio.write_image(
         fig,
-        f"../media/correlations_per_res_esm_odin.pdf",
+        "../media/correlations_per_res_esm_odin.pdf",
         width=900,
         height=450,
-        scale=1.0,
+        scale=1.0
     )
 
 
@@ -268,8 +266,6 @@ def plot_gt_vs_pred_contours(actual_z_scores, z_scores_per_model):
     fig = make_subplots(rows=1, cols=2, subplot_titles=("(ESM)", "(ODiNPred)"))
     esm_z_scores = z_scores_per_model["esm-1b"]
     odin_z_scores = z_scores_per_model["odin"]
-    x = actual_z_scores
-    y = esm_z_scores
 
     fig.add_trace(
         go.Histogram2dContour(
@@ -354,7 +350,7 @@ def plot_gt_vs_pred_contours(actual_z_scores, z_scores_per_model):
     fig.update_layout(font=dict(family="Courier New", size=16, color="black"))
     pio.write_image(
         fig,
-        f"../media/esm1b_odinpred_contours_with_ref.pdf",
+        "../media/esm1b_odinpred_contours_with_ref.pdf",
         width=900,
         height=450,
         scale=1.0,
