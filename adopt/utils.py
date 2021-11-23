@@ -3,6 +3,7 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
+import esm
 import numpy as np
 import onnxruntime as rt
 import pandas as pd
@@ -11,7 +12,6 @@ from Bio import SeqIO
 from skl2onnx import convert_sklearn
 from skl2onnx.common.data_types import FloatTensorType
 
-import esm
 from adopt import constants
 
 "@generated"

@@ -15,9 +15,7 @@ from adopt import constants, utils
 
 
 def create_parser():
-    parser = argparse.ArgumentParser(
-        description="Predict intrinsic disorder (Z score)"
-    )
+    parser = argparse.ArgumentParser(description="Predict intrinsic disorder (Z score)")
 
     parser.add_argument(
         "-s",
