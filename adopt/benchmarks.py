@@ -267,6 +267,22 @@ def plot_gt_vs_pred_contours(actual_z_scores, z_scores_per_model):
     esm_z_scores = z_scores_per_model["esm-1b"]
     odin_z_scores = z_scores_per_model["odin"]
 
+    def standard_shape(fig, actual_z_scores):
+        fig.add_shape(
+            type="line",
+            x0=min(actual_z_scores),
+            y0=min(actual_z_scores),
+            x1=max(actual_z_scores),
+            y1=max(actual_z_scores),
+            line=dict(
+                color="darkred",
+                width=2,
+                dash="dashdot",
+            ),
+            row=1,
+            col=1,
+        )
+
     fig.add_trace(
         go.Histogram2dContour(
             x=actual_z_scores,
@@ -279,20 +295,7 @@ def plot_gt_vs_pred_contours(actual_z_scores, z_scores_per_model):
         row=1,
         col=1,
     )
-    fig.add_shape(
-        type="line",
-        x0=min(actual_z_scores),
-        y0=min(actual_z_scores),
-        x1=max(actual_z_scores),
-        y1=max(actual_z_scores),
-        line=dict(
-            color="darkred",
-            width=2,
-            dash="dashdot",
-        ),
-        row=1,
-        col=1,
-    )
+    standard_shape(fig, actual_z_scores)
     fig.add_trace(
         go.Histogram2dContour(
             x=actual_z_scores,
@@ -305,20 +308,7 @@ def plot_gt_vs_pred_contours(actual_z_scores, z_scores_per_model):
         row=1,
         col=2,
     )
-    fig.add_shape(
-        type="line",
-        x0=min(actual_z_scores),
-        y0=min(actual_z_scores),
-        x1=max(actual_z_scores),
-        y1=max(actual_z_scores),
-        line=dict(
-            color="darkred",
-            width=2,
-            dash="dashdot",
-        ),
-        row=1,
-        col=2,
-    )
+    standard_shape(fig, actual_z_scores)
     fig.update_xaxes(
         title_text="Experimental Z-scores",
         range=[min(actual_z_scores) - 1, max(actual_z_scores) + 1],
