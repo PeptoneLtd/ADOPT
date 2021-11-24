@@ -410,14 +410,6 @@ def main(args):
         print(*constants.train_strategies, sep="\n")
         sys.exit(2)
 
-    if (args.model_type not in constants.model_types) and (
-        args.model_type != "combined"
-    ):
-        print("The pre-trained models are:")
-        print(*constants.model_types, sep="\n")
-        print("combined")
-        sys.exit(2)
-
     if (args.train_strategy != "train_on_cleared_1325_test_on_117_residue_split") and (
         args.model_type == "combined"
     ):
