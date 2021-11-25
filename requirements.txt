@@ -4,4 +4,5 @@ bertviz~=1.2
 biopython~=1.79
 skl2onnx~=1.10.0
 spacy~=3.2
+kaleido~=0.2.1
 
