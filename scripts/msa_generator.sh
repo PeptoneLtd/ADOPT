@@ -7,7 +7,7 @@
 
 # First - Check whether the container exists and running
 # ------------------------------------------------------
-result=$( sudo docker ps -q -f name=msa-gen-adopt-beta )
+result=$( docker ps -q -f name=msa-gen-adopt-beta )
 
 if [[ -n "$result" ]]; then
 	echo "Container exists"
