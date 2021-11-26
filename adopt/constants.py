@@ -38,3 +38,15 @@ res_colors = {
     "STRUCT": "#33C4FF",
     "FLEX": "##fc9ce7",
 }
+
+# Declare path variables used in the MSA procedures
+# -------------------------------------------------
+msa_main_folder_paths = {
+    'main_dir': '/path/to/main/dir',
+    'databases': '/path/to/main/dir/databases',
+    'msas': '/path/to/main/dir/msas',
+    'msa_fastas': '/path/to/main/dir/msa_fastas',
+    'esm_msa_reprs': 'path/to/esm_msa_reprs'
+}
+
+msa_depth = 64

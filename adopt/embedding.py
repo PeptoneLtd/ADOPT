@@ -44,9 +44,9 @@ def get_representations(fasta_file, repr_dir):
                 "python ../adopt/scripts/extract_esm_repr.py "
                 + " "
                 + str(fasta_file)
-                #+ " "
-                #+ model_dir
-                #+ " --repr_layers 12 --include per_tok"
+                + " "
+                + model_dir
+#               + " --repr_layers 12 --include per_tok"
             )  # todo fasta_file->msa_fasta_file
         else:
             bashCommand = (

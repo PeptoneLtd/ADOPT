@@ -9,7 +9,7 @@ from Bio import SeqIO
 import esm
 from collections import OrderedDict 
 import itertools 
-from adopt import msa_path_vars
+from adopt import constants
 from adopt import utils
 
 # parse the a3m path and the accompanying fasta file
@@ -28,11 +28,11 @@ my_parser.add_argument('fasta_file',
                         type=str 
                         )
 
-#my_parser.add_argument('repr_path', 
-#                        action='store', 
-#                        type=str,
-#                        help='path to save the esm-msa representations'
-#                        )
+my_parser.add_argument('repr_path', 
+                        action='store', 
+                        type=str,
+                        help='path to save the esm-msa representations'
+                        )
 #my_parser.add_argument('--msa_depth', 
 #                        action='store', 
 #                        type=int)
@@ -41,10 +41,10 @@ my_parser.add_argument('fasta_file',
 # Execute the parse_args() method
 args = my_parser.parse_args()
 
-a3m_input_path = msa_path_vars['msas'] #args.msa_path
+a3m_input_path = constants.msa_main_folder_paths['msas'] #args.msa_path
 ff_path = args.fasta_file
-repr_path = msa_path_vars['esm_msa_reprs'] #args.repr_path
-DEFAULT_MSA_DEPTH = msa_path_vars.msa_depth #args.msa_depth
+repr_path = args.repr_path
+DEFAULT_MSA_DEPTH = constants.msa_depth #args.msa_depth
 
 #if not os.path.isdir(a3m_input_path):
 #    print('The path specified does not exist')
