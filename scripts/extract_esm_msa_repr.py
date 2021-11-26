@@ -9,7 +9,8 @@ from Bio import SeqIO
 import esm
 from collections import OrderedDict 
 import itertools 
-
+from adopt import msa_path_vars
+from adopt import utils
 
 # parse the a3m path and the accompanying fasta file
 
@@ -17,54 +18,44 @@ import itertools
 my_parser = argparse.ArgumentParser(description='Get the path to .a3m files for the sequences in the fasta file')
 
 # Add the arguments
-my_parser.add_argument('msa_path',
-                       metavar='path',
-                       type=str,
-                       help='the path to .a3m files')
+#my_parser.add_argument('msa_path',
+#                       metavar='path',
+#                       type=str,
+#                       help='the path to .a3m files')
 
 my_parser.add_argument('fasta_file', 
                         action='store',
                         type=str 
                         )
 
-my_parser.add_argument('repr_path', 
-                        action='store', 
-                        type=str,
-                        help='path to save the esm-msa representations'
-                        )
-my_parser.add_argument('--msa_depth', 
-                        action='store', 
-                        type=int)
+#my_parser.add_argument('repr_path', 
+#                        action='store', 
+#                        type=str,
+#                        help='path to save the esm-msa representations'
+#                        )
+#my_parser.add_argument('--msa_depth', 
+#                        action='store', 
+#                        type=int)
+#
 
 # Execute the parse_args() method
 args = my_parser.parse_args()
 
-a3m_input_path = args.msa_path
+a3m_input_path = msa_path_vars['msas'] #args.msa_path
 ff_path = args.fasta_file
-repr_path = args.repr_path
-DEFAULT_MSA_DEPTH = args.msa_depth
+repr_path = msa_path_vars['esm_msa_reprs'] #args.repr_path
+DEFAULT_MSA_DEPTH = msa_path_vars.msa_depth #args.msa_depth
 
-if not os.path.isdir(a3m_input_path):
-    print('The path specified does not exist')
-    sys.exit()
+#if not os.path.isdir(a3m_input_path):
+#    print('The path specified does not exist')
+#    sys.exit()
 
 #print('\n'.join(os.listdir(input_path)))
 #print('fasta file is here: ', ff_path)
 
 
 # get the identifiers from the fasta file
-def fasta_to_df(fasta_input):
-    with open(fasta_input) as fasta_file:
-        identifiers = []
-        sequences = []
-        for seq_record in SeqIO.parse(fasta_file, "fasta"):  # (generator)
-            identifiers.append(seq_record.id)
-            sequences.append("".join(seq_record.seq))
-
-    df = pd.DataFrame({"brmid": identifiers, "sequence": sequences})
-    return df
-
-df_msas = fasta_to_df(ff_path) 
+df_msas = utils.fasta_to_df(ff_path) 
 
 #print('\n'.join(list(df_msas['brmid'])))
 
@@ -81,7 +72,6 @@ if len(missing_msas)!=0:
 
 # download the esm-msa model 
 # --------------------------
-
 msa_transformer, msa_alphabet = esm.pretrained.esm_msa1b_t12_100M_UR50S()
 msa_transformer = msa_transformer.eval()
 msa_batch_converter = msa_alphabet.get_batch_converter()
