@@ -25,7 +25,7 @@ my_parser.add_argument('repr_path',
 # Execute the parse_args() method
 args = my_parser.parse_args()
 
-a3m_input_path = constants.msa_main_folder_paths['msas'] #args.msa_path
+a3m_input_path = '/msas/' #args.msa_path
 ff_path = args.fasta_file
 repr_path = args.repr_path
 DEFAULT_MSA_DEPTH = constants.msa_depth #args.msa_depth
