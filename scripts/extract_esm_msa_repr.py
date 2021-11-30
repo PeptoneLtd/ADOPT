@@ -12,12 +12,12 @@ from adopt import utils
 # Create the parser
 my_parser = argparse.ArgumentParser(description='Get the path to .a3m files for the sequences in the fasta file')
 
-my_parser.add_argument('fasta_file', 
+my_parser.add_argument('fasta_file',
                         action='store',
-                        type=str 
+                        type=str
                         )
-my_parser.add_argument('repr_path', 
-                        action='store', 
+my_parser.add_argument('repr_path',
+                        action='store',
                         type=str,
                         help='path to save the esm-msa representations'
                         )
@@ -31,9 +31,9 @@ repr_path = args.repr_path
 DEFAULT_MSA_DEPTH = constants.msa_depth #args.msa_depth
 
 # get the identifiers from the fasta file
-df_msas = utils.fasta_to_df(ff_path) 
+df_msas = utils.fasta_to_df(ff_path)
 
-# Check if the msas are available for the sequences provided in the fasta file 
+# Check if the msas are available for the sequences provided in the fasta file
 # ----------------------------------------------------------------------------
 msa_store = list(next(os.walk(a3m_input_path))[2])
 missing_msas = [seq for seq in list(df_msas['brmid']) if seq not in msa_store]
@@ -41,13 +41,13 @@ if len(missing_msas)!=0:
     print("No msa files were found for the following sequences: ", missing_msas)
     print("Generate msa files first!")
 
-# download the esm-msa model 
+# download the esm-msa model
 # --------------------------
 msa_transformer, msa_alphabet = esm.pretrained.esm_msa1b_t12_100M_UR50S()
 msa_transformer = msa_transformer.eval()
 msa_batch_converter = msa_alphabet.get_batch_converter()
 
-### Utilities for esm model 
+### Utilities for esm model
 # -------------------------
 # This is an efficient way to delete lowercase characters and insertion characters from a string
 deletekeys = dict.fromkeys(string.ascii_lowercase)
@@ -70,7 +70,7 @@ def read_msa(filename: str, nseq: int):
             for record in itertools.islice(SeqIO.parse(filename, "fasta"), nseq)]
 
 
-msas_data = list(map(read_msa, [a3m_input_path+f_name for f_name in list(df_msas['brmid'])], 
+msas_data = list(map(read_msa, [a3m_input_path+f_name for f_name in list(df_msas['brmid'])],
                      len(list(df_msas['brmid']))*[DEFAULT_MSA_DEPTH]))
 
 # saving esm_msa representations
@@ -82,12 +82,12 @@ for protein_id in msas_data:
 
     with torch.no_grad():
         results = msa_transformer(msa_batch_tokens, repr_layers=[12], return_contacts=True)
-    
-    # saving 
+
+    # saving
     sv = OrderedDict()
     sv['logits'] = results['logits'][0][0][1 : , ...].clone()
     sv['representations'] = results['representations'][12][0][0][1 : , ...].clone()
     sv['contacts'] = results['contacts'][0].clone()
-    
+
     print(f'Saving - {msa_batch_labels[0][0]}.pt')
     torch.save(sv, f'{repr_path}{msa_batch_labels[0][0]}.pt')
