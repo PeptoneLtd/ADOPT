@@ -53,6 +53,7 @@ deletekeys["."] = None
 deletekeys["*"] = None
 translation = str.maketrans(deletekeys)
 
+
 def read_sequence(filename: str):
     """ Reads the first (reference) sequences from a fasta or MSA file."""
     record = next(SeqIO.parse(filename, "fasta"))
@@ -85,8 +86,8 @@ for protein_id in msas_data:
 
     # saving
     sv = OrderedDict()
-    sv['logits'] = results['logits'][0][0][1: , ...].clone()
-    sv['representations'] = results['representations'][12][0][0][1: , ...].clone()
+    sv['logits'] = results['logits'][0][0][1:, ...].clone()
+    sv['representations'] = results['representations'][12][0][0][1:, ...].clone()
     sv['contacts'] = results['contacts'][0].clone()
 
     print(f'Saving - {msa_batch_labels[0][0]}.pt')
