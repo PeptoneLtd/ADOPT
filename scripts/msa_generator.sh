@@ -7,12 +7,12 @@
 
 # First - Check whether the container exists and running
 # ------------------------------------------------------
-result=$( docker ps -q -f name=msa-gen-adopt-beta )
+result=$( docker ps -q -f name=msa-gen-adopt )
 
 if [[ -n "$result" ]]; then
 	echo "Container exists"
 	# Second - Copy the fasta file to the right folder
-	docker cp "$1" msa-gen-adopt-fiddle:/work/msa_fastas
+	docker cp "$1" msa-gen-adopt:/work/msa_fastas
 	
 	path_with_filename="$1"
 	file_name="${path_with_filename##*/}"
@@ -21,7 +21,7 @@ if [[ -n "$result" ]]; then
 	docker_fasta_path+="$file_name"
 
 	# Third - Get the msas
-	docker exec -it msa-gen-adopt-beta \
+	docker exec -it msa-gen-adopt \
         	bash -c "ffindex_from_fasta _fas.ff{data,index} $docker_fasta_path
       		hhblits_omp -i _fas -oa3m /work/res_a3m -d /work/databases/UniRef30_2020_06 -cpu 2 -n 3 -e 1e-3
         	ffindex_unpack /work/res_a3m.ff{data,index} /work/msas/ 
