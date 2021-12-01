@@ -85,6 +85,9 @@ predicted_z_scores = z_score_pred.get_z_score(representation)
 In order to enable the ```esm-msa``` based variant of ADOPT, MSAs for each sequence are also required. 
 We provide a stand alone, ```docker``` based tool that can be used to obatin MSAs from ```fasta``` files.
 
+Two bash scripts are located in the [scripts](dcripts) directory:
+- [adopt_msa_setup](scripts/adopt_msa_setup.sh)
+- [msa_generator](scripts/msa_generator.sh)
 
 ### Scripts
 
