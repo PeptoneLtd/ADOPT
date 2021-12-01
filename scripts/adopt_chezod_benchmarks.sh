@@ -25,7 +25,7 @@ python ../adopt/embedding.py -f $TEST_FASTA_FILE_PATH \
                              -r $TEST_RES_REPR_DIR_PATH
 
 printf "Benchmarking predictions in %s \n" $BENCHMARK_DATA_PATH
-printf "The results are stored in ../media"
+printf "The results are stored in ../media \n"
 
 python ../adopt/benchmarks.py -b $BENCHMARK_DATA_PATH \
                               -s $TRAIN_STRATEGY \
