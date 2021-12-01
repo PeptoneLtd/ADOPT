@@ -13,8 +13,8 @@ import plotly.graph_objects as go
 import plotly.io as pio
 import scipy
 from plotly.subplots import make_subplots
-from sklearn import linear_model
 from joblib import Parallel, delayed
+from sklearn import linear_model
 
 from adopt import CheZod, constants, utils
 
@@ -71,131 +71,6 @@ def create_parser():
         help="Training strategies",
     )
     return parser
-
-
-def get_z_score_per_residue(
-    path_chezod_examples,
-    path_chezod_1325_raw,
-    path_chezod_117_raw,
-    path_chezod_1325_repr,
-    path_chezod_117_repr,
-    strategy,
-):
-    # read the data
-    f_names_op_117 = next(os.walk(path_chezod_examples))[2]
-    f_names_op_117 = [file for file in f_names_op_117 if file.endswith(".txt")]
-    chezod = CheZod(path_chezod_1325_raw, path_chezod_117_raw)
-    _, _, df_117 = chezod.get_chezod_raw()
-
-    predicted_z_scores = {
-        "esm-1v": {},
-        "esm-1b": {},
-        "esm-msa": {},
-        "combined": {},
-        "odin": {},
-    }
-
-    for file_name in f_names_op_117:
-        brmid_dummy = file_name.split(".")[0][len("DisorderPredictions"):]  # extract numbers in a better way
-
-        # read the ODinPred txt file
-        df_odin = pd.read_csv(
-            f"{path_chezod_examples}{file_name}", delim_whitespace=True
-        )
-
-        # get the original z-scores
-        # get the sequence and the original z-scores and the esm-representations
-        seq = list(df_117[df_117["brmid"] == brmid_dummy]["sequence"].item())
-        zex = list(df_117[df_117["brmid"] == brmid_dummy]["zscore"].item())
-
-        for model_type in constants.model_types:
-            if model_type == "esm-msa":
-                msa_ind = True
-            else:
-                msa_ind = False
-
-            repr_path = utils.representation_path(
-                path_chezod_1325_repr, path_chezod_117_repr
-            )
-            # get the representations and the experimental z_scores
-            ex_dum, zed_dum = utils.pedestrian_input(
-                [brmid_dummy],
-                df_117,
-                repr_path[model_type]["117"],
-                z_col="zscore",
-                msa=msa_ind,
-                drop_missing=False,
-            )
-
-            onnx_model = (
-                "../models/lasso_"
-                + model_type
-                + "_"
-                + constants.strategies_dict[strategy]
-                + ".onnx"
-            )
-
-            # get the predictions for a given model
-            for i in [
-                x
-                for x in zip(seq, zex, utils.get_onnx_model_preds(onnx_model, ex_dum))
-                if x[1] != 999.0
-            ]:
-                if i[0] in predicted_z_scores[model_type].keys():
-                    predicted_z_scores[model_type][i[0]].append(
-                        [i[1], i[2], i[2] - i[1]]
-                    )
-                else:
-                    predicted_z_scores[model_type][i[0]] = [[i[1], i[2], i[2] - i[1]]]
-
-        # combined output
-        ex_dum_esm1v, zed_dum_esm1v = utils.pedestrian_input(
-            [brmid_dummy],
-            df_117,
-            repr_path["esm-1v"]["117"],
-            z_col="zscore",
-            msa=False,
-            drop_missing=False,
-        )
-
-        ex_dum_esm1b, zed_dum_esm1b = utils.pedestrian_input(
-            [brmid_dummy],
-            df_117,
-            repr_path["esm-1b"]["117"],
-            z_col="zscore",
-            msa=False,
-            drop_missing=False,
-        )
-
-        # the right order to concatenate - esm-1v and then esm-1b.
-        # as this was used to fit the regression model
-        ex_comb = np.concatenate((ex_dum_esm1v, ex_dum_esm1b), axis=1)
-
-        comb_onnx_model = (
-            "../models/lasso_"
-            + "combined"
-            + "_"
-            + constants.strategies_dict[strategy]
-            + ".onnx"
-        )
-
-        for i in [
-            x
-            for x in zip(seq, zex, utils.get_onnx_model_preds(comb_onnx_model, ex_comb))
-            if x[1] != 999.0
-        ]:
-            if i[0] in predicted_z_scores["combined"].keys():
-                predicted_z_scores["combined"][i[0]].append([i[1], i[2], i[2] - i[1]])
-            else:
-                predicted_z_scores["combined"][i[0]] = [[i[1], i[2], i[2] - i[1]]]
-
-        for ii in [x for x in zip(seq, zex, list(df_odin["Zscore"])) if x[1] != 999.0]:
-            if ii[0] in predicted_z_scores["odin"].keys():
-                predicted_z_scores["odin"][ii[0]].append([ii[1], ii[2], ii[2] - ii[1]])
-            else:
-                predicted_z_scores["odin"][ii[0]] = [[ii[1], ii[2], ii[2] - ii[1]]]
-
-    return predicted_z_scores
 
 
 def plot_corr_per_residue(corr_per_res, model_picked):
@@ -349,112 +224,219 @@ def plot_gt_vs_pred_contours(actual_z_scores, z_scores_per_model):
     )
 
 
-def stability_selection_prob(ex_train, zed_train, model_picked, sample_size, reg_param):
-    sample_idxs = np.random.choice(np.arange(ex_train[model_picked].shape[0]), sample_size, replace=False) 
-    ex_train_filtered = np.take(ex_train[model_picked], sample_idxs, axis=0)
-    zed_train_filtered = np.take(zed_train[model_picked], sample_idxs, axis=0)
-    # Lasso regression
-    reg = linear_model.Lasso(alpha=reg_param, max_iter=10000)
-    reg.fit(ex_train_filtered, zed_train_filtered)
-    reg_coef = abs(reg.coef_)
-    return reg_coef
+class DisorderCompare:
+    def __init__(self,
+                 path_odinpred_examples,
+                 path_chezod_1325_raw,
+                 path_chezod_117_raw,
+                 path_chezod_1325_repr,
+                 path_chezod_117_repr):
+        self.path_odinpred_examples = path_odinpred_examples
+        self.path_chezod_1325_raw = path_chezod_1325_raw
+        self.path_chezod_117_raw = path_chezod_117_raw
+        self.path_chezod_1325_repr = path_chezod_1325_repr
+        self.path_chezod_117_repr = path_chezod_117_repr
 
+    def get_z_score_per_residue(self, strategy):
+        # read the data
+        f_names_op_117 = next(os.walk(self.path_odinpred_examples))[2]
+        f_names_op_117 = [file for file in f_names_op_117 if file.endswith(".txt")]
+        chezod = CheZod(self.path_chezod_1325_raw, self.path_chezod_117_raw)
+        _, _, df_117 = chezod.get_chezod_raw()
 
-def get_stability_paths(path_chezod_1325_raw, 
-                        path_chezod_117_raw, 
-                        path_chezod_1325_repr, 
-                        path_chezod_117_repr,
-                        model_picked):
-    chezod = CheZod(path_chezod_1325_raw, path_chezod_117_raw)
-    (
-        ex_train,
-        zed_train,
-        _,
-        _,
-    ) = chezod.get_train_test_sets(path_chezod_1325_repr, path_chezod_117_repr)
+        predicted_z_scores = {
+            "esm-1v": {},
+            "esm-1b": {},
+            "esm-msa": {},
+            "combined": {},
+            "odin": {},
+        }
 
-    nr_samples = constants.stability_path_reg_params['nr_samples']
-    reg_params = np.linspace(constants.stability_path_reg_params['start'], 
-                             constants.stability_path_reg_params['end'], 
-                             constants.stability_path_reg_params['n_points'])
-    sample_size = ex_train[model_picked].shape[0]//2
-    # collect the probabilities of being selected
-    probabs = {} 
+        for file_name in f_names_op_117:
+            brmid_dummy = file_name.split(".")[0][len("DisorderPredictions"):]  # extract numbers in a better way
 
-    for reg_param in reg_params:
-        print("Computing stability path for regularisation parameter: ", reg_param)
-        print('------------------')
-        selected_idxs = np.zeros(ex_train[model_picked].shape[1])
-        abs_reg_coefs = Parallel(n_jobs=-1)(delayed(stability_selection_prob)(ex_train, 
-                                                                              zed_train, 
-                                                                              model_picked, 
-                                                                              sample_size, 
-                                                                              reg_param) for _ in range(nr_samples))
-        for reg_coef in abs_reg_coefs:
-            np.add.at(selected_idxs, np.where(reg_coef != 0.0)[0], 1)
-
-        probabs[reg_param] = 1./nr_samples*selected_idxs
-    return probabs
-    
-
-def plot_stability_paths(probabs, 
-                         path_chezod_1325_repr, 
-                         path_chezod_117_repr, 
-                         path_chezod_1325_raw, 
-                         path_chezod_117_raw, 
-                         model_picked):
-    cutoffs = constants.stability_path_hyperparams['cutoffs']
-    freq_cutoff = constants.stability_path_hyperparams['freq_cutoff']
-    chezod = CheZod(path_chezod_1325_raw, path_chezod_117_raw)
-    (
-        ex_train,
-        zed_train,
-        ex_test,
-        zed_test,
-    ) = chezod.get_train_test_sets(path_chezod_1325_repr, path_chezod_117_repr)
-    for cutoff in cutoffs:
-        fig = go.Figure()
-        coordinates_relevant = []
-        for i in range(ex_train[model_picked].shape[1]):
-            if sum([1. if probabs[key][i] > cutoff else 0. for key in probabs.keys()])>freq_cutoff:
-                coordinates_relevant.append(i)
-                line = dict(color="red", width=.5)
-            else:
-                line=dict(dash='dash', color="black", width=.5)
-            fig.add_trace(go.Scatter(x=list(probabs.keys()), 
-                                y=[probabs[key][i] for key in probabs.keys()],
-                                mode='lines',
-                                line=line))
-        fig.update_layout(
-            #title=f"Cutoff {cutoff}",
-            xaxis_title=r"$\lambda$",
-            yaxis_title=r"$\Pi(\lambda)$",
-            legend_title="Legend Title",
-            font=dict(
-                family="Courier New",
-                size=18,
-                color="black"
+            # read the ODinPred txt file
+            df_odin = pd.read_csv(
+                f"{self.path_odinpred_examples}{file_name}", delim_whitespace=True
             )
-        )
-        fig.update_layout(showlegend=False)
-        pio.write_image(fig, 
-                        "../media/stability_paths_" 
-                        + "_cp_"
-                        + str(cutoff)
-                        + "_cf_"
-                        + str(freq_cutoff)
-                        + ".pdf", 
-                        width=900, 
-                        height=450, 
-                        scale=1.) #, width=800, height=800, scale=1.0)
-        # do the Lasso
-        ex_train_filtered = np.take(ex_train[model_picked], coordinates_relevant, axis=1)
-        ex_test_filtered = np.take(ex_test[model_picked], coordinates_relevant, axis=1)
-        # slim regression
-        reg_slim_lasso = linear_model.Lasso(alpha=0.0001, max_iter=10000)
-        reg_slim_lasso.fit(ex_train_filtered, zed_train[model_picked])  
-        print('Stability selection with cp=', cutoff, "and cf=", freq_cutoff)
-        print('Coordinate ', len(coordinates_relevant), 'correlation: ', scipy.stats.spearmanr(zed_test[model_picked], reg_slim_lasso.predict(ex_test_filtered)).correlation)
+
+            # get the original z-scores
+            # get the sequence and the original z-scores and the esm-representations
+            seq = list(df_117[df_117["brmid"] == brmid_dummy]["sequence"].item())
+            zex = list(df_117[df_117["brmid"] == brmid_dummy]["zscore"].item())
+
+            for model_type in constants.model_types:
+                if model_type == "esm-msa":
+                    msa_ind = True
+                else:
+                    msa_ind = False
+
+                repr_path = utils.representation_path(
+                    self.path_chezod_1325_repr, self.path_chezod_117_repr
+                )
+                # get the representations and the experimental z_scores
+                ex_dum, zed_dum = utils.pedestrian_input(
+                    [brmid_dummy],
+                    df_117,
+                    repr_path[model_type]["117"],
+                    z_col="zscore",
+                    msa=msa_ind,
+                    drop_missing=False,
+                )
+
+                onnx_model = (
+                    "../models/lasso_"
+                    + model_type
+                    + "_"
+                    + constants.strategies_dict[strategy]
+                    + ".onnx"
+                )
+
+                # get the predictions for a given model
+                for i in [
+                    x
+                    for x in zip(seq, zex, utils.get_onnx_model_preds(onnx_model, ex_dum))
+                    if x[1] != 999.0
+                ]:
+                    if i[0] in predicted_z_scores[model_type].keys():
+                        predicted_z_scores[model_type][i[0]].append(
+                            [i[1], i[2], i[2] - i[1]]
+                        )
+                    else:
+                        predicted_z_scores[model_type][i[0]] = [[i[1], i[2], i[2] - i[1]]]
+
+            # combined output
+            ex_dum_esm1v, zed_dum_esm1v = utils.pedestrian_input(
+                [brmid_dummy],
+                df_117,
+                repr_path["esm-1v"]["117"],
+                z_col="zscore",
+                msa=False,
+                drop_missing=False,
+            )
+
+            ex_dum_esm1b, zed_dum_esm1b = utils.pedestrian_input(
+                [brmid_dummy],
+                df_117,
+                repr_path["esm-1b"]["117"],
+                z_col="zscore",
+                msa=False,
+                drop_missing=False,
+            )
+
+            # the right order to concatenate - esm-1v and then esm-1b.
+            # as this was used to fit the regression model
+            ex_comb = np.concatenate((ex_dum_esm1v, ex_dum_esm1b), axis=1)
+
+            comb_onnx_model = (
+                "../models/lasso_"
+                + "combined"
+                + "_"
+                + constants.strategies_dict[strategy]
+                + ".onnx"
+            )
+
+            for i in [
+                x
+                for x in zip(seq, zex, utils.get_onnx_model_preds(comb_onnx_model, ex_comb))
+                if x[1] != 999.0
+            ]:
+                if i[0] in predicted_z_scores["combined"].keys():
+                    predicted_z_scores["combined"][i[0]].append([i[1], i[2], i[2] - i[1]])
+                else:
+                    predicted_z_scores["combined"][i[0]] = [[i[1], i[2], i[2] - i[1]]]
+
+            for ii in [x for x in zip(seq, zex, list(df_odin["Zscore"])) if x[1] != 999.0]:
+                if ii[0] in predicted_z_scores["odin"].keys():
+                    predicted_z_scores["odin"][ii[0]].append([ii[1], ii[2], ii[2] - ii[1]])
+                else:
+                    predicted_z_scores["odin"][ii[0]] = [[ii[1], ii[2], ii[2] - ii[1]]]
+
+        return predicted_z_scores
+
+    def get_stability_paths(self, model_picked):
+        chezod = CheZod(self.path_chezod_1325_raw, self.path_chezod_117_raw)
+        (
+            ex_train,
+            zed_train,
+            _,
+            _,
+        ) = chezod.get_train_test_sets(self.path_chezod_1325_repr, self.path_chezod_117_repr)
+        
+        nr_samples = constants.stability_path_reg_params['nr_samples']
+        reg_params = np.linspace(constants.stability_path_reg_params['start'], 
+                                constants.stability_path_reg_params['end'], 
+                                constants.stability_path_reg_params['n_points'])
+        sample_size = ex_train[model_picked].shape[0]//2
+        # collect the probabilities of being selected
+        probabs = {} 
+        for reg_param in reg_params:
+            print("Computing stability path for regularisation parameter: ", reg_param)
+            print('------------------')
+            selected_idxs = np.zeros(ex_train[model_picked].shape[1])
+            abs_reg_coefs = Parallel(n_jobs=-1)(delayed(utils.stability_selection_prob)(ex_train, 
+                                                                                        zed_train, 
+                                                                                        model_picked, 
+                                                                                        sample_size, 
+                                                                                        reg_param) for _ in range(nr_samples))
+            for reg_coef in abs_reg_coefs:
+                np.add.at(selected_idxs, np.where(reg_coef != 0.0)[0], 1)
+            probabs[reg_param] = 1./nr_samples*selected_idxs
+        return probabs
+    
+    def plot_stability_paths(self, probabs, model_picked):
+        cutoffs = constants.stability_path_hyperparams['cutoffs']
+        freq_cutoff = constants.stability_path_hyperparams['freq_cutoff']
+        chezod = CheZod(self.path_chezod_1325_raw, self.path_chezod_117_raw)
+        (
+            ex_train,
+            zed_train,
+            ex_test,
+            zed_test,
+        ) = chezod.get_train_test_sets(self.path_chezod_1325_repr, self.path_chezod_117_repr)
+        for cutoff in cutoffs:
+            fig = go.Figure()
+            coordinates_relevant = []
+            for i in range(ex_train[model_picked].shape[1]):
+                if sum([1. if probabs[key][i] > cutoff else 0. for key in probabs.keys()])>freq_cutoff:
+                    coordinates_relevant.append(i)
+                    line = dict(color="red", width=.5)
+                else:
+                    line=dict(dash='dash', color="black", width=.5)
+                fig.add_trace(go.Scatter(x=list(probabs.keys()), 
+                                    y=[probabs[key][i] for key in probabs.keys()],
+                                    mode='lines',
+                                    line=line))
+            fig.update_layout(
+                #title=f"Cutoff {cutoff}",
+                xaxis_title=r"$\lambda$",
+                yaxis_title=r"$\Pi(\lambda)$",
+                legend_title="Legend Title",
+                font=dict(
+                    family="Courier New",
+                    size=18,
+                    color="black"
+                )
+            )
+            fig.update_layout(showlegend=False)
+            pio.write_image(fig, 
+                            "../media/stability_paths_" 
+                            + "_cp_"
+                            + str(cutoff)
+                            + "_cf_"
+                            + str(freq_cutoff)
+                            + ".pdf", 
+                            width=900, 
+                            height=450, 
+                            scale=1.) #, width=800, height=800, scale=1.0)
+            # do the Lasso
+            ex_train_filtered = np.take(ex_train[model_picked], coordinates_relevant, axis=1)
+            ex_test_filtered = np.take(ex_test[model_picked], coordinates_relevant, axis=1)
+            # slim regression
+            reg_slim_lasso = linear_model.Lasso(alpha=0.0001, max_iter=10000)
+            reg_slim_lasso.fit(ex_train_filtered, zed_train[model_picked])  
+            print('Stability selection with cp=', cutoff, "and cf=", freq_cutoff)
+            print('Coordinate ', len(coordinates_relevant), 'correlation: ', scipy.stats.spearmanr(zed_test[model_picked], reg_slim_lasso.predict(ex_test_filtered)).correlation)
         
 
 class CheZodCompare:
@@ -534,16 +516,20 @@ if __name__ == "__main__":
     parser = create_parser()
     args = parser.parse_args()
     main(args)
-    predicted_z_scores = get_z_score_per_residue(
-        args.benchmark_data_path,
-        args.train_json_file,
-        args.test_json_file,
-        args.train_repr_dir,
-        args.test_repr_dir,
-        args.train_strategy,
-    )
+    disorder_compare = DisorderCompare(args.benchmark_data_path,
+                                       args.train_json_file,
+                                       args.test_json_file,
+                                       args.train_repr_dir,
+                                       args.test_repr_dir,
+                                       args.train_strategy)
+
+    predicted_z_scores = DisorderCompare.get_z_score_per_residue(args.train_strategy)
     chezod_compare = CheZodCompare(predicted_z_scores)
     corr_per_res = chezod_compare.get_corr_per_residue()
     actual_z_scores, z_scores_per_model = chezod_compare.get_z_scores_per_model()
-    plot_corr_per_residue(corr_per_res, "esm-1b")
     plot_gt_vs_pred_contours(actual_z_scores, z_scores_per_model)
+
+    for model_picked in constants.model_types:
+        probas = disorder_compare.get_stability_paths(model_picked)
+        disorder_compare.plot_stability_paths(probas, model_picked)
+        plot_corr_per_residue(corr_per_res, model_picked)

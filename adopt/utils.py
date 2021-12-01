@@ -11,6 +11,7 @@ import torch
 from Bio import SeqIO
 from skl2onnx import convert_sklearn
 from skl2onnx.common.data_types import FloatTensorType
+from sklearn import linear_model
 
 from adopt import constants
 
@@ -137,3 +138,14 @@ def get_residue_class(predicted_z_scores):
         residues_dict["end"] = n + 1
         residues_state.append(residues_dict)
     return residues_state
+
+
+def stability_selection_prob(ex_train, zed_train, model_picked, sample_size, reg_param):
+    sample_idxs = np.random.choice(np.arange(ex_train[model_picked].shape[0]), sample_size, replace=False) 
+    ex_train_filtered = np.take(ex_train[model_picked], sample_idxs, axis=0)
+    zed_train_filtered = np.take(zed_train[model_picked], sample_idxs, axis=0)
+    # Lasso regression
+    reg = linear_model.Lasso(alpha=reg_param, max_iter=10000)
+    reg.fit(ex_train_filtered, zed_train_filtered)
+    reg_coef = abs(reg.coef_)
+    return reg_coef
