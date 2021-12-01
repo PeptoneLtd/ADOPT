@@ -247,7 +247,7 @@ class DisorderCompare:
         predicted_z_scores = {
             "esm-1v": {},
             "esm-1b": {},
-            "esm-msa": {},
+            #"esm-msa": {},
             "combined": {},
             "odin": {},
         }
@@ -306,7 +306,7 @@ class DisorderCompare:
                         predicted_z_scores[model_type][i[0]] = [[i[1], i[2], i[2] - i[1]]]
 
             # combined output
-            ex_dum_esm1v, zed_dum_esm1v = utils.pedestrian_input(
+            ex_dum_esm1v, _ = utils.pedestrian_input(
                 [brmid_dummy],
                 df_117,
                 repr_path["esm-1v"]["117"],
@@ -315,7 +315,7 @@ class DisorderCompare:
                 drop_missing=False,
             )
 
-            ex_dum_esm1b, zed_dum_esm1b = utils.pedestrian_input(
+            ex_dum_esm1b, _ = utils.pedestrian_input(
                 [brmid_dummy],
                 df_117,
                 repr_path["esm-1b"]["117"],
@@ -351,7 +351,6 @@ class DisorderCompare:
                     predicted_z_scores["odin"][ii[0]].append([ii[1], ii[2], ii[2] - ii[1]])
                 else:
                     predicted_z_scores["odin"][ii[0]] = [[ii[1], ii[2], ii[2] - ii[1]]]
-
         return predicted_z_scores
         
 
@@ -363,11 +362,11 @@ class CheZodCompare:
         corr_per_res = {
             "esm-1v": {},
             "esm-1b": {},
-            "esm-msa": {},
+            #"esm-msa": {},
             "combined": {},
             "odin": {},
         }
-        for model_type in corr_per_res.keys():
+        for model_type in corr_per_res.keys(): # todo parallelise this loop
             for k in self.predicted_z_scores[model_type].keys():
                 print("residue type: ", k)
                 print("--------------------------------")

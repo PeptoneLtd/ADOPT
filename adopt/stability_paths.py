@@ -34,14 +34,14 @@ class StabilityAnalysis:
             
             nr_samples = constants.stability_path_reg_params['nr_samples']
             reg_params = np.linspace(constants.stability_path_reg_params['start'], 
-                                    constants.stability_path_reg_params['end'], 
-                                    constants.stability_path_reg_params['n_points'])
+                                     constants.stability_path_reg_params['end'], 
+                                     constants.stability_path_reg_params['n_points'])
             sample_size = ex_train[model_picked].shape[0]//2
             # collect the probabilities of being selected
             probabs = {} 
             for reg_param in reg_params:
                 print("Computing stability path for regularisation parameter: ", reg_param)
-                print('------------------')
+                print('-----------------------------------------------------')
                 selected_idxs = np.zeros(ex_train[model_picked].shape[1])
                 abs_reg_coefs = Parallel(n_jobs=-1)(delayed(utils.stability_selection_prob)(ex_train, 
                                                                                             zed_train, 
