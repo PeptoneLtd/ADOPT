@@ -9,4 +9,5 @@ from .data import CheZod
 from .inference import ZScorePred
 from .training import DisorderPred
 from .transformer import MultiHead
+from .stability_paths import StabilityAnalysis
 from .version import version as __version__
