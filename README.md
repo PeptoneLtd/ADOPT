@@ -21,6 +21,7 @@ ADOPT makes use of two datasets: the [CheZoD  “1325” and the CheZoD “117�
   - [Intrinsic disorder trained models](#intrinsic-disorder-trained-models)
   - [Usage](#usage)
     - [Quick start](#quick-start)
+    - [Msa setting](#msa-setting)
     - [Scripts](#scripts)
     - [Notebooks](#notebooks)
     - [Compute residue level representations](#compute-residue-level-representations)
@@ -78,6 +79,12 @@ representation, tokens = multi_head.get_representation()
 z_score_pred = ZScorePred(STRATEGY, MODEL_TYPE)
 predicted_z_scores = z_score_pred.get_z_score(representation)
 ````
+
+### MSA setting 
+
+In order to enable the ```esm-msa``` based variant of ADOPT, MSAs for each sequence are also required. 
+We provide a stand alone, ```docker``` based tool that can be used to obatin MSAs from ```fasta``` files.
+
 
 ### Scripts
 
