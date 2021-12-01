@@ -440,7 +440,7 @@ if __name__ == "__main__":
                                            args.train_repr_dir,
                                            args.test_repr_dir)
 
-    predicted_z_scores = DisorderCompare.get_z_score_per_residue(args.train_strategy)
+    predicted_z_scores = disorder_compare.get_z_score_per_residue(args.train_strategy)
     chezod_compare = CheZodCompare(predicted_z_scores)
     corr_per_res = chezod_compare.get_corr_per_residue()
     actual_z_scores, z_scores_per_model = chezod_compare.get_z_scores_per_model()
