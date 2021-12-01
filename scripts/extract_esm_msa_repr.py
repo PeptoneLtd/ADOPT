@@ -91,4 +91,4 @@ for protein_id in msas_data:
     sv['contacts'] = results['contacts'][0].clone()
 
     print(f'Saving - {msa_batch_labels[0][0]}.pt')
-    torch.save(sv, f'{repr_path}{msa_batch_labels[0][0]}.pt')
+    torch.save(sv, f'{repr_path}/{msa_batch_labels[0][0]}.pt')
