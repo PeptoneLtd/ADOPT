@@ -16,6 +16,8 @@ from plotly.subplots import make_subplots
 
 from adopt import CheZod, StabilityAnalysis, constants, utils
 
+pio.renderers.default = "browser"
+
 
 def create_parser():
     parser = argparse.ArgumentParser(description="Run benchmarks")

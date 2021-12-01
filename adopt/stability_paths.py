@@ -7,7 +7,6 @@ import numpy as np
 import plotly.graph_objects as go
 import plotly.io as pio
 import scipy
-from plotly.subplots import make_subplots
 from joblib import Parallel, delayed
 from sklearn import linear_model
 
