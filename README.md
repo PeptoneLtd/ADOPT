@@ -86,7 +86,6 @@ In order to enable the ```esm-msa``` based variant of ADOPT, MSAs for each seque
 We provide a stand alone, ```docker``` based tool that can be used to obatin MSAs from ```fasta``` files.
 If the user already has her/his MSAs ready, the steps to follow will be given below.
 
-<<<<<<< HEAD
 #### Setup the tool to generate MSAs
 
 Make the following three scripts in the [scripts](scripts) folder locally available:
@@ -143,12 +142,6 @@ msa_generator.sh <fasta_file_path>
 ```
 The MSAs will be placed in the ```/local_msa_dir/msas``` folder. Furthermore, the fasta file used for query will be copied in the
 ```/local_msa_dir/msa_fastas``` folder.
-=======
-Two bash scripts are located in the [scripts](dcripts) directory:
-- [adopt_msa_setup](scripts/adopt_msa_setup.sh)
-- [msa_generator](scripts/msa_generator.sh)
->>>>>>> d220487d75a18e987156012bd63efbd686b59e8b
-
 ### Scripts
 
 The [scripts](scripts) directory contains:
