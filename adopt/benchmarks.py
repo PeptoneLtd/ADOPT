@@ -275,7 +275,7 @@ class DisorderCompare:
                     self.path_chezod_1325_repr, self.path_chezod_117_repr
                 )
                 # get the representations and the experimental z_scores
-                ex_dum, zed_dum = utils.pedestrian_input(
+                ex_dum, _ = utils.pedestrian_input(
                     [brmid_dummy],
                     df_117,
                     repr_path[model_type]["117"],
