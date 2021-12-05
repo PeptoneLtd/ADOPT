@@ -26,19 +26,20 @@ bash msa_generator.sh $TEST_FASTA_FILE_PATH
 printf "Extracting residue level representations of %s \n" $TRAIN_FASTA_FILE_PATH
 docker exec -it adopt bash python ../adopt/embedding.py -f $TRAIN_FASTA_FILE_PATH \
                                                         -r $TRAIN_RES_REPR_DIR_PATH \
-                                                        -m
+                                                        -a
 
 printf "Extracting residue level representations of %s \n" $TEST_FASTA_FILE_PATH
 docker exec -it adopt python ../adopt/embedding.py -f $TEST_FASTA_FILE_PATH \
                                                    -r $TEST_RES_REPR_DIR_PATH \
-                                                   -m
+                                                   -a
 
 printf "Training ADOPT on %s \n" $TRAIN_FASTA_FILE_PATH
 docker exec -it adopt python ../adopt/training.py -s $TRAIN_STRATEGY \
                                                   -t $TRAIN_JSON_FILE_PATH \
                                                   -e $TEST_JSON_FILE_PATH \
                                                   -r $TRAIN_RES_REPR_DIR_PATH \
-                                                  -p $TEST_RES_REPR_DIR_PATH 
+                                                  -p $TEST_RES_REPR_DIR_PATH \
+                                                  -a
 
 docker cp adopt:/ADOPT/models ../
 printf "The trained models have been stored in ../models"
