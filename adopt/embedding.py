@@ -48,7 +48,7 @@ def get_representations(fasta_file, repr_dir, msa):
         Path(str(model_dir)).mkdir(parents=True, exist_ok=True)
         if esm_model == 'esm_msa':
             bashCommand = (
-                "python extract_esm_msa_repr.py "
+                "python scripts/extract_esm_msa_repr.py "
                 + " "
                 + str(fasta_file)
                 + " "
@@ -56,7 +56,7 @@ def get_representations(fasta_file, repr_dir, msa):
             )
         else:
             bashCommand = (
-                "python ../esm/extract.py "
+                "python esm/extract.py "
                 + str(esm_model)
                 + " "
                 + str(fasta_file)
