@@ -14,10 +14,10 @@ MODEL_TYPE="esm-msa"
 PRED_Z_FILE_PATH="predicted_z_scores.json"
 
 printf "Setting up the MSA procedure \n"
-bash adopt_msa_setup.sh $LOCAL_MSA_DIR
+bash scripts/adopt_msa_setup.sh $LOCAL_MSA_DIR
 
 printf "Extracting Multi Sequence Alignments of %s \n" $NEW_PROT_FASTA_FILE_PATH
-bash msa_generator.sh $NEW_PROT_FASTA_FILE_PATH
+bash scripts/msa_generator.sh $NEW_PROT_FASTA_FILE_PATH
 
 printf "Extracting residue level representation of %s \n" $NEW_PROT_FASTA_FILE_PATH
 docker exec -it adopt python adopt/embedding.py -f $NEW_PROT_FASTA_FILE_PATH \

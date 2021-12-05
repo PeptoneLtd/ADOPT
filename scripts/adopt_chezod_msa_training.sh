@@ -16,13 +16,13 @@ TRAIN_JSON_FILE_PATH="datasets/1325_dataset_raw.json"
 TEST_JSON_FILE_PATH="datasets/117_dataset_raw.json" 
 
 printf "Setting up the MSA procedure \n"
-bash adopt_msa_setup.sh $LOCAL_MSA_DIR
+bash scripts/adopt_msa_setup.sh $LOCAL_MSA_DIR
 
 printf "Extracting Multi Sequence Alignments of %s \n" $TRAIN_FASTA_FILE_PATH
-bash msa_generator.sh $TRAIN_FASTA_FILE_PATH
+bash scripts/msa_generator.sh $TRAIN_FASTA_FILE_PATH
 
 printf "Extracting Multi Sequence Alignments of %s \n" $TEST_FASTA_FILE_PATH
-bash msa_generator.sh $TEST_FASTA_FILE_PATH
+bash scripts/msa_generator.sh $TEST_FASTA_FILE_PATH
 
 printf "Extracting residue level representations of %s \n" $TRAIN_FASTA_FILE_PATH
 docker exec -it adopt python adopt/embedding.py -f $TRAIN_FASTA_FILE_PATH \
@@ -42,5 +42,5 @@ docker exec -it adopt python adopt/training.py -s $TRAIN_STRATEGY \
                                                -p $TEST_RES_REPR_DIR_PATH \
                                                -a
 
-docker cp adopt:/ADOPT/models ../
-printf "The trained models have been stored in ../models"
+docker cp adopt:/ADOPT/models .
+printf "The trained models have been stored in ./models"
