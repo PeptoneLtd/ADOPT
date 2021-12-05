@@ -59,6 +59,12 @@ def create_parser():
         required=True,
         help="Path where you want the Z scores to be saved",
     )
+    parser.add_argument(
+        "-a",
+        "--msa",
+        action="store_true",
+        help="Extract MSA based representations",
+    )
     return parser
 
 
@@ -142,16 +148,17 @@ class ZScorePred:
 
 
 def main(args):
+    model_types = utils.get_model_types(args.msa)
     if args.train_strategy not in constants.train_strategies:
         print("The training strategies are:")
         print(*constants.train_strategies, sep="\n")
         sys.exit(2)
 
-    if (args.model_type not in constants.model_types) and (
+    if (args.model_type not in model_types) and (
         args.model_type != "combined"
     ):
         print("The pre-trained models are:")
-        print(*constants.model_types, sep="\n")
+        print(*model_types, sep="\n")
         print("combined")
         sys.exit(2)
 
