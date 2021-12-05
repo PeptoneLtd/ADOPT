@@ -24,9 +24,9 @@ printf "Extracting Multi Sequence Alignments of %s \n" $TEST_FASTA_FILE_PATH
 bash msa_generator.sh $TEST_FASTA_FILE_PATH
 
 printf "Extracting residue level representations of %s \n" $TRAIN_FASTA_FILE_PATH
-docker exec -it adopt bash python ../adopt/embedding.py -f $TRAIN_FASTA_FILE_PATH \
-                                                        -r $TRAIN_RES_REPR_DIR_PATH \
-                                                        -a
+docker exec -it adopt python ../adopt/embedding.py -f $TRAIN_FASTA_FILE_PATH \
+                                                   -r $TRAIN_RES_REPR_DIR_PATH \
+                                                   -a
 
 printf "Extracting residue level representations of %s \n" $TEST_FASTA_FILE_PATH
 docker exec -it adopt python ../adopt/embedding.py -f $TEST_FASTA_FILE_PATH \
