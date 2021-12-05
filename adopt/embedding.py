@@ -41,7 +41,7 @@ def create_parser():
 
 
 # extract residue level representations of each protein sequence in the fasta file
-def get_representations(fasta_file, repr_dir, msa=False):
+def get_representations(fasta_file, repr_dir, msa):
     esm_models = utils.get_esm_models(msa)
     for esm_model in esm_models:
         model_dir = str(repr_dir) + "/" + constants.models_dict[esm_model]
