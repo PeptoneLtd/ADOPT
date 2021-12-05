@@ -75,8 +75,8 @@ if [ "$char" = '0' ]; then
         docker pull ghcr.io/peptoneinc/msa-gen-adopt:latest
         docker run -it -d --name=msa-gen-adopt -v "$DIRECTORY":/work ghcr.io/peptoneinc/msa-gen-adopt:latest
 		echo "Docker container <msa-gen-adopt> is up and running. Go ahead..." 
-		docker pull ghcr.io/peptoneinc/adopt:latest
-		docker run -it -d --name=adopt -v "$DIRECTORY/msas":/msas ghcr.io/peptoneinc/adopt:latest
+		docker pull ghcr.io/peptoneinc/adopt:esm-msa-dev
+		docker run -it -d --name=adopt -v "$DIRECTORY/msas":/msas ghcr.io/peptoneinc/adopt:esm-msa-dev
         echo "Docker container <adopt> is up and running. Go ahead..."  
 else
 	
