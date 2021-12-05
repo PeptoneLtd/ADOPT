@@ -67,7 +67,7 @@ fi
 # Run the uniclust_download script and provided it run successfully, i.e. returned 0, create the docker image
 # -----------------------------------------------------------------------------------------------------------
 
-var=$(python3 uniclust_download.py "$DIRECTORY")
+var=$(python3 scripts/uniclust_download.py "$DIRECTORY")
 char=${var: -1}
 
 if [ "$char" = '0' ]; then 	
