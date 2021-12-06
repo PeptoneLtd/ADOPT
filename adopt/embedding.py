@@ -16,16 +16,14 @@ def create_parser():
     )
 
     parser.add_argument(
-        "-f",
-        "--fasta_path",
+        "fasta_path",
         type=str,
         metavar="",
         required=True,
         help="FASTA file containing the proteins for which you want to compute the intrinsic disorder",
     )
     parser.add_argument(
-        "-r",
-        "--repr_dir",
+        "repr_dir",
         type=str,
         metavar="",
         required=True,
@@ -46,7 +44,7 @@ def get_representations(fasta_file, repr_dir, msa):
     for esm_model in esm_models:
         model_dir = str(repr_dir) + "/" + constants.models_dict[esm_model]
         Path(str(model_dir)).mkdir(parents=True, exist_ok=True)
-        if esm_model == 'esm_msa':
+        if 'esm_msa' in esm_model:
             bashCommand = (
                 "python scripts/extract_esm_msa_repr.py "
                 + " "

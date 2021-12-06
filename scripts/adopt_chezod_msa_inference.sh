@@ -20,16 +20,16 @@ printf "Extracting Multi Sequence Alignments of %s \n" $NEW_PROT_FASTA_FILE_PATH
 bash scripts/msa_generator.sh $NEW_PROT_FASTA_FILE_PATH
 
 printf "Extracting residue level representation of %s \n" $NEW_PROT_FASTA_FILE_PATH
-docker exec -it adopt python adopt/embedding.py -f $NEW_PROT_FASTA_FILE_PATH \
-                                                -r $NEW_PROT_RES_REPR_DIR_PATH \
+docker exec -it adopt python adopt/embedding.py fasta_path $NEW_PROT_FASTA_FILE_PATH \
+                                                repr_dir $NEW_PROT_RES_REPR_DIR_PATH \
                                                 -a
 
 printf "Computing Z scores of %s \n" $NEW_PROT_FASTA_FILE_PATH
-docker exec -it adopt python adopt/inference.py -s $TRAIN_STRATEGY \
-                                                -m $MODEL_TYPE \
-                                                -f $NEW_PROT_FASTA_FILE_PATH \
-                                                -r $NEW_PROT_RES_REPR_DIR_PATH \
-                                                -p $PRED_Z_FILE_PATH \
+docker exec -it adopt python adopt/inference.py train_strategy $TRAIN_STRATEGY \
+                                                model_type $MODEL_TYPE \
+                                                fasta_path $NEW_PROT_FASTA_FILE_PATH \
+                                                repr_dir $NEW_PROT_RES_REPR_DIR_PATH \
+                                                pred_z_scores_path $PRED_Z_FILE_PATH \
                                                 -a
 
 docker cp adopt:$NEW_PROT_FASTA_FILE_PATH $NEW_PROT_FASTA_FILE_PATH
