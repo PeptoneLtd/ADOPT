@@ -20,44 +20,45 @@ def create_parser():
     )
 
     parser.add_argument(
-        "-s",
-        "--train_strategy",
+        "train_strategy",
         type=str,
         metavar="",
         required=True,
         help="Training strategies",
     )
     parser.add_argument(
-        "-m",
-        "--model_type",
+        "model_type",
         type=str,
         metavar="",
         required=True,
         help="pre-trained model we want to use",
     )
     parser.add_argument(
-        "-f",
-        "--fasta_path",
+        "fasta_path",
         type=str,
         metavar="",
         required=True,
         help="FASTA file containing the proteins for which you want to compute the intrinsic disorder",
     )
     parser.add_argument(
-        "-r",
-        "--repr_dir",
+        "repr_dir",
         type=str,
         metavar="",
         required=True,
         help="Residue level representation directory",
     )
     parser.add_argument(
-        "-p",
-        "--pred_z_scores_path",
+        "pred_z_scores_path",
         type=str,
         metavar="",
         required=True,
         help="Path where you want the Z scores to be saved",
+    )
+    parser.add_argument(
+        "-a",
+        "--msa",
+        action="store_true",
+        help="Extract MSA based representations",
     )
     return parser
 
@@ -142,16 +143,17 @@ class ZScorePred:
 
 
 def main(args):
+    model_types = utils.get_model_types(args.msa)
     if args.train_strategy not in constants.train_strategies:
         print("The training strategies are:")
         print(*constants.train_strategies, sep="\n")
         sys.exit(2)
 
-    if (args.model_type not in constants.model_types) and (
+    if (args.model_type not in model_types) and (
         args.model_type != "combined"
     ):
         print("The pre-trained models are:")
-        print(*constants.model_types, sep="\n")
+        print(*model_types, sep="\n")
         print("combined")
         sys.exit(2)
 

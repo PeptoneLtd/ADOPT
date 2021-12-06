@@ -48,9 +48,13 @@ def pedestrian_input(indexes, df, path, z_col="z-score", msa=False, drop_missing
 
 
 # collect the path to representations according to model type and train vs test set
-def representation_path(path_chezod_1325_repr, path_chezod_117_repr):
+def representation_path(path_chezod_1325_repr, path_chezod_117_repr, msa):
     repr_path = {}
-    for model_type in constants.model_types:
+    if msa:
+        model_types = constants.msa_model_types
+    else:
+        model_types = constants.model_types
+    for model_type in model_types:
         repr_path[model_type] = {
             "1325": str(path_chezod_1325_repr) + "/" + model_type + "/",
             "117": str(path_chezod_117_repr) + "/" + model_type + "/",
@@ -92,12 +96,19 @@ def get_onnx_model_preds(model_name, input_data):
     return pred_onx
 
 
-def get_esm_output(model, alphabet, data):
-    batch_converter = alphabet.get_batch_converter()
-    batch_labels, batch_strs, batch_tokens = batch_converter(data)
-    # Extract per-residue representations (on CPU)
-    with torch.no_grad():
-        results = model(batch_tokens, repr_layers=[33], return_contacts=True)
+def get_esm_output(model, alphabet, data, msa):
+    if msa:
+        msa_transformer = model.eval()
+        msa_batch_converter = alphabet.get_batch_converter()
+        _, _, msa_batch_tokens = msa_batch_converter(data)
+        with torch.no_grad():
+            results = msa_transformer(msa_batch_tokens, repr_layers=[12], return_contacts=True)
+    else:
+        batch_converter = alphabet.get_batch_converter()
+        batch_labels, batch_strs, batch_tokens = batch_converter(data)
+        # Extract per-residue representations (on CPU)
+        with torch.no_grad():
+            results = model(batch_tokens, repr_layers=[33], return_contacts=True)
     return results
 
 
@@ -105,12 +116,13 @@ def get_model_and_alphabet(model_type, data):
     # Load ESM model
     if model_type == "esm-1b":
         model, alphabet = esm.pretrained.esm1b_t33_650M_UR50S()
-        results = get_esm_output(model, alphabet, data)
+        results = get_esm_output(model, alphabet, data, False)
     elif model_type == "esm-1v":
         model, alphabet = esm.pretrained.esm1v_t33_650M_UR90S_1()
-        results = get_esm_output(model, alphabet, data)
-    # elif model_type == 'esm-msa':
-    #    model, alphabet = esm.pretrained.esm_msa1b_t12_100M_UR50S
+        results = get_esm_output(model, alphabet, data, False)
+    elif model_type == 'esm-msa':
+        model, alphabet = esm.pretrained.esm_msa1b_t12_100M_UR50S()
+        results = get_esm_output(model, alphabet, data, True)
     else:
         model_esm1b, alphabet_esm1b = esm.pretrained.esm1b_t33_650M_UR50S()
         model_esm1v, alphabet_esm1v = esm.pretrained.esm1v_t33_650M_UR90S_1()
@@ -137,3 +149,19 @@ def get_residue_class(predicted_z_scores):
         residues_dict["end"] = n + 1
         residues_state.append(residues_dict)
     return residues_state
+
+
+def get_esm_models(msa):
+    if msa:
+        models = constants.esm_msa_models
+    else:
+        models = constants.esm_models
+    return models
+
+
+def get_model_types(msa):
+    if msa:
+        model_types = constants.msa_model_types
+    else:
+        model_types = constants.model_types
+    return model_types

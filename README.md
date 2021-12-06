@@ -21,6 +21,7 @@ ADOPT makes use of two datasets: the [CheZoD  “1325” and the CheZoD “117�
   - [Intrinsic disorder trained models](#intrinsic-disorder-trained-models)
   - [Usage](#usage)
     - [Quick start](#quick-start)
+    - [MSA setting (optional)](#msa-setting-optional)
     - [Scripts](#scripts)
     - [Notebooks](#notebooks)
     - [Compute residue level representations](#compute-residue-level-representations)
@@ -62,7 +63,7 @@ Then, you can predict the intrinsic disorder of each reesidue in a protein seque
 ```python
 from adopt import MultiHead, ZScorePred
 
-# Prepare protein sequence and name i.e brmid 
+# Prepare protein sequence and name i.e brmid
 SEQUENCE = "SLQDGVRQSRASDKQTLLPNDQLYQPLKDREDDQYSHLQGNQLRRN"
 BRMID = "Protein 18890"
 
@@ -79,13 +80,75 @@ z_score_pred = ZScorePred(STRATEGY, MODEL_TYPE)
 predicted_z_scores = z_score_pred.get_z_score(representation)
 ````
 
+### MSA setting (optional)
+
+In order to enable the ```esm-msa``` based variant of ADOPT, MSAs for each sequence are also required.
+We provide a stand alone, ```docker``` based tool that can be used to obatin MSAs from ```fasta``` files.
+If the user already has her/his MSAs ready, the steps to follow will be given below.
+
+#### Setup the tool to generate MSAs
+
+Make the following three scripts in the [scripts](scripts) folder locally available:
+- ```adopt_msa_setup.sh``` [adopt_msa_setup](scripts/adopt_msa_setup.sh);
+- ```uniclust_download.py``` [adopt_msa_setup](scripts/uniclust_download.py);
+- ```msa_generator.sh``` [adopt_msa_setup](scripts/msa_generator.sh);
+
+This means if ADOPT is running in a container, these files should be copied into a local host folder and
+not used directly in the container.
+
+<code> <b> STEP 1 </b> </code>
+
+Assuming that the above three files are placed in a local folder ```/tmp```, the first step is to run,
+from ```/tmp```, the following command <code><i> (Please read the description before run!) </i></code>
+
+```bash
+adopt_msa_setup.sh <local_msa_dir>
+```
+
+where ```local_msa_dir``` serves as the main directory for the MSA related procedures and can be empty
+initially when running the above script. This takes care of two tasks:
+
+ 1. Downloading [uniclust](http://gwdu111.gwdg.de/~compbiol/uniclust/) dataset (in this case "2020.06") into
+  the ```/local_msa_dir/databases``` subdirectory. <code><i> (NOTE!) </i></code> Under the hood,
+<code>uniclust_download.py</code> runs and checks, whether uniclust is already in this subdirectory. If not, downloading
+can take several hours, given the size of this dataset is approx 180GB! Download step is skipped only if the ```/local_msa_dir/databases```
+folder is non empty and the tar file (<cite>UniRef30_2020_06_hhsuite.tar.gz</cite>) is found in the ```/local_msa_dir``` folder.
+
+ 2. Once the relevant uniclust is there, a docker image named ```msa-gen-adopt``` is run with the volume ```/local_msa_dir```
+mounted on it.
+
+Note that this setup procedure creates four subfolders:
+
+<pre>
++-- local_msa_dir
+|   +-- databases
+|   +-- msas
+|   +-- msa_fastas
+|   +-- esm_msa_reprs
+</pre>
+
+```databases``` will hold the [uniclust](http://gwdu111.gwdg.de/~compbiol/uniclust/);
+```msas``` is where MSAs (```.a3m``` files) will be saved later, see STEP 2 below;
+```msa_fastas``` is where ```.fasta``` files already used for MSA queries will be saved;
+```esm_msa_reprs``` is allocated for potential ```esm-msa``` representations;
+
+<code> <b> STEP 2 </b> </code>
+
+Given the docker container ```msa-gen-adopt``` is up and running (the result of STEP 1), the following command can be used,
+from the ```/tmp``` folder, to generate MSAs using a fasta file:
+
+```bash
+msa_generator.sh <fasta_file_path>
+```
+The MSAs will be placed in the ```/local_msa_dir/msas``` folder. Furthermore, the fasta file used for query will be copied in the
+```/local_msa_dir/msa_fastas``` folder.
 ### Scripts
 
 The [scripts](scripts) directory contains:
 
 - [inference](scripts/adopt_inference.sh) script to predict, in bulk, the disorder of each residue in each protein sequence reported in a FASTA file, with ADOPT where you need to specify:
   - `NEW_PROT_FASTA_FILE_PATH` defining your FASTA file path
-  - `NEW_PROT_RES_REPR_DIR_PATH` defining where the residue level representations will be extracted  
+  - `NEW_PROT_RES_REPR_DIR_PATH` defining where the residue level representations will be extracted
 - [training](scripts/adopt_chezod_training.sh) script to train the ADOPT where you need to specify:
   - `TRAIN_STRATEGY` defining the training strategy you want to use
 
@@ -104,7 +167,7 @@ In the ADOPT directory run:
 
 ```bash
 python embedding.py -f <fasta_file_path> \
-                    -r <residue_level_representation_dir> 
+                    -r <residue_level_representation_dir>
 ```
 
 Where:
@@ -115,6 +178,9 @@ Where:
 
 A subdirectory containing the residue level representation extracted from each pre-trained model available will be created under both the `residue_level_representation_dir`.
 
+Important to note that in order to obtain the representations from the ```esm-msa``` model as well, the relevant MSAs have to
+be placed in the root directory `/msas` in the system, where ADOPT is running. The MSAs can be created as described in
+the MSA setting above.
 ### Predict intrinsic disorder with ADOPT
 
 Once we have extracted the residue level representations we can predict the intrinsic disorder (Z score).

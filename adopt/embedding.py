@@ -7,7 +7,7 @@ import argparse
 import subprocess
 from pathlib import Path
 
-from adopt import constants
+from adopt import constants, utils
 
 
 def create_parser():
@@ -16,42 +16,45 @@ def create_parser():
     )
 
     parser.add_argument(
-        "-f",
-        "--fasta_path",
+        "fasta_path",
         type=str,
         metavar="",
         required=True,
         help="FASTA file containing the proteins for which you want to compute the intrinsic disorder",
     )
     parser.add_argument(
-        "-r",
-        "--repr_dir",
+        "repr_dir",
         type=str,
         metavar="",
         required=True,
         help="Residue level representation directory",
     )
+    parser.add_argument(
+        "-a",
+        "--msa",
+        action="store_true",
+        help="Extract MSA based representations",
+    )
     return parser
 
 
 # extract residue level representations of each protein sequence in the fasta file
-def get_representations(fasta_file, repr_dir):
-    for esm_model in constants.esm_models:
+def get_representations(fasta_file, repr_dir, msa):
+    esm_models = utils.get_esm_models(msa)
+    for esm_model in esm_models:
         model_dir = str(repr_dir) + "/" + constants.models_dict[esm_model]
         Path(str(model_dir)).mkdir(parents=True, exist_ok=True)
-        if "esm_msa" in esm_model:
+        if 'esm_msa' in esm_model:
             bashCommand = (
-                "python ../esm/extract.py "
-                + str(esm_model)
+                "python scripts/extract_esm_msa_repr.py "
                 + " "
                 + str(fasta_file)
                 + " "
                 + model_dir
-                + " --repr_layers 12 --include per_tok"
-            )  # todo fasta_file->msa_fasta_file
+            )
         else:
             bashCommand = (
-                "python ../esm/extract.py "
+                "python esm/extract.py "
                 + str(esm_model)
                 + " "
                 + str(fasta_file)
@@ -66,4 +69,4 @@ def get_representations(fasta_file, repr_dir):
 if __name__ == "__main__":
     parser = create_parser()
     args = parser.parse_args()
-    get_representations(args.fasta_path, args.repr_dir)
+    get_representations(args.fasta_path, args.repr_dir, args.msa)

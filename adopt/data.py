@@ -9,9 +9,14 @@ from adopt import constants, utils
 
 
 class CheZod:
-    def __init__(self, path_chezod_1325_raw, path_chezod_117_raw):
+    def __init__(self, path_chezod_1325_raw, path_chezod_117_raw, model_types):
         self.path_chezod_1325_raw = str(path_chezod_1325_raw)
         self.path_chezod_117_raw = str(path_chezod_117_raw)
+        self.model_types = model_types
+        if self.model_types == constants.msa_model_types:
+            self.msa = True
+        else:
+            self.msa = False
 
     def get_chezod_raw(self):
         df_ch = pd.read_json(self.path_chezod_1325_raw)
@@ -29,7 +34,7 @@ class CheZod:
     def get_train_test_sets(self, path_chezod_1325_repr, path_chezod_117_repr):
         # collect the path to representations according to model type and train vs test set
         repr_path = utils.representation_path(
-            path_chezod_1325_repr, path_chezod_117_repr
+            path_chezod_1325_repr, path_chezod_117_repr, self.msa
         )
 
         df_cleared, _, df_117 = self.get_chezod_raw()
@@ -38,7 +43,7 @@ class CheZod:
         ex_train, zed_train = {}, {}
         ex_test, zed_test = {}, {}
 
-        for model_type in constants.model_types:
+        for model_type in self.model_types:
             if model_type == "esm-msa":
                 msa_ind = True
             else:
@@ -61,7 +66,7 @@ class CheZod:
             )
 
         # Quick check, whether the number of inputs is the same for all 3 model types
-        for model_type in constants.model_types:
+        for model_type in self.model_types:
             print(model_type)
             print("----------------------------")
             print("training set")
@@ -81,9 +86,9 @@ class CheZod:
             print()
 
         if (
-            ex_train[constants.model_types[0]].shape[0]
-            == ex_train[constants.model_types[1]].shape[0]
-        ):  # ==ex_train[constants.model_types[2]].shape[0]:
+            ex_train[self.model_types[0]].shape[0]
+            == ex_train[self.model_types[1]].shape[0]
+        ):  # ==ex_train[self.model_types[2]].shape[0]:
             print("The number of inputs is the same for each model type")
 
         return ex_train, zed_train, ex_test, zed_test
