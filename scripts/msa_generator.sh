@@ -23,10 +23,10 @@ if [[ -n "$result" ]]; then
 	# Third - Get the msas
 	docker exec -it msa-gen-adopt \
         	bash -c "ffindex_from_fasta _fas.ff{data,index} $docker_fasta_path
-      		hhblits_omp -i _fas -oa3m /work/res_a3m -d /work/databases/UniRef30_2020_06 -cpu 2 -n 3 -e 1e-3
+      		hhblits_omp -i _fas -oa3m /work/res_a3m -d /work/databases/UniRef30_2020_06 -cpu 128 -n 3 -e 1e-3
         	ffindex_unpack /work/res_a3m.ff{data,index} /work/msas/ 
-		rm _fas.ff{data,index} 
-		rm /work/res_a3m.ff{data,index} "
+			rm _fas.ff{data,index} 
+			rm /work/res_a3m.ff{data,index} "
 		
 		
         
