@@ -109,7 +109,7 @@ class DisorderPred:
             utils.save_onnx_model(
                 self.ex_test[model_type].shape[1],
                 reg_,
-                "../models/lasso_" + model_type + "_cleared_residue.onnx",
+                "models/lasso_" + model_type + "_cleared_residue.onnx",
             )
 
         # ESM-1v and ESM-1b Combined
@@ -136,7 +136,7 @@ class DisorderPred:
         utils.save_onnx_model(
             ex_test_combined.shape[1],
             reg,
-            "../models/lasso_combined_cleared_residue.onnx",
+            "models/lasso_combined_cleared_residue.onnx",
         )
 
     def residue_cv(self):
@@ -211,7 +211,7 @@ class DisorderPred:
             utils.save_onnx_model(
                 ex_rounds_test.shape[1],
                 best_reg,
-                "../models/lasso_" + model_type + "_residue_cv.onnx",
+                "models/lasso_" + model_type + "_residue_cv.onnx",
             )
 
             print(model_type)
@@ -281,7 +281,7 @@ class DisorderPred:
             utils.save_onnx_model(
                 ex_clear_rounds_test.shape[1],
                 best_reg,
-                "../models/lasso_" + model_type + "_cleared_residue_cv.onnx",
+                "models/lasso_" + model_type + "_cleared_residue_cv.onnx",
             )
 
             print(model_type)
@@ -364,7 +364,7 @@ class DisorderPred:
             utils.save_onnx_model(
                 ex_test_seq.shape[1],
                 best_reg,
-                "../models/lasso_" + model_type + "_cleared_sequence_cv.onnx",
+                "models/lasso_" + model_type + "_cleared_sequence_cv.onnx",
             )
 
             print(model_type)
