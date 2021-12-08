@@ -19,39 +19,31 @@ def create_parser():
     parser = argparse.ArgumentParser(description="Train ADOPT")
 
     parser.add_argument(
-        "train_strategy",
-        type=str,
-        metavar="",
-        required=True,
-        help="Training strategies",
-    )
-    parser.add_argument(
         "train_json_file",
         type=str,
-        metavar="",
-        required=True,
         help="JSON file containing the proteins we want to use as training set",
     )
     parser.add_argument(
         "test_json_file",
         type=str,
-        metavar="",
-        required=True,
         help="JSON file containing the proteins we want to use as test set",
     )
     parser.add_argument(
         "train_repr_dir",
         type=str,
-        metavar="",
-        required=True,
         help="Training set residue level representation directory",
     )
     parser.add_argument(
         "test_repr_dir",
         type=str,
-        metavar="",
-        required=True,
         help="Test set residue level representation directory",
+    )
+    parser.add_argument(
+        "--train_strategy",
+        type=str,
+        choices=constants.train_strategies,
+        help="Training strategies",
+        required=True
     )
     parser.add_argument(
         "-a",

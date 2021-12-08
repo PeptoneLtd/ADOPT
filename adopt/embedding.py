@@ -18,15 +18,11 @@ def create_parser():
     parser.add_argument(
         "fasta_path",
         type=str,
-        metavar="",
-        required=True,
         help="FASTA file containing the proteins for which you want to compute the intrinsic disorder",
     )
     parser.add_argument(
         "repr_dir",
         type=str,
-        metavar="",
-        required=True,
         help="Residue level representation directory",
     )
     parser.add_argument(

@@ -13,15 +13,15 @@ PRED_Z_FILE_PATH="predicted_z_scores.json"
 
 printf "Extracting residue level representation of %s \n" $NEW_PROT_FASTA_FILE_PATH
 
-python adopt/embedding.py -f $NEW_PROT_FASTA_FILE_PATH \
-                          -r $NEW_PROT_RES_REPR_DIR_PATH
+python adopt/embedding.py $NEW_PROT_FASTA_FILE_PATH \
+                          $NEW_PROT_RES_REPR_DIR_PATH
 
 printf "Computing Z scores of %s \n" $NEW_PROT_FASTA_FILE_PATH
 
-python adopt/inference.py -s $TRAIN_STRATEGY \
-                          -m $MODEL_TYPE \
-                          -f $NEW_PROT_FASTA_FILE_PATH \
-                          -r $NEW_PROT_RES_REPR_DIR_PATH \
-                          -p $PRED_Z_FILE_PATH
+python adopt/inference.py $NEW_PROT_FASTA_FILE_PATH \
+                          $NEW_PROT_RES_REPR_DIR_PATH \
+                          $PRED_Z_FILE_PATH \
+                          --train_strategy $TRAIN_STRATEGY \
+                          --model_type $MODEL_TYPE
 
 

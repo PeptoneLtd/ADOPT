@@ -20,39 +20,33 @@ def create_parser():
     )
 
     parser.add_argument(
-        "train_strategy",
-        type=str,
-        metavar="",
-        required=True,
-        help="Training strategies",
-    )
-    parser.add_argument(
-        "model_type",
-        type=str,
-        metavar="",
-        required=True,
-        help="pre-trained model we want to use",
-    )
-    parser.add_argument(
         "fasta_path",
         type=str,
-        metavar="",
-        required=True,
         help="FASTA file containing the proteins for which you want to compute the intrinsic disorder",
     )
     parser.add_argument(
         "repr_dir",
         type=str,
-        metavar="",
-        required=True,
         help="Residue level representation directory",
     )
     parser.add_argument(
         "pred_z_scores_path",
         type=str,
-        metavar="",
-        required=True,
         help="Path where you want the Z scores to be saved",
+    )
+    parser.add_argument(
+        "--train_strategy",
+        type=str,
+        choices=constants.train_strategies,
+        help="Training strategies",
+        required=True
+    )
+    parser.add_argument(
+        "--model_type",
+        type=str,
+        choices=constants.model_types,
+        help="pre-trained model we want to use",
+        required=True
     )
     parser.add_argument(
         "-a",
