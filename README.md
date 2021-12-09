@@ -161,7 +161,7 @@ Where:
 
 - `<fasta_file_path>` defines the FASTA file containing the proteins for which you want to compute the intrinsic disorder
 - `<residue_level_representation_dir>` defines the path where you want to save the residue level representations
-- `--msa` runs the procedure to get `esm-msa` representations (**optional**)
+- `--msa` runs the [MSA procedure](#msa-setting-optional) to get `esm-msa` representations. We suggest you take a look to the [MSA inference](scripts/adopt_msa_inference.sh) script as a quick example (**optional**)
 - `-h` shows help message and exit
 
 A subdirectory containing the residue level representation extracted from each pre-trained model available will be created under both the `residue_level_representation_dir`.
@@ -225,7 +225,7 @@ Where:
 - `<train_residue_level_representation_dir>` defines the path where we saved the residue level representations of the proteins in the *training set*
 - `<test_residue_level_representation_dir>` defines the path where we saved the residue level representations of the proteins in the *test set*
 - `--train_strategy` defines the **training strategies** defined above
-- `--msa` runs the procedure to get trained models fed with the `esm-msa` representations (**optional**)
+- `--msa` runs the [MSA procedure](msa-setting-optional) to get trained models fed with the `esm-msa` representations. We suggest you take a look to the [MSA training](scripts/adopt_chezod_msa_training.sh) script as a quick example (**optional**)
 - `-h` shows help message and exit
 
 ## Citations <a name="citations"></a>
