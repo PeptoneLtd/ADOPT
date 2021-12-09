@@ -1,5 +1,17 @@
 # Changelog
 
+## [v0.4.0](https://github.com/peptoneinc/ADOPT/tree/v0.4.0) (2021-12-09)
+
+[Full Changelog](https://github.com/peptoneinc/ADOPT/compare/v0.3.0...v0.4.0)
+
+**Closed issues:**
+
+- Include ESM-MSA pre trained model [\#2](https://github.com/PeptoneInc/ADOPT/issues/2)
+
+**Merged pull requests:**
+
+- Esm msa dev [\#21](https://github.com/PeptoneInc/ADOPT/pull/21) ([CFisicaro](https://github.com/CFisicaro))
+
 ## [v0.3.0](https://github.com/peptoneinc/ADOPT/tree/v0.3.0) (2021-11-22)
 
 [Full Changelog](https://github.com/peptoneinc/ADOPT/compare/v0.2.1...v0.3.0)
