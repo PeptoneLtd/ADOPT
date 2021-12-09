@@ -36,13 +36,17 @@ ADOPT makes use of two datasets: the [CheZoD  “1325” and the CheZoD “117�
 |-------|-------------------|----------|-------------|----|
 | `lasso_esm-1b_cleared_residue` | ESM-1b | **Chezod 1325 cleared** and **Chezod 117** | residue | :x: |
 | `lasso_esm-1v_cleared_residue` | ESM-1v | **Chezod 1325 cleared** and **Chezod 117** | residue | :x: |
+| `lasso_esm-msa_cleared_residue` | ESM-MSA | **Chezod 1325 cleared** and **Chezod 117** | residue | :x: |
 | `lasso_combined_cleared_residue` | Combined | **Chezod 1325 cleared** and **Chezod 117** | residue | :x: |
 | `lasso_esm-1b_residue_cv` | ESM-1b | **Chezod 1325** | residue | :white_check_mark: |
 | `lasso_esm-1v_residue_cv` | ESM-1v | **Chezod 1325** | residue | :white_check_mark: |
+| `lasso_esm-msa_residue_cv` | ESM-MSA | **Chezod 1325** | residue | :white_check_mark: |
 | `lasso_esm-1b_cleared_residue_cv` | ESM-1b | **Chezod 1325 cleared** | residue | :white_check_mark: |
 | `lasso_esm-1v_cleared_residue_cv` | ESM-1v | **Chezod 1325 cleared** | residue | :white_check_mark: |
+| `lasso_esm-msa_cleared_residue_cv` | ESM-MSA | **Chezod 1325 cleared** | residue | :white_check_mark: |
 | `lasso_esm-1b_cleared_sequence_cv` | ESM-1b | **Chezod 1325 cleared** | residue | :white_check_mark: |
 | `lasso_esm-1v_cleared_sequence_cv` | ESM-1v | **Chezod 1325 cleared** | sequence | :white_check_mark: |
+| `lasso_esm-msa_cleared_sequence_cv` | ESM-MSA | **Chezod 1325 cleared** | sequence | :white_check_mark: |
 
 ## Usage
 
@@ -166,14 +170,15 @@ In order to predict the **Z score** related to each residue in a protein sequenc
 In the ADOPT directory run:
 
 ```bash
-python embedding.py -f <fasta_file_path> \
-                    -r <residue_level_representation_dir>
+python embedding.py <fasta_file_path> \
+                    <residue_level_representation_dir>
 ```
 
 Where:
 
-- `-f` defines the FASTA file containing the proteins for which you want to compute the intrinsic disorder
-- `-r` defines the path where you want to save the residue level representations
+- `<fasta_file_path>` defines the FASTA file containing the proteins for which you want to compute the intrinsic disorder
+- `<residue_level_representation_dir>` defines the path where you want to save the residue level representations
+- `--msa` runs the procedure to get `esm-msa` representations (**optional**)
 - `-h` shows help message and exit
 
 A subdirectory containing the residue level representation extracted from each pre-trained model available will be created under both the `residue_level_representation_dir`.
@@ -181,6 +186,7 @@ A subdirectory containing the residue level representation extracted from each p
 Important to note that in order to obtain the representations from the ```esm-msa``` model as well, the relevant MSAs have to
 be placed in the root directory `/msas` in the system, where ADOPT is running. The MSAs can be created as described in
 the MSA setting above.
+
 ### Predict intrinsic disorder with ADOPT
 
 Once we have extracted the residue level representations we can predict the intrinsic disorder (Z score).
@@ -188,30 +194,30 @@ Once we have extracted the residue level representations we can predict the intr
 In the ADOPT directory run:
 
 ```bash
-python inference.py -s <training_strategy> \
-                    -m <model_type> \
-                    -f <inference_fasta_file> \
-                    -r <inference_repr_dir> \
-                    -p <predicted_z_scores_file>
+python inference.py <inference_fasta_file> \
+                    <inference_repr_dir> \
+                    <predicted_z_scores_file> \
+                    --train_strategy <training_strategy> \
+                    --model_type <model_type> 
 ```
 
 Where:
 
-- `-s` defines the **training strategies** defined below
-- `-m` defines the pre-trained model we want to use. We suggest you use the `esm-1b` model.
-- `-f` defines the FASTA file containing the proteins for which you want to compute the intrinsic disorder
-- `-r` defines the path where you've already saved the residue level representations
-- `-p` defines the path where you want the Z scores to be saved
+- `<inference_fasta_file>` defines the FASTA file containing the proteins for which you want to compute the intrinsic disorder
+- `<inference_repr_dir>` defines the path where you've already saved the residue level representations
+- `<predicted_z_scores_file>` defines the path where you want the Z scores to be saved
+- `--train_strategy` defines the **training strategies** defined below
+- `--model_type` defines the pre-trained model we want to use. We suggest you use the `esm-1b` model
 - `-h` shows help message and exit
 
 The output is a `.json` file contains the Z scores related to each residue of each protein in the FASTA file where you put the proteins you are intereseted in.
 
 | Training strategy | Pre-trained models |
 |-------------------|-------------------|
-| `train_on_cleared_1325_test_on_117_residue_split` | `esm-1b`, `esm-1v` and `combined` |
-| `train_on_1325_cv_residue_split`| `esm-1b` and `esm-1v` |
-| `train_on_cleared_1325_cv_residue_split`| `esm-1b` and `esm-1v` |
-| `train_on_cleared_1325_cv_sequence_split`| `esm-1b` and `esm-1v` |
+| `train_on_cleared_1325_test_on_117_residue_split` | `esm-1b`, `esm-1v`, `esm-msa` and `combined` |
+| `train_on_1325_cv_residue_split`| `esm-1b`, `esm-1v` and `esm-msa` |
+| `train_on_cleared_1325_cv_residue_split`| `esm-1b`, `esm-1v` and `esm-msa` |
+| `train_on_cleared_1325_cv_sequence_split`| `esm-1b`, `esm-1v` and `esm-msa` |
 
 ### Train ADOPT disorder predictor
 
@@ -222,20 +228,21 @@ Once we have extracted the residue level representations of the protein for whic
 In the ADOPT directory run:
 
 ```bash
-python training.py -s <training_strategy> \
-                   -t <train_json_file_path> \
-                   -e <test_json_file_path> \
-                   -r <train_residue_level_representation_dir> \
-                   -p <test_residue_level_representation_dir>
+python training.py <train_json_file_path> \
+                   <test_json_file_path> \
+                   <train_residue_level_representation_dir> \
+                   <test_residue_level_representation_dir> \
+                   --train_strategy <training_strategy> 
 ```
 
 Where:
 
-- `-s` defines the **training strategies** defined above
-- `-t` defines the JSON containing the proteins we want to use as *training set*
-- `-e` defines the JSON containing the proteins we want to use as *test set*
-- `-r` defines the path where we saved the residue level representations of the proteins in the *training set*
-- `-p` defines the path where we saved the residue level representations of the proteins in the *test set*
+- `<train_json_file_path>` defines the JSON containing the proteins we want to use as *training set*
+- `<test_json_file_path>` defines the JSON containing the proteins we want to use as *test set*
+- `<train_residue_level_representation_dir>` defines the path where we saved the residue level representations of the proteins in the *training set*
+- `<test_residue_level_representation_dir>` defines the path where we saved the residue level representations of the proteins in the *test set*
+- `--train_strategy` defines the **training strategies** defined above
+- `--msa` runs the procedure to get trained models fed with the `esm-msa` representations (**optional**)
 - `-h` shows help message and exit
 
 ## Citations <a name="citations"></a>
