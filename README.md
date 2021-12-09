@@ -146,6 +146,7 @@ msa_generator.sh <fasta_file_path>
 ```
 The MSAs will be placed in the ```/local_msa_dir/msas``` folder. Furthermore, the fasta file used for query will be copied in the
 ```/local_msa_dir/msa_fastas``` folder.
+
 ### Scripts
 
 The [scripts](scripts) directory contains:
@@ -155,6 +156,8 @@ The [scripts](scripts) directory contains:
   - `NEW_PROT_RES_REPR_DIR_PATH` defining where the residue level representations will be extracted
 - [training](scripts/adopt_chezod_training.sh) script to train the ADOPT where you need to specify:
   - `TRAIN_STRATEGY` defining the training strategy you want to use
+- [MSA inference](scripts/adopt_msa_inference.sh) script, which allows to perform [inference](scripts/adopt_inference.sh) even with the `esm-msa` model (**optional**)
+- [MSA training](scripts/adopt_chezod_msa_training.sh) script, which allows to perform [training](scripts/adopt_chezod_training.sh) even with the `esm-msa` model (**optional**)
 
 ### Notebooks
 
