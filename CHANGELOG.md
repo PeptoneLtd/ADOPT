@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.4.1](https://github.com/peptoneinc/ADOPT/tree/v0.4.1) (2021-12-09)
+
+[Full Changelog](https://github.com/peptoneinc/ADOPT/compare/v0.4.0...v0.4.1)
+
 ## [v0.4.0](https://github.com/peptoneinc/ADOPT/tree/v0.4.0) (2021-12-09)
 
 [Full Changelog](https://github.com/peptoneinc/ADOPT/compare/v0.3.0...v0.4.0)
