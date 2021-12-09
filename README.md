@@ -4,7 +4,7 @@ This repository containes the code and the trained models for **intrinsic protei
 
 [![GitHub Super-Linter](https://github.com/peptoneinc/ADOPT/workflows/Lint%20Code%20Base/badge.svg)](https://github.com/marketplace/actions/super-linter)
 
-ADOPT has been introduced in our paper [ADOPT: intrinsic protein disorder prediction throughdeep bidirectional transformers](link).
+ADOPT has been introduced in our paper [ADOPT: intrinsic protein disorder prediction through deep bidirectional transformers](link).
 
 <img src="https://github.com/PeptoneInc/ADOPT/blob/main/media/adopt_attention.gif" width="600"/>
 
