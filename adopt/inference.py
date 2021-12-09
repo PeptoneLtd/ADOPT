@@ -44,15 +44,9 @@ def create_parser():
     parser.add_argument(
         "--model_type",
         type=str,
-        choices=constants.model_types,
+        choices=constants.msa_model_types,
         help="pre-trained model we want to use",
         required=True
-    )
-    parser.add_argument(
-        "-a",
-        "--msa",
-        action="store_true",
-        help="Extract MSA based representations",
     )
     return parser
 
@@ -137,17 +131,16 @@ class ZScorePred:
 
 
 def main(args):
-    model_types = utils.get_model_types(args.msa)
     if args.train_strategy not in constants.train_strategies:
         print("The training strategies are:")
         print(*constants.train_strategies, sep="\n")
         sys.exit(2)
 
-    if (args.model_type not in model_types) and (
+    if (args.model_type not in constants.msa_model_types) and (
         args.model_type != "combined"
     ):
         print("The pre-trained models are:")
-        print(*model_types, sep="\n")
+        print(*constants.msa_model_types, sep="\n")
         print("combined")
         sys.exit(2)
 

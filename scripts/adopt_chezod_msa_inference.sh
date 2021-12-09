@@ -29,8 +29,7 @@ docker exec -it adopt python adopt/inference.py $NEW_PROT_FASTA_FILE_PATH \
                                                 $NEW_PROT_RES_REPR_DIR_PATH \
                                                 $PRED_Z_FILE_PATH \
                                                 --train_strategy $TRAIN_STRATEGY \
-                                                --model_type $MODEL_TYPE \
-                                                --msa
+                                                --model_type $MODEL_TYPE 
 
 docker cp adopt:$NEW_PROT_FASTA_FILE_PATH $NEW_PROT_FASTA_FILE_PATH
 printf "The trained models have been stored in %s \" $NEW_PROT_FASTA_FILE_PATH
