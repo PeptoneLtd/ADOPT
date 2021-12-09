@@ -101,10 +101,11 @@ The `$LOCAL_MSA_DIR` in the **MSA scripts** serves as the main directory for the
 initially when running the above scripts. Under the hood, each **MSA script** will:
 
  1. Download [uniclust](http://gwdu111.gwdg.de/~compbiol/uniclust/) dataset (in this case "2020.06") into
-  the ```$LOCAL_MSA_DIR/databases``` subdirectory. <code><i> (NOTE!) </i></code> Under the hood,
-<code>uniclust_download.py</code> runs and checks, whether uniclust is already in this subdirectory. If not, downloading
-can take several hours, given the size of this dataset is approx 180GB! Download step is skipped only if the ```$LOCAL_MSA_DIR/databases```
-folder is non empty and the tar file (<cite>UniRef30_2020_06_hhsuite.tar.gz</cite>) is found in the ```$LOCAL_MSA_DIR``` folder.
+  the ```$LOCAL_MSA_DIR/databases``` subdirectory. \
+  **!NOTE**: under the hood,
+  [ADOPT](scripts/uniclust_download.py) checks, whether uniclust is already in this subdirectory. If not, downloading
+  can take several hours, given the size of this dataset is approx 180GB! Download step is skipped only if the ```$LOCAL_MSA_DIR/databases```
+  folder is non empty and the tar file (<cite>UniRef30_2020_06_hhsuite.tar.gz</cite>) is found in the ```$LOCAL_MSA_DIR``` folder.
 
  2. Once the relevant uniclust is there, a docker image named ```msa-gen-adopt``` is run with the volume ```$LOCAL_MSA_DIR```
 mounted on it.
@@ -124,7 +125,7 @@ Note that this setup procedure creates four subfolders:
 ```msa_fastas``` is where ```.fasta``` files already used for MSA queries will be saved;
 ```esm_msa_reprs``` is allocated for potential ```esm-msa``` representations;
 
-The MSAs will be placed in the ```/local_msa_dir/msas``` folder.
+The MSAs will be placed in the ```$LOCAL_MSA_DIR/msas``` folder.
 
 ### Scripts
 
