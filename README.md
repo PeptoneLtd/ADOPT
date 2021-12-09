@@ -87,44 +87,32 @@ predicted_z_scores = z_score_pred.get_z_score(representation)
 ### MSA setting (optional)
 
 In order to enable the ```esm-msa``` based variant of ADOPT, MSAs for each sequence are also required.
-We provide a stand alone, ```docker``` based tool that can be used to obatin MSAs from ```fasta``` files.
-If the user already has her/his MSAs ready, the steps to follow will be given below.
+We provide a stand alone, ```docker``` based tool you must use to exploit all the functionalities of ADOPT for `msa` related tasks.
 
-#### Setup the tool to generate MSAs
+#### First time setup
 
-Make the following three scripts in the [scripts](scripts) folder locally available:
-- ```adopt_msa_setup.sh``` [adopt_msa_setup](scripts/adopt_msa_setup.sh);
-- ```uniclust_download.py``` [adopt_msa_setup](scripts/uniclust_download.py);
-- ```msa_generator.sh``` [adopt_msa_setup](scripts/msa_generator.sh);
+As a prerequisite, you must have [Docker](https://www.docker.com/) installed.
 
-This means if ADOPT is running in a container, these files should be copied into a local host folder and
-not used directly in the container.
+Clone the ADOPT repository, go to the ADOPT directory and run the [MSA scripts](#scripts) you are interested in.
 
-<code> <b> STEP 1 </b> </code>
+#### Notes
 
-Assuming that the above three files are placed in a local folder ```/tmp```, the first step is to run,
-from ```/tmp```, the following command <code><i> (Please read the description before run!) </i></code>
+The `$LOCAL_MSA_DIR` in the **MSA scripts** serves as the main directory for the MSA related procedures and can be empty
+initially when running the above scripts. Under the hood, each **MSA script** will:
 
-```bash
-adopt_msa_setup.sh <local_msa_dir>
-```
-
-where ```local_msa_dir``` serves as the main directory for the MSA related procedures and can be empty
-initially when running the above script. This takes care of two tasks:
-
- 1. Downloading [uniclust](http://gwdu111.gwdg.de/~compbiol/uniclust/) dataset (in this case "2020.06") into
-  the ```/local_msa_dir/databases``` subdirectory. <code><i> (NOTE!) </i></code> Under the hood,
+ 1. Download [uniclust](http://gwdu111.gwdg.de/~compbiol/uniclust/) dataset (in this case "2020.06") into
+  the ```$LOCAL_MSA_DIR/databases``` subdirectory. <code><i> (NOTE!) </i></code> Under the hood,
 <code>uniclust_download.py</code> runs and checks, whether uniclust is already in this subdirectory. If not, downloading
-can take several hours, given the size of this dataset is approx 180GB! Download step is skipped only if the ```/local_msa_dir/databases```
-folder is non empty and the tar file (<cite>UniRef30_2020_06_hhsuite.tar.gz</cite>) is found in the ```/local_msa_dir``` folder.
+can take several hours, given the size of this dataset is approx 180GB! Download step is skipped only if the ```$LOCAL_MSA_DIR/databases```
+folder is non empty and the tar file (<cite>UniRef30_2020_06_hhsuite.tar.gz</cite>) is found in the ```$LOCAL_MSA_DIR``` folder.
 
- 2. Once the relevant uniclust is there, a docker image named ```msa-gen-adopt``` is run with the volume ```/local_msa_dir```
+ 2. Once the relevant uniclust is there, a docker image named ```msa-gen-adopt``` is run with the volume ```$LOCAL_MSA_DIR```
 mounted on it.
 
 Note that this setup procedure creates four subfolders:
 
 <pre>
-+-- local_msa_dir
++-- $LOCAL_MSA_DIR
 |   +-- databases
 |   +-- msas
 |   +-- msa_fastas
@@ -136,16 +124,7 @@ Note that this setup procedure creates four subfolders:
 ```msa_fastas``` is where ```.fasta``` files already used for MSA queries will be saved;
 ```esm_msa_reprs``` is allocated for potential ```esm-msa``` representations;
 
-<code> <b> STEP 2 </b> </code>
-
-Given the docker container ```msa-gen-adopt``` is up and running (the result of STEP 1), the following command can be used,
-from the ```/tmp``` folder, to generate MSAs using a fasta file:
-
-```bash
-msa_generator.sh <fasta_file_path>
-```
-The MSAs will be placed in the ```/local_msa_dir/msas``` folder. Furthermore, the fasta file used for query will be copied in the
-```/local_msa_dir/msa_fastas``` folder.
+The MSAs will be placed in the ```/local_msa_dir/msas``` folder.
 
 ### Scripts
 
@@ -156,8 +135,8 @@ The [scripts](scripts) directory contains:
   - `NEW_PROT_RES_REPR_DIR_PATH` defining where the residue level representations will be extracted
 - [training](scripts/adopt_chezod_training.sh) script to train the ADOPT where you need to specify:
   - `TRAIN_STRATEGY` defining the training strategy you want to use
-- [MSA inference](scripts/adopt_msa_inference.sh) script, which allows to perform [inference](scripts/adopt_inference.sh) even with the `esm-msa` model (**optional**)
-- [MSA training](scripts/adopt_chezod_msa_training.sh) script, which allows to perform [training](scripts/adopt_chezod_training.sh) even with the `esm-msa` model (**optional**)
+- [MSA inference](scripts/adopt_msa_inference.sh) script, which allows to perform [inference](scripts/adopt_inference.sh) also with the `esm-msa` model. The predicted Z scores will be written on the host (**optional**)
+- [MSA training](scripts/adopt_chezod_msa_training.sh) script, which allows to perform [training](scripts/adopt_chezod_training.sh) also with the `esm-msa` model. The trained models will be written in the `ADOPT/models` directory (**optional**)
 
 ### Notebooks
 
