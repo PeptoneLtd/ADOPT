@@ -93,7 +93,7 @@ class ZScorePred:
         for ix in indexes:
             if self.model_type == "esm-msa":
                 repr_esm = (
-                    torch.load(str(repr_path) + "/" + ix + ".pt")["representations"][12]
+                    torch.load(str(repr_path) + "/" + ix + ".pt")["representations"]
                     .clone()
                     .cpu()
                     .detach()
