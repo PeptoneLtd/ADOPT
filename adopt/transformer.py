@@ -27,7 +27,7 @@ class MultiHead:
 
         tokens = list(self.sequence)
         if self.model_type == 'esm-msa':
-            attention = results["raw_attentions"].permute(1, 0, 2, 3, 4)
+            attention = results["row_attentions"].permute(1, 0, 2, 3, 4)
         else:
             attention = results["attentions"].permute(1, 0, 2, 3, 4)
         # remove first and last token (<cls> and <sep>)
