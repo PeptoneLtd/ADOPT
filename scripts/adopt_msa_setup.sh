@@ -20,6 +20,8 @@ SUB_DIR_FASTAS+="/msa_fastas"
 SUB_DIR_REPRS="$1"
 SUB_DIR_REPRS+="/esm_msa_reprs"
 
+JPORT=8787
+
 if [[ -d "${DIRECTORY}" && ! -L "${DIRECTORY}" ]] ; then
     	echo "Directory found"
 
@@ -74,10 +76,14 @@ if [ "$char" = '0' ]; then
 
         docker pull ghcr.io/peptoneinc/msa-gen-adopt:latest
         docker run -d -t --name=msa-gen-adopt -v "$DIRECTORY":/work ghcr.io/peptoneinc/msa-gen-adopt:latest
-		echo "Docker container msa-gen-adopt is up and running. Go ahead..." 
-		docker pull ghcr.io/peptoneinc/adopt:latest
-		docker run -d -t --name=adopt -v "$DIRECTORY/msas":/msas ghcr.io/peptoneinc/adopt:latest
-        echo "Docker container adopt is up and running. Go ahead..."  
+        echo "Docker container msa-gen-adopt is up and running. Go ahead..." 
+        docker pull ghcr.io/peptoneinc/adopt:latest
+        docker run -d -t --name=adopt -v "$DIRECTORY/msas":/msas -p $JPORT:8888 ghcr.io/peptoneinc/adopt:latest
+        sleep 6
+        token=$( docker exec -it adopt jupyter notebook list )
+        echo "Docker container adopt is up and running. Go ahead..."
+        echo "Jupyter is running on port ${JPORT} with token"
+        echo $token | grep -oP '(?<=token=).*?(?= \:)'
 else
 	
 	echo "Issues were found in the Uniclust dataset. Please empty the folder $SUB_DIR_UNICLUST and re-run this routine."

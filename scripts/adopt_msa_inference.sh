@@ -32,7 +32,7 @@ docker exec -it adopt python adopt/inference.py $NEW_PROT_FASTA_FILE_PATH \
                                                 --model_type $MODEL_TYPE 
 
 docker cp adopt:/ADOPT/$PRED_Z_FILE_PATH $PRED_Z_FILE_PATH
-printf "The predicted Z scores have been stored in %s \" $PRED_Z_FILE_PATH
+printf "The predicted Z scores have been stored in %s" $PRED_Z_FILE_PATH
 
 
 
