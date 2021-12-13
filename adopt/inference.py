@@ -56,7 +56,7 @@ class ZScorePred:
         self.strategy = strategy
         self.model_type = model_type
         self.onnx_model = (
-            "../models/lasso_"
+            "models/lasso_"
             + self.model_type
             + "_"
             + constants.strategies_dict[self.strategy]
