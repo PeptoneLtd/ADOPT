@@ -18,7 +18,7 @@ class MultiHead:
         self.data = [(self.brmid, self.sequence)]
 
     def get_attention(self):
-        if self.model_type in self.model_types:
+        if self.model_type in constants.msa_model_types:
             results = utils.get_model_and_alphabet(self.model_type, self.data)
         else:
             print("The model types are:")
