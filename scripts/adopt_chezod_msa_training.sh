@@ -6,7 +6,7 @@
 # LICENSE file in the root directory of this source tree.
 
 # The work directory is </ADOPT> in the <adopt> container
-LOCAL_MSA_DIR="../msa"
+LOCAL_MSA_DIR="<uniclast30_and_msas_dir>" # put here your path
 TRAIN_FASTA_FILE_PATH="datasets/chezod_1325_all.fasta"
 TEST_FASTA_FILE_PATH="datasets/chezod_117_all.fasta"
 TRAIN_RES_REPR_DIR_PATH="representations/chezod_1325"

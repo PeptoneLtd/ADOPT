@@ -6,7 +6,7 @@
 # LICENSE file in the root directory of this source tree.
 
 # The work directory is </ADOPT> in the <adopt> container
-LOCAL_MSA_DIR="../msa"
+LOCAL_MSA_DIR="<uniclast30_and_msas_dir>" # put here your path 
 NEW_PROT_FASTA_FILE_PATH="<new_proteins_fasta_file_path>" # put here your path
 NEW_PROT_RES_REPR_DIR_PATH="<new_proteins_residue_level_representation_dir>" # put here your path
 TRAIN_STRATEGY="train_on_cleared_1325_test_on_117_residue_split"
