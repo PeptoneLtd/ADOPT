@@ -8,7 +8,7 @@
 # First - Check whether the container exists and running
 # ------------------------------------------------------
 result=$( docker ps -q -f name=msa-gen-adopt )
-n_cores = $( grep -c ^processor /proc/cpuinfo )
+n_cores=$( grep -c ^processor /proc/cpuinfo )
 
 if [[ -n "$result" ]]; then
 	echo "Container exists"
