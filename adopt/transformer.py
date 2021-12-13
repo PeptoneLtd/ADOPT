@@ -26,7 +26,10 @@ class MultiHead:
             sys.exit(2)
 
         tokens = list(self.sequence)
-        attention = results["attentions"].permute(1, 0, 2, 3, 4)
+        if self.model_type == 'esm-msa':
+            attention = results["raw_attentions"].permute(1, 0, 2, 3, 4)
+        else:
+            attention = results["attentions"].permute(1, 0, 2, 3, 4)
         # remove first and last token (<cls> and <sep>)
         attention = attention[:, :, :, 1:-1, 1:-1]
         return attention, tokens
@@ -37,7 +40,7 @@ class MultiHead:
             representation = results["representations"][33]
         elif self.model_type == 'esm-msa':
             results = utils.get_model_and_alphabet(self.model_type, self.data)
-            representation = results["representations"][12]
+            representation = results["representations"][12][0]
         elif self.model_type == "combined":
             results_esm1b, results_esm1v = utils.get_model_and_alphabet(
                 self.model_type, self.data
