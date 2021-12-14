@@ -3,6 +3,7 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
+import esm
 import numpy as np
 import onnxruntime as rt
 import pandas as pd
@@ -10,8 +11,8 @@ import torch
 from Bio import SeqIO
 from skl2onnx import convert_sklearn
 from skl2onnx.common.data_types import FloatTensorType
+from sklearn import linear_model
 
-import esm
 from adopt import constants
 
 "@generated"
@@ -151,6 +152,17 @@ def get_residue_class(predicted_z_scores):
     return residues_state
 
 
+def stability_selection_prob(ex_train, zed_train, model_picked, sample_size, reg_param):
+    sample_idxs = np.random.choice(np.arange(ex_train[model_picked].shape[0]), sample_size, replace=False) 
+    ex_train_filtered = np.take(ex_train[model_picked], sample_idxs, axis=0)
+    zed_train_filtered = np.take(zed_train[model_picked], sample_idxs, axis=0)
+    # Lasso regression
+    reg = linear_model.Lasso(alpha=reg_param, max_iter=10000)
+    reg.fit(ex_train_filtered, zed_train_filtered)
+    reg_coef = abs(reg.coef_)
+    return reg_coef
+
+  
 def get_esm_models(msa):
     if msa:
         models = constants.esm_msa_models

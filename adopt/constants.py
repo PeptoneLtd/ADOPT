@@ -43,6 +43,18 @@ res_colors = {
     "FLEX": "##fc9ce7",
 }
 
+stability_path_reg_params = {
+    'nr_samples': 500,
+    'start': 0.1,
+    'end': 5e-5,
+    'n_points': 30
+}
+
+stability_path_hyperparams = {
+    'cutoffs': [0.6, 0.7, 0.8, 0.9],
+     'freq_cutoff': 20
+}
+
 # Declare path variables used in the MSA procedures
 # -------------------------------------------------
 msa_main_folder_paths = {
