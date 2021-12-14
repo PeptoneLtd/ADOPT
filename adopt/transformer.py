@@ -18,15 +18,18 @@ class MultiHead:
         self.data = [(self.brmid, self.sequence)]
 
     def get_attention(self):
-        if self.model_type in constants.model_types:
+        if self.model_type in constants.msa_model_types:
             results = utils.get_model_and_alphabet(self.model_type, self.data)
         else:
             print("The model types are:")
-            print(*constants.model_types, sep="\n")
+            print(*self.model_types, sep="\n")
             sys.exit(2)
 
         tokens = list(self.sequence)
-        attention = results["attentions"].permute(1, 0, 2, 3, 4)
+        if self.model_type == 'esm-msa':
+            attention = results["row_attentions"].permute(1, 0, 2, 3, 4)
+        else:
+            attention = results["attentions"].permute(1, 0, 2, 3, 4)
         # remove first and last token (<cls> and <sep>)
         attention = attention[:, :, :, 1:-1, 1:-1]
         return attention, tokens
@@ -35,6 +38,9 @@ class MultiHead:
         if self.model_type in constants.model_types:
             results = utils.get_model_and_alphabet(self.model_type, self.data)
             representation = results["representations"][33]
+        elif self.model_type == 'esm-msa':
+            results = utils.get_model_and_alphabet(self.model_type, self.data)
+            representation = results["representations"][12][0]
         elif self.model_type == "combined":
             results_esm1b, results_esm1v = utils.get_model_and_alphabet(
                 self.model_type, self.data
@@ -44,7 +50,7 @@ class MultiHead:
             representation = torch.cat((representation_esm1b, representation_esm1v), -1)
         else:
             print("The model types are:")
-            print(*constants.model_types, sep="\n")
+            print(*constants.msa_model_types, sep="\n")
             sys.exit(2)
 
         tokens = list(self.sequence)

@@ -4,12 +4,16 @@
 # LICENSE file in the root directory of this source tree.
 
 esm_models = ["esm1v_t33_650M_UR90S_1", "esm1b_t33_650M_UR50S"]
-# "esm_msa1b_t12_100M_UR50S"]
 
-model_types = ["esm-1v", "esm-1b"]  # , 'esm-msa']
+esm_msa_models = ["esm1v_t33_650M_UR90S_1", "esm1b_t33_650M_UR50S", "esm_msa1b_t12_100M_UR50S"]
 
-models_dict = {"esm1v_t33_650M_UR90S_1": "esm-1v", "esm1b_t33_650M_UR50S": "esm-1b"}
-# "esm_msa1b_t12_100M_UR50S":'esm-msa'}
+model_types = ["esm-1v", "esm-1b"]
+
+msa_model_types = ["esm-1v", "esm-1b", "esm-msa"]
+
+models_dict = {"esm1v_t33_650M_UR90S_1": "esm-1v", 
+    "esm1b_t33_650M_UR50S": "esm-1b",
+    "esm_msa1b_t12_100M_UR50S":'esm-msa'}
 
 train_strategies = [
     "train_on_cleared_1325_test_on_117_residue_split",
@@ -50,3 +54,15 @@ stability_path_hyperparams = {
     'cutoffs': [0.6, 0.7, 0.8, 0.9],
      'freq_cutoff': 20
 }
+
+# Declare path variables used in the MSA procedures
+# -------------------------------------------------
+msa_main_folder_paths = {
+    'main_dir': '/path/to/main/dir',
+    'databases': '/path/to/main/dir/databases',
+    'msas': '/path/to/main/dir/msas',
+    'msa_fastas': '/path/to/main/dir/msa_fastas',
+    'esm_msa_reprs': 'path/to/esm_msa_reprs'
+}
+
+msa_depth = 64

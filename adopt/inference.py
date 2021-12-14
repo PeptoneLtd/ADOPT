@@ -18,44 +18,33 @@ def create_parser():
     parser = argparse.ArgumentParser(description="Predict intrinsic disorder (Z score)")
 
     parser.add_argument(
-        "-s",
-        "--train_strategy",
+        "fasta_path",
         type=str,
-        metavar="",
-        required=True,
-        help="Training strategies",
-    )
-    parser.add_argument(
-        "-m",
-        "--model_type",
-        type=str,
-        metavar="",
-        required=True,
-        help="pre-trained model we want to use",
-    )
-    parser.add_argument(
-        "-f",
-        "--fasta_path",
-        type=str,
-        metavar="",
-        required=True,
         help="FASTA file containing the proteins for which you want to compute the intrinsic disorder",
     )
     parser.add_argument(
-        "-r",
-        "--repr_dir",
+        "repr_dir",
         type=str,
-        metavar="",
-        required=True,
         help="Residue level representation directory",
     )
     parser.add_argument(
-        "-p",
-        "--pred_z_scores_path",
+        "pred_z_scores_path",
         type=str,
-        metavar="",
-        required=True,
         help="Path where you want the Z scores to be saved",
+    )
+    parser.add_argument(
+        "--train_strategy",
+        type=str,
+        choices=constants.train_strategies,
+        help="Training strategies",
+        required=True
+    )
+    parser.add_argument(
+        "--model_type",
+        type=str,
+        choices=constants.msa_model_types,
+        help="pre-trained model we want to use",
+        required=True
     )
     return parser
 
@@ -65,7 +54,7 @@ class ZScorePred:
         self.strategy = strategy
         self.model_type = model_type
         self.onnx_model = (
-            "../models/lasso_"
+            "models/lasso_"
             + self.model_type
             + "_"
             + constants.strategies_dict[self.strategy]
@@ -102,7 +91,7 @@ class ZScorePred:
         for ix in indexes:
             if self.model_type == "esm-msa":
                 repr_esm = (
-                    torch.load(str(repr_path) + "/" + ix + ".pt")["representations"][12]
+                    torch.load(str(repr_path) + "/" + ix + ".pt")["representations"]
                     .clone()
                     .cpu()
                     .detach()
@@ -145,11 +134,11 @@ def main(args):
         print(*constants.train_strategies, sep="\n")
         sys.exit(2)
 
-    if (args.model_type not in constants.model_types) and (
+    if (args.model_type not in constants.msa_model_types) and (
         args.model_type != "combined"
     ):
         print("The pre-trained models are:")
-        print(*constants.model_types, sep="\n")
+        print(*constants.msa_model_types, sep="\n")
         print("combined")
         sys.exit(2)
 
