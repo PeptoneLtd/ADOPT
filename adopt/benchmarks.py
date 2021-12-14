@@ -119,13 +119,6 @@ def plot_corr_per_residue(corr_per_res, model_picked):
             bgcolor="rgba(0,0,0,0)",
         ),
     )
-    pio.write_image(
-        fig,
-        "media/correlations_per_res_esm_odin.pdf",
-        width=900,
-        height=450,
-        scale=1.0
-    )
     time.sleep(5)
     pio.write_image(
         fig,
