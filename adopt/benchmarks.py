@@ -55,6 +55,12 @@ def create_parser():
         required=True,
         help="Training strategies",
     )
+    parser.add_argument(
+        "-a",
+        "--msa",
+        action="store_true",
+        help="Extract MSA based representations",
+    )
     return parser
 
 
@@ -231,18 +237,24 @@ class DisorderCompare:
                  path_chezod_1325_raw,
                  path_chezod_117_raw,
                  path_chezod_1325_repr,
-                 path_chezod_117_repr):
+                 path_chezod_117_repr,
+                 model_types):
         self.path_odinpred_examples = path_odinpred_examples
         self.path_chezod_1325_raw = path_chezod_1325_raw
         self.path_chezod_117_raw = path_chezod_117_raw
         self.path_chezod_1325_repr = path_chezod_1325_repr
         self.path_chezod_117_repr = path_chezod_117_repr
+        self.model_types = model_types
+        if self.model_types == constants.msa_model_types:
+            self.msa = True
+        else:
+            self.msa = False
 
     def get_z_score_per_residue(self, strategy):
         # read the data
         f_names_op_117 = next(os.walk(self.path_odinpred_examples))[2]
         f_names_op_117 = [file for file in f_names_op_117 if file.endswith(".txt")]
-        chezod = CheZod(self.path_chezod_1325_raw, self.path_chezod_117_raw)
+        chezod = CheZod(self.path_chezod_1325_raw, self.path_chezod_117_raw, self.model_types)
         _, _, df_117 = chezod.get_chezod_raw()
 
         predicted_z_scores = {
@@ -273,7 +285,7 @@ class DisorderCompare:
                     msa_ind = False
 
                 repr_path = utils.representation_path(
-                    self.path_chezod_1325_repr, self.path_chezod_117_repr
+                    self.path_chezod_1325_repr, self.path_chezod_117_repr, self.msa
                 )
                 # get the representations and the experimental z_scores
                 ex_dum, _ = utils.pedestrian_input(
@@ -432,15 +444,18 @@ if __name__ == "__main__":
     parser = create_parser()
     args = parser.parse_args()
     main(args)
+    model_types = utils.get_model_types(args.msa)
     disorder_compare = DisorderCompare(args.benchmark_data_path,
                                        args.train_json_file,
                                        args.test_json_file,
                                        args.train_repr_dir,
-                                       args.test_repr_dir)
+                                       args.test_repr_dir,
+                                       model_types)
     stability_analysis = StabilityAnalysis(args.train_json_file,
                                            args.test_json_file,
                                            args.train_repr_dir,
-                                           args.test_repr_dir)
+                                           args.test_repr_dir,
+                                           model_types)
 
     predicted_z_scores = disorder_compare.get_z_score_per_residue(args.train_strategy)
     chezod_compare = CheZodCompare(predicted_z_scores)

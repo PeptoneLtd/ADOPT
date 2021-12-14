@@ -17,14 +17,20 @@ class StabilityAnalysis:
                  path_chezod_1325_raw,
                  path_chezod_117_raw,
                  path_chezod_1325_repr,
-                 path_chezod_117_repr):
+                 path_chezod_117_repr,
+                 model_types):
         self.path_chezod_1325_raw = path_chezod_1325_raw
         self.path_chezod_117_raw = path_chezod_117_raw
         self.path_chezod_1325_repr = path_chezod_1325_repr
         self.path_chezod_117_repr = path_chezod_117_repr
+        self.model_types = model_types
+        if self.model_types == constants.msa_model_types:
+            self.msa = True
+        else:
+            self.msa = False
 
     def get_stability_paths(self, model_picked):
-            chezod = CheZod(self.path_chezod_1325_raw, self.path_chezod_117_raw)
+            chezod = CheZod(self.path_chezod_1325_raw, self.path_chezod_117_raw, self.model_types)
             (
                 ex_train,
                 zed_train,
