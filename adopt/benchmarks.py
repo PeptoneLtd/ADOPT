@@ -139,96 +139,71 @@ def plot_corr_per_residue(corr_per_res, model_picked):
 def plot_gt_vs_pred_contours(actual_z_scores, z_scores_per_model):
     # ESM-1b vs. ODiNPred - 1 plot
     # -------------------
-    fig = make_subplots(rows=1, cols=2, subplot_titles=("(ESM)", "(ODiNPred)"))
-    esm_z_scores = z_scores_per_model["esm-1b"]
+    esm_z_scores = np.concatenate(z_scores_per_model["esm-1b"], axis=0)
     odin_z_scores = z_scores_per_model["odin"]
 
-    def standard_shape(fig, actual_z_scores):
-        fig.add_shape(
-            type="line",
-            x0=min(actual_z_scores),
-            y0=min(actual_z_scores),
-            x1=max(actual_z_scores),
-            y1=max(actual_z_scores),
+    def plotter(gt_scores, pred_scores, title='Title', ref_y_axes=esm_z_scores):
+        fig = go.Figure()
+        fig.add_trace(go.Histogram2dContour(
+            x = gt_scores,
+            y = pred_scores,
+            colorscale = 'Blues',
+            contours_coloring = 'heatmap',
+            showscale=False,
+            ))
+        fig.add_shape(type="line",
+            x0=min(gt_scores), y0=min(gt_scores),
+            x1=max(gt_scores), y1=max(gt_scores),
             line=dict(
                 color="darkred",
                 width=2,
                 dash="dashdot",
-            ),
-            row=1,
-            col=1,
-        )
+            ))
+        fig.add_shape(type="line",
+            x0=min(gt_scores), y0=min(gt_scores)+5,
+            x1=max(gt_scores), y1=max(gt_scores)+5,
+            line=dict(color="darkred",
+                      width=1,
+                      dash="dash",
+                     )
+                    )
+        fig.add_shape(type="line",
+                      x0=min(gt_scores), y0=min(gt_scores)-5,
+                      x1=max(gt_scores), y1=max(gt_scores)-5,
+                      line=dict(color="darkred",
+                                width=1,
+                                dash="dash",
+                                )
+                     )
 
-    fig.add_trace(
-        go.Histogram2dContour(
-            x=actual_z_scores,
-            y=esm_z_scores,
-            colorscale="Blues",
-            contours_coloring="heatmap",
-            showscale=False,
-            # reversescale = False,
-        ),
-        row=1,
-        col=1,
-    )
-    standard_shape(fig, actual_z_scores)
-    fig.add_trace(
-        go.Histogram2dContour(
-            x=actual_z_scores,
-            y=odin_z_scores,
-            colorscale="Blues",
-            contours_coloring="heatmap",
-            showscale=False,
-            # reversescale = False,
-        ),
-        row=1,
-        col=2,
-    )
-    standard_shape(fig, actual_z_scores)
-    fig.update_xaxes(
-        title_text="Experimental Z-scores",
-        range=[min(actual_z_scores) - 1, max(actual_z_scores) + 1],
-        row=1,
-        col=1,
-    )
-    fig.update_xaxes(
-        title_text="Experimental Z-scores",
-        range=[min(actual_z_scores) - 1, max(actual_z_scores) + 1],
-        row=1,
-        col=2,
-    )
-    fig.update_yaxes(
-        title_text="Predicted Z-scores",
-        range=[min(esm_z_scores) - 1, max(esm_z_scores) + 1],
-        showgrid=False,
-        row=1,
-        col=1,
-    )
-    fig.update_yaxes(
-        title_text="Predicted Z-scores",
-        range=[min(esm_z_scores) - 1, max(esm_z_scores) + 1],
-        showgrid=False,
-        row=1,
-        col=2,
-    )
-    fig.update_traces(xbins=dict(start=-10.0, end=23.0), row=1, col=2)
-    fig.update_traces(ybins=dict(start=-10.0, end=23.0), row=1, col=2)
-    fig.update_layout(font=dict(family="Courier New", size=16, color="black"))
-    pio.write_image(
-        fig,
-        "media/esm1b_odinpred_contours_with_ref.pdf",
-        width=900,
-        height=450,
-        scale=1.0,
-    )
+        fig.update_yaxes(range=[min(ref_y_axes)-1, max(ref_y_axes)+1],  showgrid=False)
+        fig.update_xaxes(range=[min(gt_scores)-1, max(gt_scores)+1],  showgrid=False)
+        fig.update_layout(title=title,
+                          xaxis_title="Experimental Z-scores",
+                          yaxis_title="Predicted Z-scores",
+                          legend_title="Legend Title",
+                          font=dict(family="Courier New",
+                                    size=18,
+                                    color="black"
+                                    )
+                         )
+
+        fig.update_traces(xbins=dict(start=-10., end=23.))
+        fig.update_traces(ybins=dict(start=-10., end=23.))
+        fig.update_layout(title_x=0.5)
+
+        return fig
+
+    fig_odin = plotter(actual_z_scores, odin_z_scores, title='ODiNPred')
+    fig_esm = plotter(actual_z_scores, esm_z_scores, title='ESM')
+
+    pio.write_image(fig_odin, f"media/odinpred_contours_with_ref.pdf", width=500, height=500, scale=1.)
     time.sleep(5)
-    pio.write_image(
-        fig,
-        "media/esm1b_odinpred_contours_with_ref.pdf",
-        width=900,
-        height=450,
-        scale=1.0,
-    )
+    pio.write_image(fig_odin, f"media/odinpred_contours_with_ref.pdf", width=500, height=500, scale=1.)
+    time.sleep(5)
+    pio.write_image(fig_esm, f"media/esm1b_contours_with_ref.pdf", width=500, height=500, scale=1.)
+    time.sleep(5)
+    pio.write_image(fig_esm, f"media/esm1b_contours_with_ref.pdf", width=500, height=500, scale=1.)
 
 
 class DisorderCompare:
