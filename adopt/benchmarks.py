@@ -115,7 +115,7 @@ def plot_corr_per_residue(corr_per_res, model_picked):
     )
     pio.write_image(
         fig,
-        "../media/correlations_per_res_esm_odin.pdf",
+        "media/correlations_per_res_esm_odin.pdf",
         width=900,
         height=450,
         scale=1.0
@@ -123,7 +123,7 @@ def plot_corr_per_residue(corr_per_res, model_picked):
     time.sleep(5)
     pio.write_image(
         fig,
-        "../media/correlations_per_res_esm_odin.pdf",
+        "media/correlations_per_res_esm_odin.pdf",
         width=900,
         height=450,
         scale=1.0
@@ -210,7 +210,7 @@ def plot_gt_vs_pred_contours(actual_z_scores, z_scores_per_model):
     fig.update_layout(font=dict(family="Courier New", size=16, color="black"))
     pio.write_image(
         fig,
-        "../media/esm1b_odinpred_contours_with_ref.pdf",
+        "media/esm1b_odinpred_contours_with_ref.pdf",
         width=900,
         height=450,
         scale=1.0,
@@ -218,7 +218,7 @@ def plot_gt_vs_pred_contours(actual_z_scores, z_scores_per_model):
     time.sleep(5)
     pio.write_image(
         fig,
-        "../media/esm1b_odinpred_contours_with_ref.pdf",
+        "media/esm1b_odinpred_contours_with_ref.pdf",
         width=900,
         height=450,
         scale=1.0,
@@ -286,7 +286,7 @@ class DisorderCompare:
                 )
 
                 onnx_model = (
-                    "../models/lasso_"
+                    "models/lasso_"
                     + model_type
                     + "_"
                     + constants.strategies_dict[strategy]
@@ -330,7 +330,7 @@ class DisorderCompare:
             ex_comb = np.concatenate((ex_dum_esm1v, ex_dum_esm1b), axis=1)
 
             comb_onnx_model = (
-                "../models/lasso_"
+                "models/lasso_"
                 + "combined"
                 + "_"
                 + constants.strategies_dict[strategy]
