@@ -9,8 +9,11 @@ import plotly.io as pio
 import scipy
 from joblib import Parallel, delayed
 from sklearn import linear_model
+import time
 
 from adopt import constants, CheZod, utils
+
+pio.renderers = "pdf"
 
 class StabilityAnalysis:
     def __init__(self,
@@ -94,8 +97,9 @@ class StabilityAnalysis:
                 )
             )
             fig.update_layout(showlegend=False)
+            time.sleep(5)
             pio.write_image(fig, 
-                            "../media/stability_paths_" 
+                            "media/stability_paths_" 
                             + "_cp_"
                             + str(cutoff)
                             + "_cf_"
