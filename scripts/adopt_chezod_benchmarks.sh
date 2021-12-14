@@ -16,20 +16,20 @@ TEST_JSON_FILE_PATH="../datasets/117_dataset_raw.json"
 
 printf "Extracting residue level representation of %s \n" $TRAIN_FASTA_FILE_PATH
 
-python ../adopt/embedding.py -f $TRAIN_FASTA_FILE_PATH \
-                             -r $TRAIN_RES_REPR_DIR_PATH
+python adopt/embedding.py $TRAIN_FASTA_FILE_PATH \
+                          $TRAIN_RES_REPR_DIR_PATH
 
 printf "Extracting residue level representation of %s \n" $TEST_FASTA_FILE_PATH
 
-python ../adopt/embedding.py -f $TEST_FASTA_FILE_PATH \
-                             -r $TEST_RES_REPR_DIR_PATH
+python adopt/embedding.py $TEST_FASTA_FILE_PATH \
+                          $TEST_RES_REPR_DIR_PATH
 
 printf "Benchmarking predictions in %s \n" $BENCHMARK_DATA_PATH
 printf "The results are stored in ../media \n"
 
-python ../adopt/benchmarks.py -b $BENCHMARK_DATA_PATH \
-                              -s $TRAIN_STRATEGY \
-                              -t $TRAIN_JSON_FILE_PATH \
-                              -e $TEST_JSON_FILE_PATH \
-                              -r $TRAIN_RES_REPR_DIR_PATH \
-                              -p $TEST_RES_REPR_DIR_PATH 
+python adopt/benchmarks.py $BENCHMARK_DATA_PATH \
+                           $TRAIN_JSON_FILE_PATH \
+                           $TEST_JSON_FILE_PATH \
+                           $TRAIN_RES_REPR_DIR_PATH \
+                           $TEST_RES_REPR_DIR_PATH \
+                           --train_strategy $TRAIN_STRATEGY
