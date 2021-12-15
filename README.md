@@ -153,8 +153,8 @@ In order to predict the **Z score** related to each residue in a protein sequenc
 In the ADOPT directory run:
 
 ```bash
-python embedding.py <fasta_file_path> \
-                    <residue_level_representation_dir>
+python adopt/embedding.py <fasta_file_path> \
+                          <residue_level_representation_dir>
 ```
 
 Where:
@@ -177,11 +177,11 @@ Once we have extracted the residue level representations we can predict the intr
 In the ADOPT directory run:
 
 ```bash
-python inference.py <inference_fasta_file> \
-                    <inference_repr_dir> \
-                    <predicted_z_scores_file> \
-                    --train_strategy <training_strategy> \
-                    --model_type <model_type> 
+python adopt/inference.py <inference_fasta_file> \
+                          <inference_repr_dir> \
+                          <predicted_z_scores_file> \
+                          --train_strategy <training_strategy> \
+                          --model_type <model_type> 
 ```
 
 Where:
@@ -211,11 +211,11 @@ Once we have extracted the residue level representations of the protein for whic
 In the ADOPT directory run:
 
 ```bash
-python training.py <train_json_file_path> \
-                   <test_json_file_path> \
-                   <train_residue_level_representation_dir> \
-                   <test_residue_level_representation_dir> \
-                   --train_strategy <training_strategy> 
+python adopt/training.py <train_json_file_path> \
+                         <test_json_file_path> \
+                         <train_residue_level_representation_dir> \
+                         <test_residue_level_representation_dir> \
+                         --train_strategy <training_strategy> 
 ```
 
 Where:
@@ -226,6 +226,26 @@ Where:
 - `<test_residue_level_representation_dir>` defines the path where we saved the residue level representations of the proteins in the *test set*
 - `--train_strategy` defines the **training strategies** defined above
 - `--msa` runs the [MSA procedure](msa-setting-optional) to get trained models fed with the `esm-msa` representations. We suggest you take a look to the [MSA training](scripts/adopt_chezod_msa_training.sh) script as a quick example (**optional**)
+- `-h` shows help message and exit
+
+### Run benchmarks
+
+Once we have extracted the residue level representations we can benchmark ADOPT against other methods.
+
+In the ADOPT directory run:
+
+```bash
+python adopt/benchmarks.py <benchmark_data_path> \
+                           <train_json_file_path> \
+                           <test_json_file_path> \
+                           <train_residue_level_representation_dir> \
+                           <test_residue_level_representation_dir> \
+                           --train_strategy <training_strategy> 
+```
+
+Where:
+
+- `<benchmark_data_path>` defines the directory containing the predictions of the method we want to benchmark againbst ADOPT
 - `-h` shows help message and exit
 
 ## Citations <a name="citations"></a>
