@@ -2,8 +2,8 @@ fair-esm~=0.4
 scikit-learn~=1.0
 bertviz~=1.2
 biopython~=1.79
-onnxruntime
-skl2onnx
+onnxruntime~=1.10
+skl2onnx~=1.10.3
 spacy~=3.2
 kaleido~=0.2.1
 
