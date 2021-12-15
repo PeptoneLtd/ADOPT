@@ -65,7 +65,7 @@ class StabilityAnalysis:
     def plot_stability_paths(self, probabs, model_picked):
         cutoffs = constants.stability_path_hyperparams['cutoffs']
         freq_cutoff = constants.stability_path_hyperparams['freq_cutoff']
-        chezod = CheZod(self.path_chezod_1325_raw, self.path_chezod_117_raw)
+        chezod = CheZod(self.path_chezod_1325_raw, self.path_chezod_117_raw, self.model_types)
         (
             ex_train,
             zed_train,
@@ -97,6 +97,16 @@ class StabilityAnalysis:
                 )
             )
             fig.update_layout(showlegend=False)
+            pio.write_image(fig, 
+                            "media/stability_paths_" 
+                            + "_cp_"
+                            + str(cutoff)
+                            + "_cf_"
+                            + str(freq_cutoff)
+                            + ".pdf", 
+                            width=900, 
+                            height=450, 
+                            scale=1.)
             time.sleep(5)
             pio.write_image(fig, 
                             "media/stability_paths_" 
