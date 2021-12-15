@@ -235,7 +235,7 @@ class DisorderCompare:
         predicted_z_scores = {
             "esm-1v": {},
             "esm-1b": {},
-            #"esm-msa": {},
+            "esm-msa": {},
             "combined": {},
             "odin": {},
         }
@@ -350,7 +350,7 @@ class CheZodCompare:
         corr_per_res = {
             "esm-1v": {},
             "esm-1b": {},
-            #"esm-msa": {},
+            "esm-msa": {},
             "combined": {},
             "odin": {},
         }
