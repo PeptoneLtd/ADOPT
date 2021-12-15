@@ -99,6 +99,7 @@ class StabilityAnalysis:
             fig.update_layout(showlegend=False)
             pio.write_image(fig, 
                             "media/stability_paths_" 
+                            + model_picked
                             + "_cp_"
                             + str(cutoff)
                             + "_cf_"
@@ -110,6 +111,7 @@ class StabilityAnalysis:
             time.sleep(5)
             pio.write_image(fig, 
                             "media/stability_paths_" 
+                            + model_picked
                             + "_cp_"
                             + str(cutoff)
                             + "_cf_"
