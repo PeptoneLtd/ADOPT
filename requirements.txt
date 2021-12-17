@@ -5,5 +5,6 @@ biopython~=1.79
 skl2onnx~=1.10.3
 onnxruntime~=1.10
 spacy~=3.2
+plotly~=5.4.0
 kaleido~=0.2.1
 
