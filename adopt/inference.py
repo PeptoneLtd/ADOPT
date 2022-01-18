@@ -46,15 +46,29 @@ def create_parser():
         help="pre-trained model we want to use",
         required=True
     )
+    parser.add_argument(
+        "--mode",
+        type=str,
+        help="Interactive or bulk mode",
+        default="bulk"
+    )
     return parser
 
 
 class ZScorePred:
-    def __init__(self, strategy, model_type):
+    def __init__(self, strategy, model_type, mode):
         self.strategy = strategy
         self.model_type = model_type
+        self.mode = mode
+
+        if self.mode == "interactive":
+            models_path = "../models"
+        else:
+            models_path = "/models"
+
         self.onnx_model = (
-            "models/lasso_"
+            models_path
+            +"/lasso_"
             + self.model_type
             + "_"
             + constants.strategies_dict[self.strategy]
@@ -156,7 +170,7 @@ if __name__ == "__main__":
     parser = create_parser()
     args = parser.parse_args()
     main(args)
-    z_score_pred = ZScorePred(args.train_strategy, args.model_type)
+    z_score_pred = ZScorePred(args.train_strategy, args.model_type, args.mode)
     z_score_pred.get_z_score_from_fasta(
         args.fasta_path, args.repr_dir, args.pred_z_scores_path
     )
