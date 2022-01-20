@@ -64,7 +64,7 @@ class ZScorePred:
         if self.mode == "interactive":
             models_path = "../models"
         else:
-            models_path = "/models"
+            models_path = "models"
 
         self.onnx_model = (
             models_path
