@@ -27,6 +27,7 @@ ADOPT makes use of two datasets: the [CheZoD  “1325” and the CheZoD “117�
     - [Compute residue level representations](#compute-residue-level-representations)
     - [Predict intrinsic disorder with ADOPT](#predict-intrinsic-disorder-with-adopt)
     - [Train ADOPT disorder predictor](#train-adopt-disorder-predictor)
+    - [Run benchmarks](#run-benchmarks)
   - [Citations](#citations)
   - [Licence](#licence)
 
@@ -250,7 +251,7 @@ Where:
 
 #### AlphaFold2 benchmarks (optional)
 
-We benchmarked ADOPT against [AlphaFold2](https://github.com/deepmind/alphafold) computing thepearman correlations between actual Z-scores and predicted pLDDT<sub>5</sub> scores along with actual Z-scores and predicted SASA<sub>5</sub> scores, obtained by AlphaFold2 and described in the ADOPT [paper](https://link_to_paper).
+We benchmarked ADOPT against [AlphaFold2](https://github.com/deepmind/alphafold) computing the spearman correlations between actual Z-scores and predicted pLDDT<sub>5</sub> scores along with actual Z-scores and predicted SASA<sub>5</sub> scores, obtained by AlphaFold2, collected for the task linked to the model evaluated on the [CheZoD “117”](https://github.com/protein-nmr/CheZOD) validation set and described in the ADOPT [paper](https://link_to_paper).
 
 As a prerequisite, you must have [Docker](https://www.docker.com/) installed.
 
@@ -260,7 +261,7 @@ Run:
 docker run ghcr.io/peptoneinc/adopt_alphafold2_comparison:1.0.2
 ```
 
-[Here](scripts/get_alphafold2_correlations.py) is the script used to extract the correlations.
+[Here](scripts/get_alphafold2_correlations.py) is the script used to extract the correlations and [here](https://alphafold2-chezod-predictions.s3.eu-central-1.amazonaws.com/data.tar.gz) are the predictions obtained from Alphafold2.
 
 ## Citations <a name="citations"></a>
 
