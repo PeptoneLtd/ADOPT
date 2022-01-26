@@ -248,6 +248,20 @@ Where:
 - `<benchmark_data_path>` defines the directory containing the predictions of the method we want to benchmark againbst ADOPT
 - `-h` shows help message and exit
 
+#### AlphaFold2 benchmarks (optional)
+
+We benchmarked ADOPT against [AlphaFold2](https://github.com/deepmind/alphafold) computing thepearman correlations between actual Z-scores and predicted pLDDT<sub>5</sub> scores along with actual Z-scores and predicted SASA<sub>5</sub> scores, obtained by AlphaFold2 and described in the ADOPT [paper](https://link_to_paper).
+
+As a prerequisite, you must have [Docker](https://www.docker.com/) installed.
+
+Run:
+
+```bash
+docker run ghcr.io/peptoneinc/adopt_alphafold2_comparison:1.0.2
+```
+
+[Here](scripts/get_alphafold2_correlations.py) is the script used to extract the correlations.
+
 ## Citations <a name="citations"></a>
 
 If you use this work in your research, please cite the the relevant paper:
