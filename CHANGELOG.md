@@ -1,5 +1,18 @@
 # Changelog
 
+## [v0.4.2](https://github.com/peptoneinc/ADOPT/tree/v0.4.2) (2022-01-26)
+
+[Full Changelog](https://github.com/peptoneinc/ADOPT/compare/v0.4.1...v0.4.2)
+
+**Implemented enhancements:**
+
+- @falkph please remove all the installation commands [\#30](https://github.com/PeptoneInc/ADOPT/issues/30)
+
+**Merged pull requests:**
+
+- Adopt example [\#29](https://github.com/PeptoneInc/ADOPT/pull/29) ([falkph](https://github.com/falkph))
+- Viz routines [\#25](https://github.com/PeptoneInc/ADOPT/pull/25) ([CFisicaro](https://github.com/CFisicaro))
+
 ## [v0.4.1](https://github.com/peptoneinc/ADOPT/tree/v0.4.1) (2021-12-09)
 
 [Full Changelog](https://github.com/peptoneinc/ADOPT/compare/v0.4.0...v0.4.1)
