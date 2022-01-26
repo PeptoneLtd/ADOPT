@@ -251,7 +251,7 @@ Where:
 
 #### AlphaFold2 benchmarks (optional)
 
-We benchmarked ADOPT against [AlphaFold2](https://github.com/deepmind/alphafold) computing the spearman correlations between actual Z-scores and predicted pLDDT<sub>5</sub> scores along with actual Z-scores and predicted SASA<sub>5</sub> scores, obtained by AlphaFold2, collected for the task linked to the model evaluated on the [CheZoD “117”](https://github.com/protein-nmr/CheZOD) validation set and described in the ADOPT [paper](https://link_to_paper).
+We benchmarked ADOPT against [AlphaFold2](https://github.com/deepmind/alphafold) computing the spearman correlations between actual Z-scores and predicted pLDDT<sub>5</sub> scores along with actual Z-scores and predicted SASA<sub>5</sub> scores, obtained by AlphaFold2, collected for the task linked to the model evaluated on the [CheZoD “117”](datasets/chezod_117.fasta) validation set and described in the ADOPT [paper](https://link_to_paper).
 
 As a prerequisite, you must have [Docker](https://www.docker.com/) installed.
 
