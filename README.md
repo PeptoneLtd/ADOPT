@@ -57,9 +57,12 @@ As a prerequisite, you must have [PyTorch 1.10](https://pytorch.org/) or later i
 
 Install the **adopt** package:
 
-Clone the ADOPT repository, go to the ADOPT directory and run
+Run
 
 ```bash
+git clone https://github.com/PeptoneInc/ADOPT.git
+cd ADOPT
+git submodule update --init --recursive
 python setup.py install
 ```
 
