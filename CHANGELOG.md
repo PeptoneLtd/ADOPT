@@ -1,5 +1,17 @@
 # Changelog
 
+## [v0.4.3](https://github.com/peptoneinc/ADOPT/tree/v0.4.3) (2022-05-27)
+
+[Full Changelog](https://github.com/peptoneinc/ADOPT/compare/v0.4.2...v0.4.3)
+
+**Closed issues:**
+
+- Use ESM as submodule once ADOPT goes public [\#3](https://github.com/PeptoneInc/ADOPT/issues/3)
+
+**Merged pull requests:**
+
+- Dev [\#35](https://github.com/PeptoneInc/ADOPT/pull/35) ([CFisicaro](https://github.com/CFisicaro))
+
 ## [v0.4.2](https://github.com/peptoneinc/ADOPT/tree/v0.4.2) (2022-01-26)
 
 [Full Changelog](https://github.com/peptoneinc/ADOPT/compare/v0.4.1...v0.4.2)
