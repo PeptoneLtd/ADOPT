@@ -70,18 +70,18 @@ from adopt import MultiHead, ZScorePred
 
 # Prepare protein sequence and name i.e brmid
 SEQUENCE = "SLQDGVRQSRASDKQTLLPNDQLYQPLKDREDDQYSHLQGNQLRRN"
-BRMID = "Protein 18890"
+PROTID = "Protein 18890"
 
 # Choose model type and training strategy
 MODEL_TYPE = "esm-1b"
 STRATEGY = "train_on_cleared_1325_test_on_117_residue_split"
 
 # Extract residue level representations
-multi_head = MultiHead(MODEL_TYPE, SEQUENCE, BRMID)
+multi_head = MultiHead(MODEL_TYPE, SEQUENCE, PROTID)
 representation, tokens = multi_head.get_representation()
 
 # Predict the Z score related to each residue in the sequence specified above
-z_score_pred = ZScorePred(STRATEGY, MODEL_TYPE)
+z_score_pred = ZScorePred(STRATEGY, MODEL_TYPE, 'interactive')
 predicted_z_scores = z_score_pred.get_z_score(representation)
 ````
 
@@ -268,7 +268,18 @@ docker run ghcr.io/peptoneinc/adopt_alphafold2_comparison:1.0.2
 If you use this work in your research, please cite the the relevant paper:
 
 ```bibtex
-@article{redl2021adopt}
+@article {Tamiola2022.05.25.493416,
+	author = {Tamiola, Kamil and Fisicaro, Carlo and Dutton, Oliver and Hoffmann, Falk and Henderson, Louie and Owens, Benjamin M.J. and Heberling, Matthew  and Redl, Istvan},
+	title = {ADOPT: intrinsic protein disorder prediction through deep bidirectional transformers},
+	elocation-id = {2022.05.25.493416},
+	year = {2022},
+	doi = {10.1101/2022.05.25.493416},
+	publisher = {Cold Spring Harbor Laboratory},
+	abstract = {Intrinsically disordered proteins (IDP) are important in a broad range of biological functions and are involved in many diseases. An understanding of intrinsic disorder is key to develop drugs against IDPs. Experimental characterization of IDPs are expensive and less efficient and demand the development of computational tools. Here, we present ADOPT, a new predictor of protein disorder. ADOPT is a deep bidirectional transformer, which extracts dense residue level representations from Facebook{\textquoteright}s Evolutionary Scale Modeling (ESM) library. Using the experimentally designed CheZod database as a training and test dataset for protein disorder, it predicts Z scores and protein disorder with new state-of-the-art performance in a few seconds. We show that ADOPT offers substantial improvement in comparison to previous predictors with a Spearman correlation coefficient between experimental and computational Z scores of 0.69. We identify the coordinates which are relevant for the prediction performance and show that good performance can already gained with less than 100 features. We believe that ADOPT will be a useful tool for all experimental scientists working with intrinsically disordered proteins. It is available as a standalone package at https://github.com/PeptoneInc/ADOPT.git.Competing Interest StatementThe authors have declared no competing interest.},
+	URL = {https://www.biorxiv.org/content/early/2022/05/26/2022.05.25.493416},
+	eprint = {https://www.biorxiv.org/content/early/2022/05/26/2022.05.25.493416.full.pdf},
+	journal = {bioRxiv}
+}
 ```
 
 ## Licence
