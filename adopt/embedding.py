@@ -50,7 +50,7 @@ def get_representations(fasta_file, repr_dir, msa):
             )
         else:
             bashCommand = (
-                "python esm/extract.py "
+                "python esm/scripts/extract.py "
                 + str(esm_model)
                 + " "
                 + str(fasta_file)
