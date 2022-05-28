@@ -6,7 +6,7 @@ This repository containes the code and the trained models for **intrinsic protei
 
 ADOPT has been introduced in our paper [ADOPT: intrinsic protein disorder prediction through deep bidirectional transformers](https://www.biorxiv.org/content/10.1101/2022.05.25.493416v1).
 
-<img src="https://github.com/PeptoneInc/ADOPT/blob/main/media/adopt_attention.gif" width="600"/>
+<img src="https://github.com/PeptoneLtd/ADOPT/blob/main/media/adopt_attention.gif" width="600"/>
 
 Our disorder predictor is made up of two main blocks, namely: a **self-supervised encoder** and a **supervised disorder predictor**. We use [Facebook’s Evolutionary Scale Modeling (ESM)](https://github.com/facebookresearch/esm) library to extract dense residue evel representations, which feed the  supervised machine learning based predictor.
 
