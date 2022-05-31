@@ -1,0 +1,20 @@
+FROM nvcr.io/partners/gridai/pytorch-lightning:v1.4.0
+RUN pip install pytorch-lightning && \
+    pip install fair-esm && \
+    pip install jupyter && \
+    pip install pandas && \
+    pip install plotly && \
+    pip install biopython && \
+    pip install pytorch-lightning-bolts && \
+    pip install scikit-learn && \
+    pip install bertviz && \
+    pip install biopython && \
+    pip install skl2onnx && \
+    pip install onnxruntime && \
+    pip install spacy && \
+    pip install wandb
+WORKDIR /
+RUN git clone https://github.com/PeptoneInc/ADOPT.git
+WORKDIR /ADOPT
+RUN git submodule update --init --recursive && \
+    python setup.py install
