@@ -1,0 +1,10 @@
+FROM tensorflow/tensorflow:2.6.1-jupyter
+RUN apt-get --allow-releaseinfo-change update && apt-get install -y build-essential libjson-c-dev wget \
+ && cd / && wget https://github.com/mittinatten/freesasa/releases/download/2.0.3/freesasa-2.0.3.tar.gz \
+ && tar -xvf /freesasa-2.0.3.tar.gz \
+ && cd /freesasa-2.0.3 \
+ && ./configure --disable-xml && make -j 8 && make install
+RUN pip3 install pandas scipy plotly
+COPY data.tar.gz /data.tar.gz
+COPY get_correlations.py /get_correlations.py
+ENTRYPOINT [ "python3", "/get_correlations.py" ]
