@@ -1,13 +1,13 @@
 cff-version: 0.4.2
 message: "If you use this software, please cite it as below."
 authors:
-  - given-names: "Kamil Tamiola"
-    family-names: "Tamiola"
-    email: "kamil@peptone.io"
+  - given-names: "Carlo Fisicaro"
+    family-names: "Fisicaro"
+    email: "carlo@peptone.io"
     affiliation: "Peptone Ltd."
-    orcid: ""
+    orcid: "0000-0002-2029-7230"
 title: "Attention based DisOrder PredicTor"
-version: 0.4.2
+version: 0.4.3
 doi: 
 date-released: 
 url: "https://github.com/PeptoneInc/ADOPT"
