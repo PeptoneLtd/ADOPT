@@ -1,0 +1,7 @@
+FROM continuumio/anaconda3:2020.11
+RUN apt-get --allow-releaseinfo-change update && apt-get install -y software-properties-common build-essential cmake libomp-dev
+RUN git clone https://github.com/soedinglab/hh-suite.git \
+ && mkdir -p hh-suite/build && cd hh-suite/build \
+ && cmake -DCMAKE_INSTALL_PREFIX=. .. \
+ && make -j 4 && make install
+ENV PATH="/hh-suite/build/bin:/hh-suite/build/scripts:$PATH"
