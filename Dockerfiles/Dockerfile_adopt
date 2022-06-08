@@ -14,7 +14,7 @@ RUN pip install pytorch-lightning && \
     pip install spacy && \
     pip install wandb
 WORKDIR /
-RUN git clone https://github.com/PeptoneInc/ADOPT.git
+RUN git clone https://github.com/PeptoneLtd/ADOPT.git
 WORKDIR /ADOPT
 RUN git submodule update --init --recursive && \
     python setup.py install
