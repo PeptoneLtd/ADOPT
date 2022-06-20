@@ -56,7 +56,7 @@ def create_parser():
 
 
 class ZScorePred:
-    def __init__(self, strategy, model_type, mode):
+    def __init__(self, mode, strategy='train_on_total', model_type='esm-1b'):
         self.strategy = strategy
         self.model_type = model_type
         self.mode = mode
@@ -172,7 +172,7 @@ if __name__ == "__main__":
     parser = create_parser()
     args = parser.parse_args()
     main(args)
-    z_score_pred = ZScorePred(args.train_strategy, args.model_type, args.mode)
+    z_score_pred = ZScorePred(args.mode, args.train_strategy, args.model_type)
     z_score_pred.get_z_score_from_fasta(
         args.fasta_path, args.repr_dir, args.pred_z_scores_path
     )

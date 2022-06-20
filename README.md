@@ -84,7 +84,7 @@ multi_head = MultiHead(MODEL_TYPE, SEQUENCE, PROTID)
 representation, tokens = multi_head.get_representation()
 
 # Predict the Z score related to each residue in the sequence specified above
-z_score_pred = ZScorePred(STRATEGY, MODEL_TYPE, 'interactive')
+z_score_pred = ZScorePred('interactive', STRATEGY, MODEL_TYPE)
 predicted_z_scores = z_score_pred.get_z_score(representation)
 ````
 
@@ -205,6 +205,7 @@ The output is a `.json` file contains the Z scores related to each residue of ea
 | `train_on_1325_cv_residue_split`| `esm-1b`, `esm-1v` and `esm-msa` |
 | `train_on_cleared_1325_cv_residue_split`| `esm-1b`, `esm-1v` and `esm-msa` |
 | `train_on_cleared_1325_cv_sequence_split`| `esm-1b`, `esm-1v` and `esm-msa` |
+| `train_on_total`| `esm-1b`, `esm-1v`|
 
 ### Train ADOPT disorder predictor
 

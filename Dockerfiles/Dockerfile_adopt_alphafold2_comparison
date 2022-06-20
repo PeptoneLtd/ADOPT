@@ -7,6 +7,6 @@ RUN apt-get --allow-releaseinfo-change update && apt-get install -y build-essent
 RUN pip3 install pandas scipy plotly
 WORKDIR /
 RUN wget https://alphafold2-chezod-predictions.s3.eu-west-2.amazonaws.com/data.tar.gz
-RUN git clone https://github.com/PeptoneInc/ADOPT.git
+RUN git clone https://github.com/PeptoneLtd/ADOPT.git
 RUN cp /ADOPT/scripts/get_alphafold2_correlations.py get_correlations.py
 ENTRYPOINT [ "python3", "/get_correlations.py" ]
