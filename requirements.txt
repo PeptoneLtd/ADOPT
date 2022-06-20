@@ -1,5 +1,5 @@
 fair-esm~=0.4
-scikit-learn~=1.0
+scikit-learn
 bertviz~=1.2
 biopython~=1.79
 skl2onnx~=1.10.3

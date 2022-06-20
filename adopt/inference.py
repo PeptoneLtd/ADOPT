@@ -63,8 +63,10 @@ class ZScorePred:
 
         if self.mode == "interactive":
             models_path = "../models"
-        else:
+        elif self.mode == "bulk":
             models_path = "models"
+        else:
+            models_path = '$ADOPT_HOME'
 
         self.onnx_model = (
             models_path

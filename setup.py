@@ -7,6 +7,7 @@ import setuptools
 from setuptools import setup
 
 from adopt import __version__
+import os
 
 with open("README.md") as f:
     readme = f.read()
@@ -20,9 +21,12 @@ setup(
     url="https://github.com/PeptoneInc/ADOPT",
     license="MIT",
     author="Peptone Ltd.",
-    author_email="kamil@peptone.io",
+    author_email="carlo@peptone.io",
     description=" Attention based DisOrder PredicTor (adopt): intrinsic protein disorder prediction through"
     "deep bidirectional transformers",
     data_files=[(".", ["LICENSE", "README.md", "CHANGELOG.md", "CITATION.cff"])],
     zip_safe=True,
 )
+
+# Set environment variables
+os.environ['ADOPT_HOME'] = '.'
