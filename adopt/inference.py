@@ -62,11 +62,11 @@ class ZScorePred:
         if model_path_file.is_file():
             print("Loading model file")
         else:
-            bashCommand = (
-                "wget https://adopt-models.s3.eu-west-2.amazonaws.com/models.zip"
-                + " && "
-                + "unzip models.zip"
-            )
+            bashCommand = ("wget https://adopt-models.s3.eu-west-2.amazonaws.com/models.zip")
+            process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
+            output, error = process.communicate()
+
+            bashCommand = ("unzip models.zip")
             process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
             output, error = process.communicate()
 
