@@ -211,7 +211,7 @@ The output is a `.json` file contains the Z scores related to each residue of ea
 
 Once we have extracted the residue level representations of the protein for which we want to predict the intrinsic disorder (Z score), we can train the predictor.
 
-**NOTE**: This step is not mandatory because we've already trained such models. You can find them in the *models* directory.
+**NOTE**: This step is not mandatory because we've already trained such models. You can find them in the [models](https://adopt-models.s3.eu-west-2.amazonaws.com/models.zip) bucket.
 
 In the ADOPT directory run:
 
