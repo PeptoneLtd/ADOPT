@@ -167,7 +167,7 @@ if __name__ == "__main__":
     parser = create_parser()
     args = parser.parse_args()
     main(args)
-    z_score_pred = ZScorePred(args.mode, args.train_strategy, args.model_type)
+    z_score_pred = ZScorePred(args.train_strategy, args.model_type)
     z_score_pred.get_z_score_from_fasta(
         args.fasta_path, args.repr_dir, args.pred_z_scores_path
     )
