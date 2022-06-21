@@ -9,6 +9,9 @@ from setuptools import setup
 from adopt import __version__
 import os
 
+# Set environment variables
+os.system("export ADOPT_HOME=.")
+
 with open("README.md") as f:
     readme = f.read()
 
@@ -27,6 +30,3 @@ setup(
     data_files=[(".", ["LICENSE", "README.md", "CHANGELOG.md", "CITATION.cff"])],
     zip_safe=True,
 )
-
-# Set environment variables
-os.environ['ADOPT_HOME'] = '.'
