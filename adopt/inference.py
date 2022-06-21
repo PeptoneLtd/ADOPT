@@ -56,11 +56,7 @@ class ZScorePred:
         self.strategy = strategy
         self.model_type = model_type
 
-        model_path = "models/lasso_"
-        + self.model_type
-        + "_"
-        + constants.strategies_dict[self.strategy]
-        + ".onnx"
+        model_path = f"models/lasso_{self.model_type}_{constants.strategies_dict[self.strategy]}.onnx"
 
         model_path_file = Path(model_path)
         if model_path_file.is_file():
