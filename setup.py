@@ -7,10 +7,6 @@ import setuptools
 from setuptools import setup
 
 from adopt import __version__
-import os
-
-# Set environment variables
-os.system("export ADOPT_HOME=/ADOPT")
 
 with open("README.md") as f:
     readme = f.read()

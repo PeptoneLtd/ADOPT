@@ -66,7 +66,7 @@ class ZScorePred:
         elif self.mode == "bulk":
             models_path = "models"
         else:
-            models_path = '$ADOPT_HOME'
+            models_path = '/ADOPT/models'
 
         self.onnx_model = (
             models_path
