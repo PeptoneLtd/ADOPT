@@ -7,6 +7,7 @@ import argparse
 import os
 import sys
 import subprocess
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -55,21 +56,25 @@ class ZScorePred:
         self.strategy = strategy
         self.model_type = model_type
 
-        bashCommand = (
-            "wget https://adopt-models.s3.eu-west-2.amazonaws.com/models.zip"
-            + " && "
-            + "unzip models.zip"
-        )
-        process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-        output, error = process.communicate()
+        model_path = "models/lasso_"
+        + self.model_type
+        + "_"
+        + constants.strategies_dict[self.strategy]
+        + ".onnx"
 
-        self.onnx_model = (
-            "models/lasso_"
-            + self.model_type
-            + "_"
-            + constants.strategies_dict[self.strategy]
-            + ".onnx"
-        )
+        model_path_file = Path(model_path)
+        if model_path_file.is_file():
+            print("Loading model file")
+        else:
+            bashCommand = (
+                "wget https://adopt-models.s3.eu-west-2.amazonaws.com/models.zip"
+                + " && "
+                + "unzip models.zip"
+            )
+            process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
+            output, error = process.communicate()
+
+        self.onnx_model = (model_path)
 
     def get_z_score(self, representation):
         predicted_z_scores = utils.get_onnx_model_preds(
