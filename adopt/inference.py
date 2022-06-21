@@ -6,6 +6,7 @@
 import argparse
 import os
 import sys
+import subprocess
 
 import numpy as np
 import pandas as pd
@@ -46,31 +47,24 @@ def create_parser():
         help="pre-trained model we want to use",
         required=True
     )
-    parser.add_argument(
-        "--mode",
-        type=str,
-        help="Interactive or bulk mode",
-        default="bulk"
-    )
     return parser
 
 
 class ZScorePred:
-    def __init__(self, mode, strategy='train_on_total', model_type='esm-1b'):
+    def __init__(self, strategy='train_on_total', model_type='esm-1b'):
         self.strategy = strategy
         self.model_type = model_type
-        self.mode = mode
 
-        if self.mode == "interactive":
-            models_path = "../models"
-        elif self.mode == "bulk":
-            models_path = "models"
-        else:
-            models_path = '/ADOPT/models'
+        bashCommand = (
+            "wget https://adopt-models.s3.eu-west-2.amazonaws.com/models.zip"
+            + " && "
+            + "unzip models.zip"
+        )
+        process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
+        output, error = process.communicate()
 
         self.onnx_model = (
-            models_path
-            +"/lasso_"
+            "models/lasso_"
             + self.model_type
             + "_"
             + constants.strategies_dict[self.strategy]

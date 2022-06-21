@@ -84,7 +84,7 @@ multi_head = MultiHead(MODEL_TYPE, SEQUENCE, PROTID)
 representation, tokens = multi_head.get_representation()
 
 # Predict the Z score related to each residue in the sequence specified above
-z_score_pred = ZScorePred('interactive', STRATEGY, MODEL_TYPE)
+z_score_pred = ZScorePred(STRATEGY, MODEL_TYPE)
 predicted_z_scores = z_score_pred.get_z_score(representation)
 ````
 
