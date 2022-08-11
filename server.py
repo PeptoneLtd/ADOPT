@@ -43,15 +43,6 @@ class BulkSequenceRequest(BaseModel):
     sequences: List[Sequence]
 
 
-# # sequence as path paramenter could make sense for caching requests, but may not be viable for sequences longer than ~2000
-# @app.get("/sequence/{sequence}/z_score")
-# async def get_z_score(sequence: str):
-#     multi_head = MultiHead(MODEL_TYPE, sequence, None)
-#     representation, tokens = multi_head.get_representation()
-#     predicted_z_scores = [ ZScores(sequence=sequence, z_scores=z_score_pred.get_z_score(representation).tolist()) ]
-#     return Response(z_scores=predicted_z_scores)
-
-
 @app.post("/bulk/z_score")
 async def get_bulk_z_score(bulkSequenceRequest: BulkSequenceRequest):
     z_scores: List[ZScores] = []
