@@ -131,6 +131,10 @@ Note that this setup procedure creates four subfolders:
 
 The MSAs will be placed in the ```$LOCAL_MSA_DIR/msas``` folder.
 
+### More notes
+You can set the ```ESM_MODELS_DIR``` and ```ADOPT_MODELS_DIR``` respectively to paths where the [ESM](https://dl.fbaipublicfiles.com/fair-esm/models/esm1v_t33_650M_UR90S_1.pt) and [ADOPT](https://adopt-models.s3.eu-west-2.amazonaws.com/models.zip) pretrained models are stored. 
+All models will be downloaded from public repositories if not found locally.
+
 ### Scripts
 
 The [scripts](scripts) directory contains:

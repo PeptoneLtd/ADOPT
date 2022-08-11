@@ -1,5 +1,5 @@
 from typing import List
-from fastapi import FastAPI, Path
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from adopt import MultiHead, ZScorePred
@@ -28,16 +28,20 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 class Sequence(BaseModel):
     id: str
     name: str
     seq: str
 
+
 class ZScores(Sequence):
     z_scores: List[float]
 
+
 class Response(BaseModel):
     z_scores: List[ZScores]
+
 
 class BulkSequenceRequest(BaseModel):
     sequences: List[Sequence]
@@ -49,7 +53,8 @@ async def get_bulk_z_score(bulkSequenceRequest: BulkSequenceRequest):
     for s in bulkSequenceRequest.sequences:
         representation, tokens = multi_head.get_representation(s.seq, s.id)
         predicted_z_scores = z_score_pred.get_z_score(representation).tolist()
-        z_scores.append(ZScores(id=s.id, name=s.name, seq=s.seq, z_scores=predicted_z_scores))
+        z_scores.append(ZScores(id=s.id, name=s.name,
+                        seq=s.seq, z_scores=predicted_z_scores))
     return Response(z_scores=z_scores)
 
 if __name__ == "__main__":

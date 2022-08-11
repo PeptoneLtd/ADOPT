@@ -23,6 +23,7 @@ def getScores(model_type, strategy):
 
     return predicted_z_scores
 
+
 class TestAdopt(unittest.TestCase):
 
     @classmethod
@@ -31,12 +32,13 @@ class TestAdopt(unittest.TestCase):
         for filename in os.listdir("tests"):
             print(f"loading {filename}")
             with open(os.path.join("tests", filename), "rb") as f:
-                cls._test_cases[filename.replace(".pickle", "")] = pickle.load(f)
+                cls._test_cases[filename.replace(
+                    ".pickle", "")] = pickle.load(f)
 
     def test_esm1b(self):
         scores = getScores("esm-1b", STRATEGY)
         npt.assert_array_equal(scores, self._test_cases.get("esm-1b"))
-    
+
     def test_esm1v(self):
         scores = getScores("esm-1v", STRATEGY)
         npt.assert_array_equal(scores, self._test_cases.get("esm-1v"))
@@ -49,7 +51,6 @@ class TestAdopt(unittest.TestCase):
         scores = getScores("esm-msa", STRATEGY)
         npt.assert_array_equal(scores, self._test_cases.get("esm-msa"))
 
-    
 
 if __name__ == '__main__':
     unittest.main()
