@@ -11,21 +11,29 @@ from adopt import constants, utils
 
 
 class MultiHead:
-    def __init__(self, model_type, sequence, brmid):
+    def __init__(self, model_type):
         self.model_type = model_type
-        self.sequence = sequence
-        self.brmid = brmid
-        self.data = [(self.brmid, self.sequence)]
+        self.models, self.alphabets, self.msa = utils.get_model_alphabet_msa(model_type)
 
-    def get_attention(self):
+
+    def get_results(self, sequence, brmid):
+        results = []
+        i=0
+        while i < len(self.models):
+            results.append(utils.get_esm_output(self.models[i], self.alphabets[i], [(brmid, sequence)], self.msa[i]))
+            i+=1
+        return results
+
+
+    def get_attention(self, sequence, brmid):
         if self.model_type in constants.msa_model_types:
-            results = utils.get_model_and_alphabet(self.model_type, self.data)
+            results = self.get_results(sequence, brmid)
         else:
             print("The model types are:")
             print(*self.model_types, sep="\n")
             sys.exit(2)
 
-        tokens = list(self.sequence)
+        tokens = list(sequence)
         if self.model_type == 'esm-msa':
             attention = results["row_attentions"].permute(1, 0, 2, 3, 4)
         else:
@@ -34,26 +42,21 @@ class MultiHead:
         attention = attention[:, :, :, 1:-1, 1:-1]
         return attention, tokens
 
-    def get_representation(self):
+    def get_representation(self, sequence, brmid):
+        results = self.get_results(sequence, brmid)
+        
         if self.model_type in constants.model_types:
-            results = utils.get_model_and_alphabet(self.model_type, self.data)
-            representation = results["representations"][33]
+            representation = results[0]["representations"][33]
         elif self.model_type == 'esm-msa':
-            results = utils.get_model_and_alphabet(self.model_type, self.data)
-            representation = results["representations"][12][0]
+            representation = results[0]["representations"][12][0]
         elif self.model_type == "combined":
-            results_esm1b, results_esm1v = utils.get_model_and_alphabet(
-                self.model_type, self.data
-            )
-            representation_esm1b = results_esm1b["representations"][33]
-            representation_esm1v = results_esm1v["representations"][33]
-            representation = torch.cat((representation_esm1b, representation_esm1v), -1)
+            representation = torch.cat((results[0]["representations"][33], results[1]["representations"][33]), -1)
         else:
             print("The model types are:")
             print(*constants.msa_model_types, sep="\n")
             sys.exit(2)
 
-        tokens = list(self.sequence)
+        tokens = list(sequence)
         # remove first and last token (<cls> and <sep>)
         representation = representation[:, 1:-1, :]
         return representation, tokens
