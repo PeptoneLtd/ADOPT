@@ -43,3 +43,7 @@ __pycache__
 
 # End of https://www.toptal.com/developers/gitignore/api/macos
 *.html
+
+.adopt-venv
+.vscode
+build/

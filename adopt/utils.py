@@ -12,6 +12,7 @@ from Bio import SeqIO
 from skl2onnx import convert_sklearn
 from skl2onnx.common.data_types import FloatTensorType
 from sklearn import linear_model
+import os
 
 from adopt import constants
 
@@ -113,25 +114,66 @@ def get_esm_output(model, alphabet, data, msa):
     return results
 
 
+def load_model_and_alphabet(model_name):
+    models_dir = os.environ.get("ESM_MODELS_DIR")
+    try: # try to find model locally
+        path = os.path.join(models_dir, f"{model_name}.pt")
+        print(f"Trying to load ESM model from {path}")
+        return esm.pretrained.load_model_and_alphabet_local(path)
+    #TODO: catch appropriate exception 
+    except Exception as e:
+        print(type(e))    # the exception instance
+        print(e.args)     # arguments stored in .args
+        print(e)
+        print("ESM model not found locally, downloading from torchub")
+        return esm.pretrained.load_model_and_alphabet_hub(model_name)
+
+
 def get_model_and_alphabet(model_type, data):
     # Load ESM model
     if model_type == "esm-1b":
-        model, alphabet = esm.pretrained.esm1b_t33_650M_UR50S()
+        model, alphabet = load_model_and_alphabet("esm1b_t33_650M_UR50S")
         results = get_esm_output(model, alphabet, data, False)
     elif model_type == "esm-1v":
-        model, alphabet = esm.pretrained.esm1v_t33_650M_UR90S_1()
+        model, alphabet = load_model_and_alphabet("esm1v_t33_650M_UR90S_1")
         results = get_esm_output(model, alphabet, data, False)
     elif model_type == 'esm-msa':
-        model, alphabet = esm.pretrained.esm_msa1b_t12_100M_UR50S()
+        model, alphabet = load_model_and_alphabet("esm_msa1b_t12_100M_UR50S")
         results = get_esm_output(model, alphabet, data, True)
     else:
-        model_esm1b, alphabet_esm1b = esm.pretrained.esm1b_t33_650M_UR50S()
-        model_esm1v, alphabet_esm1v = esm.pretrained.esm1v_t33_650M_UR90S_1()
+        model_esm1b, alphabet_esm1b = load_model_and_alphabet("esm1b_t33_650M_UR50S")
+        model_esm1v, alphabet_esm1v = load_model_and_alphabet("esm1v_t33_650M_UR90S_1")
         results_esm1b = get_esm_output(model_esm1b, alphabet_esm1b, data)
         results_esm1v = get_esm_output(model_esm1v, alphabet_esm1v, data)
         results = [results_esm1b, results_esm1v]
     return results
 
+
+def get_model_alphabet_msa(model_type):
+    models = []
+    alphabets = []
+    msa = []
+
+    if model_type == "esm-1b":
+        model, alphabet = load_model_and_alphabet("esm1b_t33_650M_UR50S")
+        return [model], [alphabet], [False]
+    
+    if model_type == "esm-1v":
+        model, alphabet = load_model_and_alphabet("esm1v_t33_650M_UR90S_1")
+        return [model], [alphabet], [False]
+    
+    if model_type == 'esm-msa':
+        model, alphabet = load_model_and_alphabet("esm_msa1b_t12_100M_UR50S")
+        return [model], [alphabet], [True]
+    
+    for s in ("esm1b_t33_650M_UR50S", "esm1v_t33_650M_UR90S_1"):
+        m, a = load_model_and_alphabet(s)
+        models.append(m)
+        alphabets.append(a)
+        msa.append(False)
+        
+    return models, alphabets, msa
+    
 
 def get_residue_class(predicted_z_scores):
     residues_state = []

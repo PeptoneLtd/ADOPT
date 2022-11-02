@@ -131,6 +131,11 @@ Note that this setup procedure creates four subfolders:
 
 The MSAs will be placed in the ```$LOCAL_MSA_DIR/msas``` folder.
 
+### More notes
+
+You can set the ```ESM_MODELS_DIR``` and ```ADOPT_MODELS_DIR``` respectively to paths where the [ESM](https://dl.fbaipublicfiles.com/fair-esm/models/esm1v_t33_650M_UR90S_1.pt) and [ADOPT](https://adopt-models.s3.eu-west-2.amazonaws.com/models.zip) pretrained models are stored.
+All models will be downloaded from public repositories if not found locally.
+
 ### Scripts
 
 The [scripts](scripts) directory contains:
@@ -255,7 +260,8 @@ Where:
 
 #### AlphaFold2 benchmarks (optional)
 
-We benchmarked ADOPT against [AlphaFold2](https://github.com/deepmind/alphafold) computing the spearman correlations between actual Z-scores and predicted pLDDT<sub>5</sub> scores along with actual Z-scores and predicted SASA<sub>5</sub> scores, obtained by AlphaFold2, collected for the task linked to the model evaluated on the [CheZoD “117”](datasets/chezod_117_all.fasta) validation set and described in the ADOPT [paper](https://link_to_paper).
+We benchmarked ADOPT against [AlphaFold2](https://github.com/deepmind/alphafold) computing the spearman correlations between actual Z-scores and predicted pLDDT<sub>5</sub> scores along with actual Z-scores and predicted SASA<sub>5</sub> scores,
+obtained by AlphaFold2, collected for the task linked to the model evaluated on the [CheZoD “117”](datasets/chezod_117_all.fasta) validation set and described in the ADOPT [paper](https://link_to_paper).
 
 As a prerequisite, you must have [Docker](https://www.docker.com/) installed.
 
@@ -273,16 +279,19 @@ If you use this work in your research, please cite the the relevant paper:
 
 ```bibtex
 @article {Tamiola2022.05.25.493416,
-	author = {Tamiola, Kamil and Fisicaro, Carlo and Dutton, Oliver and Hoffmann, Falk and Henderson, Louie and Owens, Benjamin M.J. and Heberling, Matthew  and Redl, Istvan},
-	title = {ADOPT: intrinsic protein disorder prediction through deep bidirectional transformers},
-	elocation-id = {2022.05.25.493416},
-	year = {2022},
-	doi = {10.1101/2022.05.25.493416},
-	publisher = {Cold Spring Harbor Laboratory},
-	abstract = {Intrinsically disordered proteins (IDP) are important in a broad range of biological functions and are involved in many diseases. An understanding of intrinsic disorder is key to develop drugs against IDPs. Experimental characterization of IDPs are expensive and less efficient and demand the development of computational tools. Here, we present ADOPT, a new predictor of protein disorder. ADOPT is a deep bidirectional transformer, which extracts dense residue level representations from Facebook{\textquoteright}s Evolutionary Scale Modeling (ESM) library. Using the experimentally designed CheZod database as a training and test dataset for protein disorder, it predicts Z scores and protein disorder with new state-of-the-art performance in a few seconds. We show that ADOPT offers substantial improvement in comparison to previous predictors with a Spearman correlation coefficient between experimental and computational Z scores of 0.69. We identify the coordinates which are relevant for the prediction performance and show that good performance can already gained with less than 100 features. We believe that ADOPT will be a useful tool for all experimental scientists working with intrinsically disordered proteins. It is available as a standalone package at https://github.com/PeptoneInc/ADOPT.git.Competing Interest StatementThe authors have declared no competing interest.},
-	URL = {https://www.biorxiv.org/content/early/2022/05/26/2022.05.25.493416},
-	eprint = {https://www.biorxiv.org/content/early/2022/05/26/2022.05.25.493416.full.pdf},
-	journal = {bioRxiv}
+  author = {Tamiola, Kamil and Fisicaro, Carlo and Dutton, Oliver and Hoffmann, Falk and Henderson, Louie and Owens, Benjamin M.J. and Heberling, Matthew  and Redl, Istvan},
+  title = {ADOPT: intrinsic protein disorder prediction through deep bidirectional transformers},
+  elocation-id = {2022.05.25.493416},
+  year = {2022},
+  doi = {10.1101/2022.05.25.493416},
+  publisher = {Cold Spring Harbor Laboratory},
+  abstract = {Intrinsically disordered proteins (IDP) are important in a broad range of biological functions and are involved in many diseases. An understanding of intrinsic disorder is key to develop drugs against IDPs. Experimental characterization of IDPs are expensive and less efficient and
+  demand the development of computational tools. Here, we present ADOPT, a new predictor of protein disorder. ADOPT is a deep bidirectional transformer, which extracts dense residue level representations from Facebook{\textquoteright}s Evolutionary Scale Modeling (ESM) library. Using the experimentally designed CheZod database as a training and test dataset for protein disorder, it predicts Z scores and protein disorder with new state-of-the-art
+  performance in a few seconds. We show that ADOPT offers substantial improvement in comparison to previous predictors with a Spearman correlation coefficient between experimental and computational Z scores of 0.69. We identify the coordinates which are relevant for the prediction performance and show that good performance can already gained with less than 100 features. We believe that ADOPT will be a useful tool for all experimental scientists 
+  working with intrinsically disordered proteins. It is available as a standalone package at https://github.com/PeptoneInc/ADOPT.git.Competing Interest StatementThe authors have declared no competing interest.},
+  URL = {https://www.biorxiv.org/content/early/2022/05/26/2022.05.25.493416},
+  eprint = {https://www.biorxiv.org/content/early/2022/05/26/2022.05.25.493416.full.pdf},
+  journal = {bioRxiv}
 }
 ```
 
