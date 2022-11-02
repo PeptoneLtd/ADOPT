@@ -1,0 +1,19 @@
+FROM sonoisa/deep-learning-coding:pytorch1.12.0_tensorflow2.9.1
+RUN pip install \
+  pandas \
+  fair-esm \
+  biopython \
+  bertviz \
+  skl2onnx \
+  onnxruntime \
+  spacy \
+  plotly \
+  wandb \
+  jupyterlab
+RUN git clone --recurse-submodules https://github.com/PeptoneLtd/ADOPT.git \
+  && cd ADOPT \
+  && python setup.py install \
+  && cd ../
+RUN pip install tables
+COPY esm_models esm_models
+
