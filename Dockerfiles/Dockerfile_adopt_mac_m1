@@ -15,5 +15,4 @@ RUN git clone --recurse-submodules https://github.com/PeptoneLtd/ADOPT.git \
   && python setup.py install \
   && cd ../
 RUN pip install tables
-COPY esm_models esm_models
 

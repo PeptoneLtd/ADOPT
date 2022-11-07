@@ -4,7 +4,7 @@
 # LICENSE file in the root directory of this source tree.
 
 "@generated"
-from . import constants, utils
+from . import constants, utils, inference, embedding
 from .data import CheZod
 from .inference import ZScorePred
 from .training import DisorderPred
