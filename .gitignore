@@ -44,8 +44,11 @@ __pycache__
 # End of https://www.toptal.com/developers/gitignore/api/macos
 *.html
 
-# pythorch files
+# pytorch files
 *.pt
+
+# onnx files
+*.onnx
 
 .adopt-venv
 .vscode
