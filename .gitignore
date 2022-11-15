@@ -30,7 +30,7 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-# Jupyter chekcpoints & pycache
+# Jupyter checkpoints & pycache
 .ipynb_checkpoints
 __pycache__
 *.pyc
@@ -43,6 +43,12 @@ __pycache__
 
 # End of https://www.toptal.com/developers/gitignore/api/macos
 *.html
+
+# pytorch files
+*.pt
+
+# onnx files
+*.onnx
 
 .adopt-venv
 .vscode

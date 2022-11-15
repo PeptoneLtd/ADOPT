@@ -80,8 +80,8 @@ MODEL_TYPE = "esm-1b"
 STRATEGY = "train_on_cleared_1325_test_on_117_residue_split"
 
 # Extract residue level representations
-multi_head = MultiHead(MODEL_TYPE, SEQUENCE, PROTID)
-representation, tokens = multi_head.get_representation()
+multi_head = MultiHead(MODEL_TYPE)
+representation, tokens = multi_head.get_representation(SEQUENCE, PROTID)
 
 # Predict the Z score related to each residue in the sequence specified above
 z_score_pred = ZScorePred(STRATEGY, MODEL_TYPE)

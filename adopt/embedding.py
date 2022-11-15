@@ -6,6 +6,7 @@
 import argparse
 import subprocess
 from pathlib import Path
+import time
 
 from adopt import constants, utils
 
@@ -66,3 +67,5 @@ if __name__ == "__main__":
     parser = create_parser()
     args = parser.parse_args()
     get_representations(args.fasta_path, args.repr_dir, args.msa)
+    print("--- %s seconds ---" % (time.time() - start_time))
+
