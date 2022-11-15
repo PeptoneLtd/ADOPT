@@ -8,6 +8,7 @@ import os
 import sys
 import subprocess
 from pathlib import Path
+import time
 
 import numpy as np
 import pandas as pd
@@ -164,6 +165,7 @@ def main(args):
         )
         sys.exit(2)
 
+start_time = time.time()
 
 if __name__ == "__main__":
     parser = create_parser()
@@ -173,3 +175,4 @@ if __name__ == "__main__":
     z_score_pred.get_z_score_from_fasta(
         args.fasta_path, args.repr_dir, args.pred_z_scores_path
     )
+    print("--- %s seconds ---" % (time.time() - start_time))
