@@ -53,7 +53,20 @@ ADOPT makes use of two datasets: the [CheZoD  “1325” and the CheZoD “117�
 
 ### Quick start
 
-As a prerequisite, you must have [PyTorch 1.10](https://pytorch.org/) or later installed to use this repository.
+Prerequisites (we suggest creating a dedicated python venv or conda env)
+
+```
+pip install \
+  pandas \
+  fair-esm \
+  biopython \
+  bertviz \
+  skl2onnx \
+  onnxruntime \
+  spacy \
+  plotly \
+  wandb 
+```
 
 Install the **adopt** package:
 
