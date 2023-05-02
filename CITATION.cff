@@ -1,4 +1,4 @@
-cff-version: 0.4.2
+cff-version: 0.5.0
 message: "If you use this software, please cite it as below."
 authors:
   - given-names: "Carlo Fisicaro"
@@ -7,7 +7,7 @@ authors:
     affiliation: "Peptone Ltd."
     orcid: "0000-0002-2029-7230"
 title: "Attention based DisOrder PredicTor"
-version: 0.4.3
+version: 0.5.0
 doi: 
 date-released: 
-url: "https://github.com/PeptoneInc/ADOPT"
+url: "https://github.com/PeptoneLtd/ADOPT"
