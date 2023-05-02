@@ -292,20 +292,20 @@ docker run ghcr.io/peptoneinc/adopt_alphafold2_comparison:1.0.2
 If you use this work in your research, please cite the the relevant paper:
 
 ```bibtex
-@article {Tamiola2022.05.25.493416,
-  author = {Tamiola, Kamil and Fisicaro, Carlo and Dutton, Oliver and Hoffmann, Falk and Henderson, Louie and Owens, Benjamin M.J. and Heberling, Matthew  and Redl, Istvan},
-  title = {ADOPT: intrinsic protein disorder prediction through deep bidirectional transformers},
-  elocation-id = {2022.05.25.493416},
-  year = {2022},
-  doi = {10.1101/2022.05.25.493416},
-  publisher = {Cold Spring Harbor Laboratory},
-  abstract = {Intrinsically disordered proteins (IDP) are important in a broad range of biological functions and are involved in many diseases. An understanding of intrinsic disorder is key to develop drugs against IDPs. Experimental characterization of IDPs are expensive and less efficient and
-  demand the development of computational tools. Here, we present ADOPT, a new predictor of protein disorder. ADOPT is a deep bidirectional transformer, which extracts dense residue level representations from Facebook{\textquoteright}s Evolutionary Scale Modeling (ESM) library. Using the experimentally designed CheZod database as a training and test dataset for protein disorder, it predicts Z scores and protein disorder with new state-of-the-art
-  performance in a few seconds. We show that ADOPT offers substantial improvement in comparison to previous predictors with a Spearman correlation coefficient between experimental and computational Z scores of 0.69. We identify the coordinates which are relevant for the prediction performance and show that good performance can already gained with less than 100 features. We believe that ADOPT will be a useful tool for all experimental scientists 
-  working with intrinsically disordered proteins. It is available as a standalone package at https://github.com/PeptoneInc/ADOPT.git.Competing Interest StatementThe authors have declared no competing interest.},
-  URL = {https://www.biorxiv.org/content/early/2022/05/26/2022.05.25.493416},
-  eprint = {https://www.biorxiv.org/content/early/2022/05/26/2022.05.25.493416.full.pdf},
-  journal = {bioRxiv}
+@article{10.1093/nargab/lqad041,
+    author = {Redl, Istvan and Fisicaro, Carlo and Dutton, Oliver and Hoffmann, Falk and Henderson, Louie and Owens, Benjamin M J and Heberling, Matthew and Paci, Emanuele and Tamiola, Kamil},
+    title = "{ADOPT: intrinsic protein disorder prediction through deep bidirectional transformers}",
+    journal = {NAR Genomics and Bioinformatics},
+    volume = {5},
+    number = {2},
+    year = {2023},
+    month = {05},
+    abstract = "{Intrinsically disordered proteins (IDPs) are important for a broad range of biological functions and are involved in many diseases. An understanding of intrinsic disorder is key to develop compounds that target IDPs. Experimental characterization of IDPs is hindered by the very fact that they are highly dynamic. Computational methods that predict disorder from the amino acid sequence have been proposed. Here, we present ADOPT (Attention DisOrder PredicTor), a new predictor of protein disorder. ADOPT is composed of a self-supervised encoder and a supervised disorder predictor. The former is based on a deep bidirectional transformer, which extracts dense residue-level representations from Facebook’s Evolutionary Scale Modeling library. The latter uses a database of nuclear magnetic resonance chemical shifts, constructed to ensure balanced amounts of disordered and ordered residues, as a training and a test dataset for protein disorder. ADOPT predicts whether a protein or a specific region is disordered with better performance than the best existing predictors and faster than most other proposed methods (a few seconds per sequence). We identify the features that are relevant for the prediction performance and show that good performance can already be gained with \\&lt;100 features. ADOPT is available as a stand-alone package at https://github.com/PeptoneLtd/ADOPT and as a web server at https://adopt.peptone.io/.}",
+    issn = {2631-9268},
+    doi = {10.1093/nargab/lqad041},
+    url = {https://doi.org/10.1093/nargab/lqad041},
+    note = {lqad041},
+    eprint = {https://academic.oup.com/nargab/article-pdf/5/2/lqad041/50150244/lqad041.pdf},
 }
 ```
 
