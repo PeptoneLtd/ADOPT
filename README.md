@@ -312,3 +312,7 @@ If you use this work in your research, please cite the the relevant paper:
 ## Licence
 
 This source code is licensed under the MIT license found in the `LICENSE` file in the root directory of this source tree.
+
+## Update
+A new version of ADOPT has been trained as described in [Optimizing protein language models with Sentence Transformers](https://www.mlsb.io/papers_2023/Optimizing_protein_language_models_with_Sentence_Transformers.pdf), NeurIPS (2023). 
+Code is available at https://github.com/PeptoneLtd/contrastive-finetuning-plms
